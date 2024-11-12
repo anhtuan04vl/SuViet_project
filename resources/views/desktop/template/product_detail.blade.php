@@ -25,8 +25,8 @@
         <!-- Phần Bên Trái: Hình Ảnh Sản Phẩm -->
         <div class="md:w-1/2">
         <!-- Hình ảnh chính -->
-            <div class="relative mb-6 flex justify-center">
-                <img id="main-image" class="w-[70%] rounded-lg " src="../img/chen1.png" alt="Hình ảnh sản phẩm chính">
+            <div class="relative mb-6">
+                <img id="main-image" class="w-full rounded-lg " src="{{asset('/')}}img/{{($sp->images)}}" alt="Hình ảnh sản phẩm chính">
                 <!-- Nút điều hướng trái -->
                 <button class="absolute top-1/2 left-0 p-2 bg-gray-200 rounded-full -translate-y-1/2 hover:bg-gray-300">
                 &lt;
@@ -41,7 +41,7 @@
             <div class="flex space-x-4">
                 @for ($i = 0; $i < 4; $i++)
                 <div class="w-16 h-16 overflow-hidden rounded-lg">
-                    <img class="w-16 h-16 object-cover rounded-lg border cursor-pointer" src="../img/chen1.png" onclick="changeMainImage('../img/chen1.png')" alt="Thumbnail 1">
+                    <img class="w-16 h-16 object-cover rounded-lg border cursor-pointer" src="{{"img/chen1.png"}}" onclick="changeMainImage('{{'img/chen1.png'}}')" alt="Thumbnail 1">
                 </div>
                 @endfor
             </div>
@@ -64,27 +64,11 @@
 
             <!-- Giá -->
             <div class="flex items-center space-x-4 mb-4">
-                <span class="text-2xl font-bold text-cmain">{{number_format($sp->price)}} VNĐ</span>
-                <span class="text-gray-500 line-through">{{number_format($sp->sale)}} VNĐ</span>
+                <span class="text-2xl font-bold text-cmain">{{number_format($sp->price)}}đ</span>
+                <del class="text-gray-500 line-through">1.880.000đ</del>
             </div>
 
-            <!-- Tùy chọn màu sắc -->
-            <div class="mb-4">
-            <h2 class="text-xl font-semibold mb-4 text-cmain">Chi tiết về sản phẩm: Chén sứ cao cấp</h2>
-            <p class="text-gray-600 mb-4">
-                Chén sứ cao cấp với thiết kế trang nhã, phù hợp cho mọi không gian bàn ăn. Sản phẩm được làm từ chất liệu sứ bền, chịu nhiệt tốt và an toàn cho sức khỏe.
-            </p>
-        </div>
 
-        <!-- Tùy chọn kích thước -->
-        <!-- <div class="mb-4">
-        <span class="block text-sm font-semibold text-gray-700 mb-2">Kích thước</span>
-            <div id="size-options" class="flex space-x-2">
-                <button class="px-3 py-2 border rounded bg-gray-50 text-gray-600" onclick="selectSize(this)">5 x 6 cm</button>
-                <button class="px-3 py-2 border rounded bg-gray-50 text-gray-600" onclick="selectSize(this)">9 x 6 cm</button>
-                <button class="px-3 py-2 border rounded bg-gray-50 text-gray-600" onclick="selectSize(this)">12 x 9 cm</button>
-            </div>
-        </div> -->
 
         <!-- Chọn số lượng -->
         <div class="mb-6">
@@ -97,14 +81,15 @@
         </div>
 
         <!-- Nút hành động -->
-        <div class="flex space-x-4">
-            <button class="flex items-center justify-center px-6 py-3 border rounded text-cmain border-cmain hover:bg-blue-50">
-            Thêm vào giỏ hàng
+        <form action="{{ route('add_to_cart') }}" method="POST">
+            @csrf
+            <input type="hidden" name="product_id" value="{{ $sp->product_id }}">
+            <input type="hidden" name="price" value="{{ $sp->price }}">
+            <input type="hidden" name="quantity" value="1">
+            <button type="submit" class="border group border-cmain hover:border-cmain7 hover:bg-cmain7 flex py-3 px-5 rounded-[39px] /w-full mt-3 items-center justify-center transition duration-300 ease-in-out">
+                <p class="text-cmain group-hover:text-white">Thêm vào giỏ hàng</p>
             </button>
-            <button class="flex items-center justify-center px-6 py-3 bg-cmain text-white rounded hover:bg-blue-700">
-            Mua ngay
-            </button>
-        </div>
+        </form>
         </div>
     </div>
     <hr>
@@ -112,28 +97,28 @@
 <!-- end san pham -->
 
 <!-- thong tin sanpham -->
-<div class="container-main my-5 px-[5%] lg:px-0">
+<div class="container-main mt-5 px-[5%] lg:px-0">
     <div class="w-full ">
     <!-- Tabs -->
     <div class="/border-b border-gray-200">
         <ul class="flex justify-start space-x-8">
             <li>
-                <a href="#" 
-                class="py-2 tab-link text-blue-600 border-b-2 border-blue-600" 
+                <a href="#"
+                class="py-2 tab-link text-blue-600 border-b-2 border-blue-600"
                 data-tab="info">
                 Thông tin sản phẩm
                 </a>
             </li>
             <li>
-                <a href="#" 
-                class="py-2 tab-link text-gray-500 hover:text-blue-600" 
+                <a href="#"
+                class="py-2 tab-link text-gray-500 hover:text-blue-600"
                 data-tab="guide">
                 Hướng dẫn sử dụng
                 </a>
             </li>
             <li>
-                <a href="#" 
-                class="py-2 tab-link text-gray-500 hover:text-blue-600" 
+                <a href="#"
+                class="py-2 tab-link text-gray-500 hover:text-blue-600"
                 data-tab="ingredients">
                 Thành phần
                 </a>
@@ -145,13 +130,11 @@
     <div class="mt-4">
         <!-- Thông tin sản phẩm -->
         <div class="tab-content" id="info" style="display: block;">
-            <h3 class="text-lg font-bold">Kem dưỡng sáng da, mờ thâm Obagi Nu-derm Clear Fx</h3>
+            <h3 class="text-lg font-bold">{{$sp->short_description}}</h3>
             <p class="text-gray-600 mt-2">
-                Kem dưỡng sáng da, mờ thâm Obagi Nu-derm Clear Fx giúp ngăn ngừa các đốm thâm và làm sáng da, được nghiên cứu bởi các chuyên gia hàng đầu trong lĩnh vực da liễu.
+                {{$sp->description}}
             </p>
-            <p class="text-gray-600 mt-2">
-                Các thành phần trong sản phẩm này đã được kiểm chứng về độ an toàn và hiệu quả trong việc làm sáng da, hỗ trợ phục hồi các tổn thương do môi trường và tác nhân bên ngoài gây ra.
-            </p>
+
         </div>
 
         <!-- Hướng dẫn sử dụng -->
@@ -182,12 +165,12 @@
         </div>
 
         <!-- Button "Xem thêm" -->
-        <!-- <a href="#" class="text-blue-600 font-bold flex items-center mt-4">
+        <a href="#" class="text-blue-600 font-bold flex items-center mt-4">
             Xem thêm
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-8V7a1 1 0 112 0v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H7a1 1 0 110-2h3z" clip-rule="evenodd" />
             </svg>
-        </a> -->
+        </a>
     </div>
     </div>
 </div>
@@ -300,7 +283,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
                             </svg>
-                            
+
                             <!-- Add more stars -->
                         </div>
                     </div>
@@ -321,7 +304,7 @@
 <!-- end binh luan -->
 
 <!-- Bai viet lien quan -->
-<div class="container-main px-[5%] lg:px-0">
+<div class="container-main mb-10 px-[5%] lg:px-0">
 <div class="bai_post">
     <div class="tlt_news flex justify-between items-center">
         <h4 class="font-el font-extrabold text-[32px]">Bài viết liên quan</h4>
@@ -334,7 +317,7 @@
         @for($i = 0; $i < 4; $i++)
         <div class="box_news1 w-[30%] flex gap-4">
             <a herf="" class="news1s flex flex-col gap-3">
-                <img src="../img/news.png" alt="" class="w-full">
+                <img src="{{"img/botra.png"}}" alt="" class="w-full">
                 <div class="tlt_box1 flex flex-wrap">
                     <p class="text-base font-el font-semibold">"Ý TRÀ THƯỞNG NGUYỆT" VẸN TRÒN ĐÓN THU</p>
                     <p class="font-el text-cmain2 text-[12px]">10/04/2001</p>
@@ -382,7 +365,7 @@
         });
     });
     });
-   
+
 
     // Hàm thay đổi hình ảnh chính khi nhấn vào ảnh phụ
     function changeMainImage(imageSrc) {

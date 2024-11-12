@@ -15,23 +15,23 @@ export default {
             'cmain': '#194569', //xanh 515151
             'cmain1': '#515151', //text-carts
             'cmain2': '#454545', //grey
-    
+
             'cmain3': '#444444', //text
             'cmain4' : '#453F2F', // nau opacity
             'cmain5' : 'rgba(255, 97, 49, 0.2)', //xám
             'cmain6' : 'rgba(25, 69, 105, 0.15)', //xanh nuoc bien
             'cmain7' : '#5F84A3' //button
           },
-          screens: {                
+          screens: {
             'sm' : '500px',
-            'md' : '641px',             
+            'md' : '641px',
             'lg' : '1025px',
-            "xl": "1366px",    
+            "xl": "1366px",
             "2xl": "1441px",
             "3xl": "1600px",
             "375": "376px",
-            "400": "401px",       
-            "600": "601px",  
+            "400": "401px",
+            "600": "601px",
             "700": "701px",
             "800": "801px",
             "900": "901px",

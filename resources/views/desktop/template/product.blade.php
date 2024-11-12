@@ -25,13 +25,12 @@
         <h3 class=" pt-6 font-semibold font-el text-2xl">Danh Mục Sản Phẩm</h3>
         <div class="danhmuc flex flex-wrap pb-[45px] pt-[33px] gap-8 justify-center lg:justify-between">
             <!-- nd -->
-             <!-- dl lấy từ providers bằng view1 -->
             @foreach ($categories as $sp)
             <div class="dm1 flex flex-col justify-center items-center gap-3">
                <div class="rounded-full bg-white /w-[12.5%] flex  justify-center">
-                    <img src="{{asset('/')}}img/{{($sp->img)}}" alt="" class="w-full px-[19px] py-3">
+                    <img src="{{'img/dm1.png'}}" alt="" class="w-full px-[19px] py-3">
                </div>
-               <p>{{ $sp->name }}</p>
+                <p>{{ $sp->name }}</p>
             </div>
             @endforeach
 
@@ -40,15 +39,14 @@
     </div>
     <!--end danh muc san pham -->
 
-    <!-- filter bằng view4 trong provider -->
+    <!-- filter -->
     <div class="filter_pdt py-5 flex gap-10">
         <div class="swap flex flex-col justify-start gap-1 items-start cursor-pointer">
-        <select id="sortOption" onchange="location = this.value;" class="w-full p-3 border border-cmain3 rounded-[8px] bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <option value="{{ route('product', ['sort' => 'default']) }}" {{ $sortOption == 'default' ? 'selected' : '' }}>Sắp xếp</option>
-                <option value="{{ route('product', ['sort' => 'price_asc']) }}" {{ $sortOption == 'price_asc' ? 'selected' : '' }}>Giá tăng dần</option>
-                <option value="{{ route('product', ['sort' => 'price_desc']) }}" {{ $sortOption == 'price_desc' ? 'selected' : '' }}>Giá giảm dần</option>
-                <option value="{{ route('product', ['sort' => 'sold']) }}" {{ $sortOption == 'sold' ? 'selected' : '' }}>Sản phẩm bán chạy</option>
-                <option value="{{ route('product', ['sort' => 'votes']) }}" {{ $sortOption == 'votes' ? 'selected' : '' }}>Được vote nhiều nhất</option>
+            <select id="select" class="w-full p-3 border border-cmain3 rounded-[8px] bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="">Sắp xếp</option>
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
             </select>
         </div>
         <div class="swap flex flex-col justify-start gap-1 items-start cursor-pointer">
@@ -73,35 +71,54 @@
     <!-- san pham -->
     <div class="relative z-10 mt-5">
         <div class="flex flex-wrap gap-y-10 md:gap-y-20 justify-between /absolute top-0 gap-x-6 800:gap-x-2 cursor-pointer">
-            @foreach ($allProduct as $aP)
+        @foreach ($allProduct as $aP)
             <div class="box1 w-[40%] md:w-[30%] 800:w-[23%] flex flex-col items-center">
-                <a href="{{route('product_detail', ['product_id' => $aP->product_id])}}"><img src="{{asset('/')}}img/{{($aP->images)}}" alt=""></a>
+                <a href="#"><img src="{{asset('/')}}img/{{($aP->images)}}" alt=""></a>
                 <div class="ttl_1 flex flex-col items-center">
                     <a href="{{route('product_detail', ['product_id' => $aP->product_id])}}" class="font-el font-extrabold text-base text-center">{{$aP->name}}</a>
-                    <p class="text-cmain3 text-sm font-el py-2 line-clamp-2 text-center ">{{$aP->description}}</p>
+                    <p class="text-cmain3 text-sm font-el py-2 line-clamp-2 text-center ">{{$sp->description}}</p>
                     <p class="font-el font-extrabold text-base text-cmain">{{number_format($aP->price)}} VNĐ</p>
-                    <a href="" class="border group border-cmain hover:border-cmain7 hover:bg-cmain7 flex py-3 
-                        px-5 rounded-[39px] /w-full mt-3 items-center justify-center gap-4">
-                        <p class="text-cmain group-hover:text-white">Mua ngay</p>
-                        <div class="hidden md:flex justify-center items-center gap-4">
-                            <span class="flex w-1 h-1 bg-cmain rounded-full "></span>
-                            <svg class="transition-colors duration-300 group-hover:text-white" width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg"> <rect width="32" height="31" rx="15.5" fill="#194569" fill-opacity="0.1"/> <path d="M16.434 21.9343C16.196 22.0219 15.804 22.0219 15.566 21.9343C13.536 21.2112 9 18.1949 9 13.0826C9 10.8258 10.743 9 12.892 9C14.166 9 15.293 9.6427 16 10.636C16.707 9.6427 17.841 9 19.108 9C21.257 9 23 10.8258 23 13.0826C23 18.1949 18.464 21.2112 16.434 21.9343Z" stroke="#194569" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/> </svg>
-                        </div>
-                    </a>
+                    <div class="flex items-center justify-center gap-4">
+                        <form action="{{ route('add_to_cart') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="product_id" value="{{ $sp->product_id }}">
+                            <input type="hidden" name="price" value="{{ $sp->price }}">
+                            <input type="hidden" name="quantity" value="1">
+                            <button type="submit" class="border group border-cmain hover:border-cmain7 hover:bg-cmain7 flex py-3 px-5 rounded-[39px] /w-full mt-3 items-center justify-center transition duration-300 ease-in-out">
+                                <p class="text-cmain group-hover:text-white">Thêm vào giỏ hàng</p>
+                            </button>
+                        </form>
+                        {{-- <span class="flex w-1 h-1 bg-cmain rounded-full "></span> --}}
+                        <a href="" class="group border-cmain hover:border-cmain7 hover:bg-cmain7 flex py-3 px-5 rounded-[39px] /w-full mt-3 items-center justify-center transition duration-300 ease-in-out">
+                            <svg class="transition-colors duration-300 group-hover:text-white" width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="32" height="31" rx="15.5" fill="#194569" fill-opacity="0.1" />
+                                <path d="M16.434 21.9343C16.196 22.0219 15.804 22.0219 15.566 21.9343C13.536 21.2112 9 18.1949 9 13.0826C9 10.8258 10.743 9 12.892 9C14.166 9 15.293 9.6427 16 10.636C16.707 9.6427 17.841 9 19.108 9C21.257 9 23 10.8258 23 13.0826C23 18.1949 18.464 21.2112 16.434 21.9343Z" stroke="#194569" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </a>
+                    </div>
                 </div>
             </div>
             @endforeach
 
         </div>
     </div>
-    <!-- end san pham -->
-     
-    <!-- phan trang -->
-        <div class="flex justify-center items-center gap-4 mt-8 ">
-        {{ $allProduct->links() }}
-    </div>
+    <div class="flex justify-center items-center gap-4 mt-8 ">
+        <!-- Previous Button -->
+        <button class="px-3 py-2 bg-gray-200 text-gray-700 rounded-l-md hover:bg-gray-300">
+            Previous
+        </button>
 
-    
+        <!-- Page Numbers -->
+        <div class="px-3 py-2  bg-gray-200 text-gray-700 hover:bg-gray-300 ">1</div>
+        <button class="px-3 py-2 bg-blue-500 text-gray-700 hover:bg-blue-600">2</button>
+        <button class="px-3 py-2 bg-gray-200 text-gray-700 hover:bg-gray-300">3</button>
+        <button class="px-3 py-2 bg-gray-200 text-gray-700 hover:bg-gray-300">4</button>
+
+        <!-- Next Button -->
+        <button class="px-3 py-2 bg-gray-200 text-gray-700 rounded-r-md hover:bg-gray-300">
+            Next
+        </button>
+    </div>
 
     <!-- end san pham -->
 
@@ -129,15 +146,14 @@
         </div>
     </div>
     <!-- End Bai viet lien quan -->
-    
-</div>
 
+</div>
 @endsection
 <!-- Swiper JS -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <!-- js trang -->
-    
+
 <script>
     var swiper = new Swiper(".mySwiper", {
       pagination: {

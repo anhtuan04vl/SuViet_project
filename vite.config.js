@@ -9,7 +9,7 @@ export default defineConfig({
                 'resources/css/style.css',         // CSS phụ
                 'resources/css/bootstrap.min.css',         // CSS phụ
                 'resources/js/app.js',             // File JS chính
-                'resources/js/admin.js',      // JS cho admin (Bootstrap)        
+                'resources/js/admin.js',      // JS cho admin (Bootstrap)
             ],
             refresh: true,
         }),
