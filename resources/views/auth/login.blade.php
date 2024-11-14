@@ -18,14 +18,13 @@
                 <!-- Right Section -->
                 <div class="w-1/2 p-8">
                     <h2 class="text-3xl font-bold text-gray-800 mb-6">Đăng Nhập</h2>
-
+                    @if(session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
                     <form action="{{ route('login') }}" method="POST" class="login">
                         @csrf
-                        @if (session('success'))
-                            <div class="alert alert-success">
-                                {{ session('success') }}
-                            </div>
-                        @endif
                         <div>
                             <div class="mt-1 relative">
                                 <input id="username" name="username" type="text" required class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-600" placeholder="Tên tài khoản" value="{{ old('username') }}">
@@ -35,13 +34,11 @@
                                     </svg>
                                 </div>
                             </div>
+                            @error('username')
+                                <div class="text-red-600 text-sm mt-2">{{ $message }}</div>
+                            @enderror
                         </div>
-                        @if ($errors->has('username'))
-                            <div class="alert alert-danger">
-                                {{ $errors->first('username') }}
-                            </div>
-                        @endif
-                        <div>
+                        <div class="mt-4">
                             <div class="mt-1 relative">
                                 <input id="password" name="password" type="password" required class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-600" placeholder="Mật khẩu">
                                 <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
@@ -50,12 +47,10 @@
                                     </svg>
                                 </div>
                             </div>
+                            @error('password')
+                                <div class="text-red-600 text-sm mt-2">{{ $message }}</div>
+                            @enderror
                         </div>
-                        @if ($errors->has('password'))
-                            <div class="alert alert-danger">
-                                {{ $errors->first('password') }}
-                            </div>
-                        @endif
 
                         <button type="submit" class="w-full bg-blue-600 text-white rounded-lg py-3 font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600">Đăng nhập</button>
                     </form>

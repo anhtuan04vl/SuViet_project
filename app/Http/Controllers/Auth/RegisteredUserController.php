@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use App\Http\Requests\RegisterRequest;
 
 class RegisteredUserController extends Controller
 {
@@ -27,15 +28,9 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(RegisterRequest $request): RedirectResponse
     {
-        $request->validate([
-            'fullname' => 'required|string|max:255',
-            'username' => 'required|string|max:50|unique:users',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
-
+        // Thực hiện tạo người dùng sau khi xác thực
         $user = User::create([
             'fullname' => $request->fullname,
             'username' => $request->username,
@@ -45,8 +40,10 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
+        // Đăng nhập người dùng ngay sau khi đăng ký
         Auth::login($user);
 
-        return redirect(route('home', absolute: false));
+        // Chuyển hướng về trang chủ
+        return redirect(route('home'));
     }
 }

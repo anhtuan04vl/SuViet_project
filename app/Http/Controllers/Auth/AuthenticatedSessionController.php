@@ -35,19 +35,20 @@ class AuthenticatedSessionController extends Controller
             if (Auth::guard('web')->user()->role === 0) {
                 // Nếu role == 0, hướng về trang home
                 return redirect()->intended('/');
-            } else {
-                // Nếu role != 0, hướng về trang home hoặc login
+            } else if(Auth::guard('web')->user()->role != 0 /* && Auth::guard('web')->user()->role === 1 */) {
+                // Nếu role != 0, hướng về trang login
                 Auth::guard('web')->logout();
                 $request->session()->invalidate();
                 $request->session()->regenerateToken();
 
-                return redirect()->route('login')->with('error', 'You do not have permission to access this account.');
+                return redirect()->route('login')->with('error', 'Tài khoản dùng cho quản lí.');
             }
         }
 
         // If authentication fails, return with error
         return back()->withErrors([
-            'username' => 'The provided credentials do not match our records.',
+            'username' => 'Tên đăng nhập không chính xác.',
+            'password' => 'Mật khẩu không chính xác.',
         ]);
     }
 
