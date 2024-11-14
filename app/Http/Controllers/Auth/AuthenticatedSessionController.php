@@ -24,23 +24,33 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(Request $request)
     {
-        // Default authentication attempt
+        // Validate login credentials
         $this->validateLogin($request);
 
-        if (Auth::attempt($request->only('username', 'password'), $request->filled('remember'))) {
+        // Attempt to login using the 'web' guard
+        if (Auth::guard('web')->attempt($request->only('username', 'password'), $request->filled('remember'))) {
             $request->session()->regenerate();
 
             // Check the role of the authenticated user
-            if (Auth::user()->role === 0) {
-                return redirect()->route('home'); // Redirect to 'home' if role is 0
-            }
+            if (Auth::guard('web')->user()->role === 0) {
+                // Nếu role == 0, hướng về trang home
+                return redirect()->intended('/');
+            } else {
+                // Nếu role != 0, hướng về trang home hoặc login
+                Auth::guard('web')->logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
 
+                return redirect()->route('login')->with('error', 'You do not have permission to access this account.');
+            }
         }
 
+        // If authentication fails, return with error
         return back()->withErrors([
-            'username' => 'Tên đăng nhập không đúng!.',
+            'username' => 'The provided credentials do not match our records.',
         ]);
     }
+
     protected function validateLogin(Request $request)
     {
         $request->validate([
@@ -52,12 +62,11 @@ class AuthenticatedSessionController extends Controller
     /**
      * Destroy an authenticated session.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request)
     {
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
         return redirect('/');

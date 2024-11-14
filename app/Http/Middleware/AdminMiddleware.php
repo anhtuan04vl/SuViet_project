@@ -19,12 +19,12 @@ class AdminMiddleware
 
         // Kiểm tra nếu người dùng đã đăng nhập và có vai trò là admin (role == 1)
         if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->role == 1) {
-            
+
             return $next($request); // Cho phép tiếp tục nếu là admin
         }
 
         // Nếu không phải admin, chuyển hướng về trang home hoặc login
-        return redirect()->route('login');
+        //return redirect()->route('login');
         //return redirect('desktop.template.home')->with('error', 'Bạn không có quyền truy cập vào trang này.');
     }
 }

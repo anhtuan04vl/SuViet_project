@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+
+    .container-main{
+        @apply max-w-[1328px] mx-auto;
+    }
+
+    .input_cart{
+        @apply py-3 rounded-[8px] indent-2;
+    }
+
+}

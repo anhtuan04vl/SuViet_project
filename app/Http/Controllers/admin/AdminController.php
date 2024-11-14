@@ -21,12 +21,13 @@ class AdminController extends Controller
     // Phương thức xử lý đăng nhập
     public function login(Request $request)
     {
+        // dd($request->all());
         // Xác thực đầu vào
         $request->validate([
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
-        
+
         // Lấy thông tin đăng nhập từ request
         $credentials = $request->only('username', 'email', 'password');
 
@@ -43,22 +44,22 @@ class AdminController extends Controller
     }
 
     //xu ly logout
-    public function logout(Request $request)
-    {
-        // Đăng xuất người dùng hiện tại
-        Auth::guard('admin')->logout();
+    // public function logout(Request $request)
+    // {
+    //     // Đăng xuất người dùng hiện tại
+    //     Auth::guard('admin')->logout();
 
-        // Xóa tất cả session và cookies liên quan đến người dùng
-        $request->session()->invalidate();
+    //     // Xóa tất cả session và cookies liên quan đến người dùng
+    //     $request->session()->invalidate();
 
-        // Hủy tất cả các session liên quan đến người dùng
-        $request->session()->regenerateToken();
+    //     // Hủy tất cả các session liên quan đến người dùng
+    //     $request->session()->regenerateToken();
 
-        // Chuyển hướng về trang đăng nhập
-        return redirect()->route('login'); // Điều chỉnh đường dẫn đến trang đăng nhập của bạn
-    }
+    //     // Chuyển hướng về trang đăng nhập
+    //     return redirect()->route('login'); // Điều chỉnh đường dẫn đến trang đăng nhập của bạn
+    // }
 
 
 
-   
+
 }
