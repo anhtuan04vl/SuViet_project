@@ -15,14 +15,19 @@
         <h3 class="pl-6 pt-6 font-semibold font-el text-2xl">Danh Mục Sản Phẩm</h3>
         <div class="danhmuc px-10 lg:px-20 flex flex-wrap pb-[45px] pt-[33px] gap-8 justify-center lg:justify-between">
             <!-- nd -->
-            @for ($i = 0; $i < 8; $i++)
+            @foreach ($categories as $sp)
+                <!-- trong providers -->
+
+                <!-- nd -->
                 <div class="dm1 flex flex-col justify-center items-center gap-3">
-                    <div class="rounded-full bg-white /w-[12.5%] flex  justify-center">
-                        <img src="../img/dm1.png" alt="" class="w-full px-5 py-5">
+                    <div class="rounded-full bg-white /w-[12.5%] flex justify-center">
+                        <img src="{{ 'img/dm1.png' }}" alt="" class="w-full px-5 py-5">
                     </div>
-                    <p>Tô</p>
+                    <p>{{ $sp->name }}</p>
                 </div>
-            @endfor
+
+                <!-- end nd -->
+            @endforeach
             <!-- end nd -->
         </div>
     </div>

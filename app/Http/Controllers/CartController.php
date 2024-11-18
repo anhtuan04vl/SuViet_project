@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Coupon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -164,5 +165,42 @@ class CartController extends Controller
         Cart::where('users_id', auth()->id())->delete();
 
         return response()->json(['status' => 'success']);
+    }
+    public function applyCoupon(Request $request)
+    {
+        $total = $request->input('total');
+        $coupon = Coupon::where('code', $request->input('coupon_code'))->first();
+        // Lấy giỏ hàng từ session hoặc tạo mới nếu chưa có
+
+        if (!$coupon) {
+            return back()->with('error', 'Mã giảm giá không tồn tại');
+        }
+
+        if ($coupon->isExpired()) {
+            return back()->with('error', 'Mã giảm giá đã hết hạn');
+        }
+
+        // Tính toán giảm giá
+        if ($coupon->discount_percentage) {
+            $discount = $total * ($coupon->discount_percentage / 100);
+        } else {
+            $discount = $coupon->discount_amount;
+        }
+
+        $discountedTotal = $total - $discount;
+        // Lưu dữ liệu vào session
+        session([
+            'total' => $total,
+            'discount' => $discount,
+            'discountedTotal' => $discountedTotal,
+            'couponCode' => $coupon->code
+        ]);
+        
+        return redirect()->back()->with([
+            'total' => $total,
+            'discount' => $discount,
+            'discountedTotal' => $discountedTotal,
+            'couponCode' => $coupon->code
+        ]);
     }
 }

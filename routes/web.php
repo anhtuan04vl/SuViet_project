@@ -41,6 +41,7 @@ Route::prefix('/')->group(function () {
     Route::post('/cart/delete-item', [CartController::class, 'deleteItem'])->name('cart.deleteItem');
     Route::post('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
     Route::get('/cart/{users_id}', [CartController::class, 'showCart'])->name('show_cart');
+    Route::post('/apply-coupon', [CartController::class, 'applyCoupon']);
 
     Route::get('/blog', function () {
         return view('desktop.template.blog');

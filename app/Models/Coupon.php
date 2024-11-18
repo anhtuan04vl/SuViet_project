@@ -18,4 +18,10 @@ class Coupon extends Model
         'start_date',
         'end_date',
     ];
+
+    //hàm kiểm tra hết hạn của mã giảm giá
+    public function isExpired()
+    {
+        return $this->expiry_date < now();
+    }
 }

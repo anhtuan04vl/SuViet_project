@@ -147,7 +147,7 @@
                     </div>
                     <div class="mb-2 flex justify-between">
                         <span class="text-sm text-gray-600">Đã giảm giá</span>
-                        <span class="text-sm text-green-600">0 VNĐ</span>
+                        <span class="text-sm text-green-600" id="discount"></span>
                     </div>
 
                     <div class="mb-2 flex justify-between">
@@ -164,7 +164,8 @@
 
                     <div class="mb-6 flex justify-between">
                         <span class="text-lg font-semibold text-gray-800">Tổng thanh toán:</span>
-                        <span class="text-lg font-semibold text-gray-800">{{ number_format($totalPrice + 40000, 0, ',', '.') }} VNĐ</span>
+                        <!-- <span class="text-lg font-semibold text-gray-800">{{ number_format($totalPrice + 40000, 0, ',', '.') }} VNĐ</span> -->
+                        <span class="text-lg font-semibold text-gray-800" id="discountedTotal"></span>
                     </div>
 
                     <button type="submit" class="w-full bg-cmain text-white py-2 rounded-lg">Thanh Toán</button>
@@ -174,4 +175,15 @@
     </div>
     <!-- END THANH TOAN -->
 
+    <script>
+        function formatNumber(number) {
+            return new Intl.NumberFormat('en-US', { style: 'decimal', minimumFractionDigits: 0 }).format(number);
+        }
+        let price = JSON.parse(localStorage.getItem('DISCOUNT'));
+        let discountedTotal = Math.floor(JSON.parse(localStorage.getItem('DISCOUNT')).discountedTotal);
+        console.log(discountedTotal);
+        document.getElementById('discount').textContent = `${formatNumber(price.discount)} VNĐ`;
+        document.getElementById('discountedTotal').textContent = `${formatNumber(discountedTotal+40000)} VNĐ`;
+        
+    </script>
 @endsection

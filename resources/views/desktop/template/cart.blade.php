@@ -109,23 +109,42 @@
                 </a>
                 <div class="form_cp_info mt-5 flex flex-col md:flex-row gap-5 800:gap-20 justify-between">
                     <!-- insert coupon -->
-                    <div
-                        class="coupon w-full md:w-[40%] /border-1 /border-black /rounded-[15px] p-3 800:p-8 flex flex-col gap-3 800:gap-5">
-                        <div class="tlt flex gap-2">
-                            <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M10.59 21.09L3.42 13.92C3.23405 13.7343 3.08653 13.5137 2.98588 13.2709C2.88523 13.0281 2.83343 12.7678 2.83343 12.505C2.83343 12.2422 2.88523 11.9819 2.98588 11.7391C3.08653 11.4963 3.23405 11.2757 3.42 11.09L12 2.5L22 2.5L22 12.5L13.41 21.09C13.0353 21.4625 12.5284 21.6716 12 21.6716C11.4716 21.6716 10.9647 21.4625 10.59 21.09Z"
-                                    stroke="#515151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M17 7.5L17 7.51" stroke="#515151" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                            </svg>
-                            <h5 class="text-lg text-cmain font-el font-semibold">Mã giảm giá</h5>
-                        </div>
-                        <input type="text" placeholder="Nhập mã giảm giá" class="rounded-[10px] border px-2 py-2" />
-                        <button class="btn_coupon w-full rounded-[10px] py-2 bg-cmain text-white hover:bg-cmain2">Áp
-                            dụng</button>
-                    </div>
+                    <form action="/apply-coupon" method="POST" class="coupon w-full md:w-[40%] /border-1 /border-black /rounded-[15px] p-3 800:p-8 flex flex-col gap-3 800:gap-5">
+                                @csrf
+                                <div class="tlt flex gap-2">
+                                    <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M10.59 21.09L3.42 13.92C3.23405 13.7343 3.08653 13.5137 2.98588 13.2709C2.88523 13.0281 2.83343 12.7678 2.83343 12.505C2.83343 12.2422 2.88523 11.9819 2.98588 11.7391C3.08653 11.4963 3.23405 11.2757 3.42 11.09L12 2.5L22 2.5L22 12.5L13.41 21.09C13.0353 21.4625 12.5284 21.6716 12 21.6716C11.4716 21.6716 10.9647 21.4625 10.59 21.09Z"
+                                            stroke="#515151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M17 7.5L17 7.51" stroke="#515151" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                    </svg>
+                                    <h5 class="text-lg text-cmain font-el font-semibold">Mã giảm giá</h5>
+                                </div>
+                                <input type="hidden" name="total" value="
+                                @if (isset($cart))
+                                {{$cart->total_price}}
+                                @else
+                                0
+                                @endif
+                                " >
+                                <input type="text" name="coupon_code" placeholder="Nhập mã giảm giá" class="rounded-[10px] border px-2 py-2" />
+                                @if(session('error'))
+                                    <div class="text-red-500 text-sm" role="alert">
+                                        {{ session('error') }}
+                                    </div>
+                                @endif
+
+                                @if(session('discountedTotal'))
+                                    <div class="text-green-500 text-sm" role="alert">
+                                        Mã giảm giá "{{ session('couponCode') }}" đã được áp dụng thành công!
+                                    </div>
+                                @endif
+
+                                
+                                <button type="submit" class="btn_coupon w-full rounded-[10px] py-2 bg-cmain text-white hover:bg-cmain2">ÁP DỤNG</button>
+                            </form>
 
 
 
@@ -137,36 +156,35 @@
                             <span class="text-sm text-gray-600">Thông tin sản phẩm</span>
                             <span class="text-sm text-gray-800">Tạm tính:</span>
                         </div>
-
-                        @if ($cart !== null)
-                            @foreach ($cart->details as $detail)
-                                <div class="mb-2 flex justify-between">
-                                    <span class="text-sm text-gray-600 ">{{ $detail->product->name }} *
-                                        {{ $detail->quantity }}
-                                        cái</span>
-                                    <span class="text-sm text-gray-800">{{ number_format($detail->price) }} VNĐ</span>
-                                </div>
-                            @endforeach
+                        @if ($cart && $cart->details)
+                        @foreach ($cart->details as $detail)
+                            <div class="mb-2 flex justify-between">
+                                <span class="text-sm text-gray-600 ">{{ $detail->product->name }} * {{ $detail->quantity }}
+                                    cái</span>
+                                <span class="text-sm text-gray-800">{{ number_format($detail->price) }} VNĐ</span>
+                            </div>
+                        @endforeach
                         @endif
 
                         <div class="mb-6 flex justify-between">
                             <span class="text-lg font-semibold text-gray-800">Tạm tính thanh toán:</span>
-                            <span class="text-lg font-semibold text-gray-800">
-                                @if (isset($cart) && $cart->details->count() > 0)
-                                    {{ number_format(
-                                        $cart->details->sum(function ($detail) {
-                                            return $detail->price * $detail->quantity;
-                                        }),
-                                    ) }}
-                                    VNĐ
-                                @else
-                                    0 VNĐ
-                                @endif
-                            </span>
+                            @if (isset($cart) && $cart->total_price)
+                                <input type="text" class="text-lg font-semibold text-gray-800 text-end" value="{{ number_format($cart->total_price) }} VNĐ">
+                            @else
+                                0 VNĐ
+                            @endif
+                            
                         </div>
                         <div class="mb-2 flex justify-between">
                             <span class="text-sm text-gray-600">Đã giảm giá</span>
-                            <span class="text-sm text-green-600">0 VNĐ</span>
+                            <span class="text-sm text-green-600" >
+                            @if (isset($cart))
+                            {{ session('discount') ? number_format(session('discount'), 0) . ' VNĐ' : '0 VNĐ' }}
+                            @else
+                            0 VNĐ
+                            @endif
+                            </span>
+                            
                         </div>
 
                         <div class="border-t border-gray-300 my-4"></div>
@@ -174,29 +192,40 @@
                         <div class="mb-6 flex justify-between">
                             <span class="text-lg font-semibold text-gray-800">Tạm tính thanh toán:</span>
                             <span class="text-lg font-semibold text-gray-800">
-                                @if (isset($cart) && $cart->details->count() > 0)
-                                    {{ number_format(
-                                        $cart->details->sum(function ($detail) {
-                                            return $detail->price * $detail->quantity;
-                                        }),
-                                    ) }}
-                                    VNĐ
-                                @else
-                                    0 VNĐ
-                                @endif
+                            @if (isset($cart))
+                            {{ session('discountedTotal') ? number_format(session('discountedTotal'), 0) . ' VNĐ' : number_format($cart->total_price, 0) . ' VNĐ' }}
+                            @else
+                            0 VNĐ
+                            @endif
                             </span>
                         </div>
-
-                        <a href="{{ route('order', ['users_id' => Auth::id()]) }}"
-                            class="w-full bg-cmain text-white py-2 text-center rounded-lg">Tiến hành
-                            thanh Toán</a>
+                        
+                                <input type="hidden" name="discount" id="discount" value="
+                                    @if (isset($cart))
+                                    {{session('discount')}}
+                                    @endif
+                                ">
+                                <input type="hidden" name="discountedTotal" id="discountedTotal" value="
+                                    @if (isset($cart))
+                                    {{session('discountedTotal')}}
+                                    @endif
+                                ">
+                        <a href="{{ route('order', ['users_id' => Auth::id()]) }}" class="w-full bg-cmain text-white py-2 text-center rounded-lg">Tiến hành thanh toán</a>
 
                         <!-- <p class="text-sm text-gray-600 mt-4">Nhấn "Đặt hàng" đồng nghĩa với việc bạn đồng ý tuân theo <a href="#" class="text-blue-600">Điều khoản Sứ Việt.</a></p> -->
-                    </div>
+                       </div>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        let price = {
+            discount: document.getElementById('discount').value,
+            discountedTotal: document.getElementById('discountedTotal').value
+        };
+        console.log(price);
+        localStorage.setItem('DISCOUNT', JSON.stringify(price));
+    </script>
     <script>
         const routes = {
             updateQuantity: "{{ route('cart.updateQuantity') }}",
