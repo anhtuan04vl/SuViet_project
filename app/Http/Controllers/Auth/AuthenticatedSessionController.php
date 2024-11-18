@@ -41,7 +41,7 @@ class AuthenticatedSessionController extends Controller
                 $request->session()->invalidate();
                 $request->session()->regenerateToken();
 
-                return redirect()->route('login')->with('error', 'Tài khoản dùng cho quản lí.');
+                return redirect()->route('loginUsers')->with('error', 'Tài khoản dùng cho quản lí.');
             }
         }
 

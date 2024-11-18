@@ -128,37 +128,41 @@ class CartController extends Controller
         return response()->json(['message' => 'Đã xóa sản phẩm ra khỏi giỏ hàng'], 200);
     }
 
-    public function updateCartQuantity(Request $request)
+
+    // Update quantity
+    public function updateQuantity(Request $request)
     {
-        $productId = $request->input('product_id');
-        $change = $request->input('change');
-        $userId = Auth::id();
-
-        if (!$userId) {
-            return response()->json(['success' => false, 'message' => 'Bạn cần đăng nhập để cập nhật giỏ hàng.']);
-        }
-
-        $cart = Cart::where('users_id', $userId)->first();
-        if (!$cart) {
-            return response()->json(['success' => false, 'message' => 'Giỏ hàng không tồn tại.']);
-        }
-
-        $cartDetail = CartDetail::where('cart_id', $cart->cart_id)
-            ->where('product_id', $productId)
+        $cartItem = Cart::where('products_id', $request->product_id)
+            ->where('users_id', auth()->id())
             ->first();
 
-        if ($cartDetail) {
-            $newQuantity = max(1, $cartDetail->quantity + $change); // Ensure quantity is at least 1
-            $cartDetail->quantity = $newQuantity;
-            $cartDetail->save();
-
-            // Optionally update the cart's total price
-            $cart->total_price = CartDetail::where('cart_id', $cart->cart_id)->sum(DB::raw('quantity * price'));
-            $cart->save();
-
-            return response()->json(['success' => true, 'new_quantity' => $newQuantity]);
+        if ($cartItem) {
+            $cartItem->quantity += $request->change;
+            if ($cartItem->quantity <= 0) {
+                $cartItem->delete(); // Remove item if quantity <= 0
+            } else {
+                $cartItem->save();
+            }
         }
 
-        return response()->json(['success' => false, 'message' => 'Sản phẩm không tồn tại trong giỏ hàng.']);
+        return response()->json(['status' => 'success']);
+    }
+
+    // Delete a single product
+    public function deleteItem(Request $request)
+    {
+        Cart::where('products_id', $request->product_id)
+            ->where('users_id', auth()->id())
+            ->delete();
+
+        return response()->json(['status' => 'success']);
+    }
+
+    // Clear all items
+    public function clearCart()
+    {
+        Cart::where('users_id', auth()->id())->delete();
+
+        return response()->json(['status' => 'success']);
     }
 }
