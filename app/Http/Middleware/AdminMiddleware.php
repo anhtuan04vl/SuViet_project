@@ -24,7 +24,7 @@ class AdminMiddleware
         }
 
         // Nếu không phải admin, chuyển hướng về trang home hoặc login
-        //return redirect()->route('login');
-        //return redirect('desktop.template.home')->with('error', 'Bạn không có quyền truy cập vào trang này.');
+        return redirect()->route('login');
+        // return redirect('desktop.template.home')->with('error', 'Bạn không có quyền truy cập vào trang này.');
     }
 }

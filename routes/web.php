@@ -8,6 +8,9 @@ use App\Models\admin\ProductModel;
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\admin\SliderController;
+use App\Http\Controllers\admin\CategoryController;
+use App\Http\Controllers\admin\OrderAdminController;
 
 // Web routes
 use App\Http\Controllers\HomeController;
@@ -26,10 +29,6 @@ Route::prefix('/')->group(function () {
     Route::get('/listcate/{name}', [SanphamController::class, 'listcate'])->name('listcate');
     Route::get('/search', [SearchController::class, 'search'])->name('search');
 
-    Route::get('/register', function () {
-        return view('desktop.template.register');
-    })->name('register');
-
     // Order routes
     Route::get('/order/{users_id?}', [OrderController::class, 'showOrder'])->name('order');
     Route::post('/order/add', [OrderController::class, 'store'])->name('order.add');
@@ -38,7 +37,9 @@ Route::prefix('/')->group(function () {
     Route::get('/cart', [CartController::class, 'cart'])->name('cart');
     Route::post('/cart/add', [CartController::class, 'addToCart'])->name('add_to_cart');
     Route::delete('/cart/delete/{cart_id}', [CartController::class, 'destroy']);
-    Route::post('/update-cart-quantity', [CartController::class, 'updateCartQuantity'])->name('updateCartQuantity');
+    Route::post('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
+    Route::post('/cart/delete-item', [CartController::class, 'deleteItem'])->name('cart.deleteItem');
+    Route::post('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
     Route::get('/cart/{users_id}', [CartController::class, 'showCart'])->name('show_cart');
 
     Route::get('/blog', function () {
@@ -72,18 +73,23 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
 // Login admin
-Route::get('admin/login', function () {
+Route::get('admin/loginAdmin', function () {
     return view('admin.auth.login'); // Trỏ đến trang đăng nhập
-})->name('loginAdmin');
+})->name('login');
 Route::post('admin/login', [AdminController::class, 'login'])->name('login.submit');
-Route::post('/logout', [AdminController::class, 'logout'])->name('admin.logout');
+Route::get('/forgot-password', [AdminController::class, 'showForgotPasswordForm'])->name('password.request');
+Route::post('/forgot-password', [AdminController::class, 'sendResetPassword'])->name('password.email');
 
 // Admin Routes                                thay doi kernel dang ky truc tiep ben route web!
 Route::prefix('/admin')->middleware(['auth:admin', AdminMiddleware::class])->group(function () {
-    Route::get('/', function () {
-        return view('admin.template.dashboard');
-    })->name('admin');
+    //logout
+    Route::post('/logoutAdmin', [AdminController::class, 'logoutAdmin'])->name('admin.logout');
+    //dashboard
+    Route::get('/', [ProductController::class, 'newProducts'])->name('admin');
+    //end dashboard
 
     //User----------------------------------------------------------------------------------
 
@@ -93,27 +99,56 @@ Route::prefix('/admin')->middleware(['auth:admin', AdminMiddleware::class])->gro
 
     //Order-----------------------------------------------------------------------------------
 
-    Route::get('/donhang', function () {
-        return view('admin.template.donhang');
-    })->name('donhang');
+    Route::get('/donhang', [OrderAdminController::class, 'showlistorders'])->name('donhang');
+    // Route::post('/admin/donhang/update-status/{orderId}', [OrderAdminController::class, 'updateStatus'])->name('order.update-status');
+    Route::get('/donhangchitietAdmin/{order_id}', [OrderAdminController::class, 'showorderdetail'])->name('admin.donhangchitiet');
 
     //end order
+
+    //Category--------------------------------------------------------------------------------
+
+    Route::get('/listcategory', [CategoryController::class, 'listCategory'])->name('listcategory');
+    Route::get('/addcategory', [CategoryController::class, 'create'])->name('addcategory');
+    Route::post('/storecategory', [CategoryController::class, 'store'])->name('store.category');
+
+
+    //end category
 
     //Products--------------------------------------------------------------------------------
 
     Route::get('/listproduct', [ProductController::class, 'listProduct'])->name('listproduct');
-
-    Route::get('/addproduct', function () {
-        return view('admin.template.addproduct');
-    })->name('addproduct');
+    Route::post('/listproduct/update-show-status', [ProductController::class, 'updateShowStatus'])->name('update.show.status');
+    // Route để hiển thị form thêm
+    Route::get('/addproduct', [ProductController::class, 'showCateOfProduct'])->name('addproduct');
     Route::post('/storeproduct', [ProductController::class, 'store'])->name('store.product');
+    // Route để hiển thị form chỉnh sửa
+    Route::get('/updateproduct/{product_id}', [ProductController::class, 'edit'])->name('updateproduct');
+    Route::put('/updateproduct/{product_id}', [ProductController::class, 'update'])->name('product.update');
 
-    Route::get('/updateproduct', function () {
-        return view('admin.template.updateproduct');
-    })->name('updateproduct');
 
     Route::delete('/product/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
-
+    
     //end products
+
+    //Category--------------------------------------------------------------------------------
+
+    Route::get('/listcategory', [CategoryController::class, 'listCategory'])->name('listcategory');
+
+    //end category
+
+
+    //Slider-----------------------------------------------------------------------------------
+    Route::get('/listslider',[SliderController::class, 'showSlider'])->name('listsliders');
+
+    Route::get('/addslider', function () {
+        return view('admin.template.addslider');
+    })->name('addslider');
+    Route::post('/storeslider', [SliderController::class, 'addslider'])->name('addslider.slider');
+    // Route để hiển thị form chỉnh sửa
+    Route::get('/updateslider/{id}',[SliderController::class, 'edit'])->name('updateslider');
+    Route::put('/updateslider/{id}', [SliderController::class, 'update'])->name('slider.update');
+
+    Route::delete('/slider/{id}', [SliderController::class, 'destroy'])->name('slider.destroy');
+    //end slider---------------------------------------------------------------------------------
 });
 require __DIR__.'/auth.php';

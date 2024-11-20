@@ -3,100 +3,123 @@
 @section('title', 'Dashboard')
 
 @section('content')
-<div class="container my-4">
-    <!-- Breadcrumb -->
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Bảng điều khiển</a></li>
-            <li class="breadcrumb-item"><a href="#">Đơn hàng</a></li>
-            <!-- <li class="breadcrumb-item active" aria-current="page">Danh sách tài khoản</li> -->
-        </ol>
-    </nav>
-    <button class="btn btn-danger mb-3"><i class="fa fa-trash-alt"></i> Xóa tất cả</button>
-    
-    <ul class="nav nav-pills mb-3 /px-2 flex space-x-2">
-        <li>
-            <a href="#" class="nav-link px-4 py-2 rounded-md bg-blue-500 text-white transition-all duration-300 ease-in-out active border-r border-black" onclick="setActive(this)">Tất cả (3)</a>
-        </li>
-        <li>
-            <a href="#" class="nav-link px-4 py-2 rounded-md text-blue-500 hover:bg-blue-500 hover:text-white transition-all duration-300 ease-in-out border-r border-black" onclick="setActive(this)">Mới đặt (3)</a>
-        </li>
-        <li>
-            <a href="#" class="nav-link px-4 py-2 rounded-md text-blue-500 hover:bg-blue-500 hover:text-white transition-all duration-300 ease-in-out border-r border-black" onclick="setActive(this)">Đã xác nhận (0)</a>
-        </li>
-        <li>
-            <a href="#" class="nav-link px-4 py-2 rounded-md text-blue-500 hover:bg-blue-500 hover:text-white transition-all duration-300 ease-in-out border-r border-black" onclick="setActive(this)">Đang giao (0)</a>
-        </li>
-        <li>
-            <a href="#" class="nav-link px-4 py-2 rounded-md text-blue-500 hover:bg-blue-500 hover:text-white transition-all duration-300 ease-in-out border-r border-black" onclick="setActive(this)">Đang chuyển (0)</a>
-        </li>
-        <li>
-            <a href="#" class="nav-link px-4 py-2 rounded-md text-blue-500 hover:bg-blue-500 hover:text-white transition-all duration-300 ease-in-out border-r border-black" onclick="setActive(this)">Đã chuyển hoàn toàn (0)</a>
-        </li>
-        <li>
-            <a href="#" class="nav-link px-4 py-2 rounded-md text-blue-500 hover:bg-blue-500 hover:text-white transition-all duration-300 ease-in-out border-r border-black" onclick="setActive(this)">Đã giao (0)</a>
-        </li>
-        <li>
-            <a href="#" class="nav-link px-4 py-2 rounded-md text-blue-500 hover:bg-blue-500 hover:text-white transition-all duration-300 ease-in-out" onclick="setActive(this)">Đã hủy (0)</a>
-        </li>
-    </ul>
-
-    <div class="table-responsive">
-        <table class="table table-bordered table-hover">
-            <thead>
+<div class="container mt-5">
+        <h2 class="mb-4">Quản lý hóa đơn</h2>
+        <table class="table table-bordered /table-hover text-center align-middle">
+            <thead class="table-light">
                 <tr>
-                    <th><input class="form-check-input" type="checkbox"></th>
-                    <th>STT</th>
-                    <th>Thông tin khách hàng</th>
-                    <th>Thông tin liên hệ</th>
-                    <th>Thông tin sản phẩm</th>
-                    <th>Phương thức thanh toán</th>
-                    <th>Ngày đặt hàng</th>
-                    <th>Tông tiền</th>
+                    <!-- <th>Số hóa đơn</th> -->
+                    <th>Thời gian đặt hàng</th>
+                    <th>Tên khách hàng</th>
+                    <th>Phương Thức Thanh Toán</th>
+                    <!-- <th>Số Tiền</th> -->
                     <th>Trạng thái</th>
-                    <th>Tùy chỉnh</th>
+                    <th>Hoạt động</th>
+                    <th>Hóa đơn</th>
                 </tr>
             </thead>
-            <tbody class="text-center ">
-                <tr>
-                    <td><input class="form-check-input" type="checkbox"></td>
-                    <td>1</td>
+            <tbody >
+                <!-- Dòng dữ liệu mẫu -->
+                @foreach ($showlistorders as $v)
+                <tr class="align-middle">
+                    <!-- <td>{{ $v->order_id }}</td> -->
+                    <td>{{ $v->order_date }}</td>
+                    <td>@if ($v->user){{ $v->user->fullname }}@endif</td>
                     <td>
-                        <strong >Bùi Anh Tuấn</strong><br>
-                        <span>241008N2UDI6</span><br>
+                    @if ($v->payment_method_id == 2)
+                        <span class="badge bg-success">Thanh toán khi nhận hàng</span>
+                    @else
+                        @if ($v->payment_method_id == 1)
+                        <span class="badge bg-secondary">Thanh toán online</span>
+                        @endif
+                    @endif
+                    </td>
+                    <!-- <td>{{ number_format($v->total, 0, ',', '.') }} VNĐ</td> -->
+                    <td>
+                        @if ($v->status->name == 'Chờ xác nhận')
+                            <span class="badge bg-warning">{{ $v->status->name }}</span>
+                        @elseif ($v->status->name == 'Đã xác nhận')
+                            <span class="badge bg-primary">{{ $v->status->name }}</span>
+                        @elseif ($v->status->name == 'Đang giao hàng')
+                            <span class="badge bg-lam">{{ $v->status->name }}</span>
+                        @elseif ($v->status->name == 'Đã hủy')
+                            <span class="badge bg-danger">{{ $v->status->name }}</span>
+                        @endif
                     </td>
                     <td>
-                       <span>địa chỉ: Đông bắc Chương trình</span>
+                        <select class="form-select form-select-sm" onchange="updateStatus({{ $v->order_id }}, this)">
+                            <option>Xử lý</option>
+                            <option value="Đã giao hàng" {{ $v->status == 'Đã giao hàng' ? 'selected' : '' }}>Đã giao hàng</option>
+                            <option value="Hủy bỏ" {{ $v->status == 'Hủy bỏ' ? 'selected' : '' }}>Hủy bỏ</option>
+                            <option value="Chưa giải quyết" {{ $v->status == 'Chưa giải quyết' ? 'selected' : '' }}>Chưa giải quyết</option>
+                        </select>
                     </td>
-                    <td>
-                       <span>Chén sứ cao cấp</span>
-                    </td>
-                    <td>Thanh toán trên website</td>
-                    <td>03:10<br>08-10-2024</td>
-                    <td class="text-red">$225,00</td>
-                    <td>
-                        <span class="status-badge just-ordered">Đã xác nhận</span><br>
 
-                        <span class="status-badge unpaid">Đang giao hàng</span>
+                    <td class="d-flex gap-2 align-items-center">
+                        <!-- <a class="btn btn-outline-secondary btn-sm"><i class="bi bi-printer"></i></a> -->
+                        <a href="{{ route('admin.donhangchitiet', $v->order_id) }}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-eye"></i></a>
                     </td>
-                    <td><i class="fas fa-ellipsis-v"></i></td>
                 </tr>
+                <!-- Thêm các dòng khác tương tự -->
+                @endforeach
             </tbody>
         </table>
+
+        <!-- Phân trang -->
+        <!-- <nav>
+            <ul class="pagination justify-content-end">
+                <li class="page-item disabled"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">...</a></li>
+                <li class="page-item"><a class="page-link" href="#">21</a></li>
+            </ul>
+        </nav> -->
     </div>
-</div>
 @endsection
 
 <!-- // js trang -->
-<script>
-    function setActive(element) {
-        // Lấy tất cả các phần tử có class 'nav-link'
-        var links = document.querySelectorAll('.nav-link');
-        
-        // Xóa class 'active' của tất cả các phần tử
-        links.forEach(link => link.classList.remove('bg-blue-500', 'text-white', 'active'));
-
-        // Thêm class 'active' cho phần tử vừa được bấm
-        element.classList.add('bg-blue-500', 'text-white', 'active');
+ <style>
+    .bg-lam {
+        background-color: #0066FF	;
     }
-</script>
+ </style>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- <script>
+        function updateStatus(orderId, selectElement) {
+            const status = selectElement.value;  // Lấy giá trị chọn từ dropdown
+            
+            // Gửi yêu cầu AJAX đến server
+            $.ajax({
+            url: '/admin/donhang/update-status/' + orderId,  // Đảm bảo thêm 'admin' vào URL
+            method: 'POST',
+            data: {
+            status: status,
+            _token: $('meta[name="csrf-token"]').attr('content')  // Thêm CSRF token
+        },
+        success: function(response) {
+            if (response.success) {
+                alert(response.message);
+            } else {
+                alert(response.message);
+                selectElement.value = selectElement.dataset.previousValue;
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("XHR:", xhr);
+            console.error("Status:", status);
+            console.error("Error:", error);
+            alert('Đã xảy ra lỗi khi cập nhật trạng thái.');
+            selectElement.value = selectElement.dataset.previousValue;
+        }
+        });
+
+            
+            // Lưu lại trạng thái trước đó để có thể phục hồi nếu có lỗi
+            selectElement.dataset.previousValue = selectElement.value;
+        }
+    </script> -->
+
+

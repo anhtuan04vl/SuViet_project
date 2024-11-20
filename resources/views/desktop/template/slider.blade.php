@@ -2,19 +2,20 @@
 <div class="container_slider">
     <div class="swiper SliderSwiper-slider">
         <div class="swiper-wrapper">
-            @for ($i = 0; $i < 4; $i++)
+            @foreach ($listslidershow as $s)
                 <div class="swiper-slide">
                     <div class="slider relative">
-                        <img src="../img/slider.png" alt="" class="w-full">
+                        <img src="{{ asset('img/images/' . $s->image) }}" alt="" class="w-full bg-contain">
                         <div class="absolute top-0 left-0 w-full h-full flex items-center justify-start">
-                            <div class="w-full flex flex-col justify-center items-center gap-y-10">
-                                <p class="text-white font-el font-bold text-xl sm:text-2xl md:text-[32px] lg:text-[62px]">Sứ Việt</p>
+                            <!-- <div class="w-full flex flex-col justify-center items-center gap-y-10">
+                                <p class="text-white font-el font-bold text-xl sm:text-2xl md:text-[32px] lg:text-[62px]">{{$s->title}}</p>
                                 <p class="text-white font-el hidden sm:block text-sm lg:text-[42px]">Tinh hoa sứ Việt – Nâng tầm giá trị truyền thống</p>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
-            @endfor
+            @endforeach
+            
         </div>
         <div class="absolute top-0">
             <div class="swiper-pagination"></div>
