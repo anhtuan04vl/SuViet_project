@@ -60,22 +60,75 @@
                         <label class="block text-sm font-medium text-gray-700">Tỉnh/Thành phố*</label>
                         <select name="city" class="mt-1 block w-full px-2 py-3 border-gray-300 rounded-md shadow-sm" required>
                             <option value="">--Tỉnh/Thành phố--</option>
-                            <option value="Hồ Chí Minh">Hồ Chí Minh</option>
                             <option value="Hà Nội">Hà Nội</option>
-                            <option value="Hạ Long">Hạ Long</option>
+                            <option value="Hồ Chí Minh">Hồ Chí Minh</option>
                             <option value="Đà Nẵng">Đà Nẵng</option>
+                            <option value="Cần Thơ">Cần Thơ</option>
+                            <option value="Hải Phòng">Hải Phòng</option>
+                            <option value="Hạ Long">Hạ Long</option>
+                            <option value="Bà Rịa-Vũng Tàu">Bà Rịa-Vũng Tàu</option>
+                            <option value="Bắc Giang">Bắc Giang</option>
+                            <option value="Bắc Kạn">Bắc Kạn</option>
+                            <option value="Bạc Liêu">Bạc Liêu</option>
+                            <option value="Bắc Ninh">Bắc Ninh</option>
+                            <option value="Bến Tre">Bến Tre</option>
+                            <option value="Bình Dương">Bình Dương</option>
+                            <option value="Bình Phước">Bình Phước</option>
+                            <option value="Bình Thuận">Bình Thuận</option>
+                            <option value="Cao Bằng">Cao Bằng</option>
+                            <option value="Cà Mau">Cà Mau</option>
+                            <option value="Đắk Lắk">Đắk Lắk</option>
+                            <option value="Đắk Nông">Đắk Nông</option>
+                            <option value="Điện Biên">Điện Biên</option>
+                            <option value="Đồng Nai">Đồng Nai</option>
+                            <option value="Đồng Tháp">Đồng Tháp</option>
+                            <option value="Gia Lai">Gia Lai</option>
+                            <option value="Hà Giang">Hà Giang</option>
+                            <option value="Hà Nam">Hà Nam</option>
+                            <option value="Hải Dương">Hải Dương</option>
+                            <option value="Hòa Bình">Hòa Bình</option>
+                            <option value="Hưng Yên">Hưng Yên</option>
+                            <option value="Khánh Hòa">Khánh Hòa</option>
+                            <option value="Kiên Giang">Kiên Giang</option>
+                            <option value="Kon Tum">Kon Tum</option>
+                            <option value="Lai Châu">Lai Châu</option>
+                            <option value="Lâm Đồng">Lâm Đồng</option>
+                            <option value="Lạng Sơn">Lạng Sơn</option>
+                            <option value="Lào Cai">Lào Cai</option>
+                            <option value="Long An">Long An</option>
+                            <option value="Nam Định">Nam Định</option>
+                            <option value="Nghệ An">Nghệ An</option>
+                            <option value="Ninh Bình">Ninh Bình</option>
+                            <option value="Ninh Thuận">Ninh Thuận</option>
+                            <option value="Phú Thọ">Phú Thọ</option>
+                            <option value="Phú Yên">Phú Yên</option>
+                            <option value="Quảng Bình">Quảng Bình</option>
+                            <option value="Quảng Nam">Quảng Nam</option>
+                            <option value="Quảng Ngãi">Quảng Ngãi</option>
+                            <option value="Quảng Ninh">Quảng Ninh</option>
+                            <option value="Quảng Trị">Quảng Trị</option>
+                            <option value="Sóc Trăng">Sóc Trăng</option>
+                            <option value="Sơn La">Sơn La</option>
+                            <option value="Tây Ninh">Tây Ninh</option>
+                            <option value="Thái Bình">Thái Bình</option>
+                            <option value="Thái Nguyên">Thái Nguyên</option>
+                            <option value="Thanh Hóa">Thanh Hóa</option>
+                            <option value="Thừa Thiên-Huế">Thừa Thiên-Huế</option>
+                            <option value="Tiền Giang">Tiền Giang</option>
+                            <option value="Trà Vinh">Trà Vinh</option>
+                            <option value="Tuyên Quang">Tuyên Quang</option>
+                            <option value="Vĩnh Long">Vĩnh Long</option>
+                            <option value="Vĩnh Phúc">Vĩnh Phúc</option>
+                            <option value="Yên Bái">Yên Bái</option>
                         </select>
                     </div>
+
 
                     <!-- District -->
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700">Quận/Huyện*</label>
-                        <select name="district" class="mt-1 block w-full px-2 py-3 border-gray-300 rounded-md shadow-sm" required>
-                            <option value="">--Quận/Huyện--</option>
-                            <option value="District 1">District 1</option>
-                            <option value="District 2">District 2</option>
-                            <option value="District 3">District 3</option>
-                        </select>
+                        <input type="text" name="district" class="mt-1 block w-full px-2 py-3 border-gray-300 rounded-md shadow-sm"
+                               placeholder="Nhập quận/huyện của bạn" required />
                     </div>
 
                     <!-- Address -->
@@ -95,17 +148,17 @@
                         </div>
                     </div>
 
-                    <!-- Payment Method -->
+                     <!-- Payment Method -->
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700">Phương thức thanh toán*</label>
                         <div class="flex flex-wrap lg:flex-nowrap gap-3 justify-between">
                             <label class="pay flex cursor-pointer">
                                 <input type="radio" name="payment_method_id" value="1" class="mr-2" required>
-                                <span class="text-gray-800 font-medium">Thẻ tín dụng</span>
+                                <button class="text-gray-800 font-medium">VN Pay</button>
                             </label>
                             <label class="meet flex cursor-pointer">
                                 <input type="radio" name="payment_method_id" value="2" class="mr-2">
-                                <span class="text-gray-800 font-medium">Thanh toán khi nhận hàng</span>
+                                <button class="text-gray-800 font-medium">Thanh toán khi nhận hàng</button>
                             </label>
                         </div>
                     </div>
@@ -125,9 +178,9 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="w-full bg-cmain text-white py-2 rounded-lg mt-4">Cập nhật thông tin</button>
+                     <button type="submit" class="w-full bg-cmain text-white py-2 rounded-lg mt-4">Cập nhật thông tin</button>
                 </div>
-
+                
                 <!-- Order Summary -->
                 <div class="w-full lg:w-1/2 bg-white p-0 lg:p-6 rounded-lg">
                     <h2 class="text-xl font-semibold mb-6">Đơn hàng của bạn</h2>
@@ -147,7 +200,7 @@
                     </div>
                     <div class="mb-2 flex justify-between">
                         <span class="text-sm text-gray-600">Đã giảm giá</span>
-                        <span class="text-sm text-green-600">0 VNĐ</span>
+                        <span class="text-sm text-green-600" id="discount"></span>
                     </div>
 
                     <div class="mb-2 flex justify-between">
@@ -156,7 +209,7 @@
                     </div>
 
                     <div class="mb-2 flex justify-between">
-                        <span class="text-sm text-gray-600">Giao hàng</span>
+                        <span class="text-sm text-gray-600">Phí giao hàng</span>
                         <span class="text-sm text-gray-800">40.000 VNĐ</span>
                     </div>
 
@@ -164,14 +217,29 @@
 
                     <div class="mb-6 flex justify-between">
                         <span class="text-lg font-semibold text-gray-800">Tổng thanh toán:</span>
-                        <span class="text-lg font-semibold text-gray-800">{{ number_format($totalPrice + 40000, 0, ',', '.') }} VNĐ</span>
+                        <!-- <span class="text-lg font-semibold text-gray-800">{{ number_format($totalPrice + 40000, 0, ',', '.') }} VNĐ</span> -->
+                        <span class="text-lg font-semibold text-gray-800" id="discountedTotal"></span>
                     </div>
 
-                    <button type="submit" class="w-full bg-cmain text-white py-2 rounded-lg">Thanh Toán</button>
+                    <button type="submit" name="cod" class="w-full bg-cmain text-white py-2 rounded-lg">Thanh Toán</button>
+                    <hr>
+                    <button type="submit" name="vn_pay" class="w-full bg-cmain text-white py-2 rounded-lg">Thanh Toán qua VN Pay</button>
                 </div>
             </div>
         </form>
+        
     </div>
     <!-- END THANH TOAN -->
 
+    <script>
+        function formatNumber(number) {
+            return new Intl.NumberFormat('en-US', { style: 'decimal', minimumFractionDigits: 0 }).format(number);
+        }
+        let price = JSON.parse(localStorage.getItem('DISCOUNT'));
+        let discountedTotal = Math.floor(JSON.parse(localStorage.getItem('DISCOUNT')).discountedTotal);
+        console.log(discountedTotal);
+        document.getElementById('discount').textContent = `${formatNumber(price.discount)} VNĐ`;
+        document.getElementById('discountedTotal').textContent = `${formatNumber(discountedTotal+40000)} VNĐ`;
+
+    </script>
 @endsection

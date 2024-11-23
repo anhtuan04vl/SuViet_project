@@ -19,6 +19,7 @@ use App\Http\Controllers\ProductDetailController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\WishlistController;
 
 // Client Routes
 Route::prefix('/')->group(function () {
@@ -38,9 +39,10 @@ Route::prefix('/')->group(function () {
     Route::post('/cart/add', [CartController::class, 'addToCart'])->name('add_to_cart');
     Route::delete('/cart/delete/{cart_id}', [CartController::class, 'destroy']);
     Route::post('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
-    Route::post('/cart/delete-item', [CartController::class, 'deleteItem'])->name('cart.deleteItem');
+    Route::post('/cart/remove-product', [CartController::class, 'removeProduct'])->name('cart.removeProduct');
     Route::post('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
     Route::get('/cart/{users_id}', [CartController::class, 'showCart'])->name('show_cart');
+    Route::post('/apply-coupon', [CartController::class, 'applyCoupon']);
 
     Route::get('/blog', function () {
         return view('desktop.template.blog');
@@ -67,7 +69,15 @@ Route::prefix('/')->group(function () {
     Route::put('/user/{id}', [UserController::class, 'update']);
 });
 
+//withlist
 
+Route::middleware('auth')->group(function () {
+    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+    Route::post('/wishlist', [WishlistController::class, 'store'])->name('wishlist.store');
+    Route::post('/wishlist/remove-product', [WishlistController::class, 'removeProduct'])->name('wishlist.remove');
+});
+
+//Profile
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -94,6 +104,8 @@ Route::prefix('/admin')->middleware(['auth:admin', AdminMiddleware::class])->gro
     //User----------------------------------------------------------------------------------
 
     Route::get('/listaccount', [UserController::class, 'listUsers'])->name('listaccount');
+    Route::get('/addaccount/{users_id}', [UserController::class, 'updateAccount'])->name('updateaccount');
+    Route::put('/addaccount/{users_id}', [UserController::class, 'updateAdminUser'])->name('user.updateAdminUser');
 
     //end user
 
@@ -102,7 +114,7 @@ Route::prefix('/admin')->middleware(['auth:admin', AdminMiddleware::class])->gro
     Route::get('/donhang', [OrderAdminController::class, 'showlistorders'])->name('donhang');
     // Route::post('/admin/donhang/update-status/{orderId}', [OrderAdminController::class, 'updateStatus'])->name('order.update-status');
     Route::get('/donhangchitietAdmin/{order_id}', [OrderAdminController::class, 'showorderdetail'])->name('admin.donhangchitiet');
-
+    Route::post('/orders/update-status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
     //end order
 
     //Category--------------------------------------------------------------------------------
@@ -110,6 +122,12 @@ Route::prefix('/admin')->middleware(['auth:admin', AdminMiddleware::class])->gro
     Route::get('/listcategory', [CategoryController::class, 'listCategory'])->name('listcategory');
     Route::get('/addcategory', [CategoryController::class, 'create'])->name('addcategory');
     Route::post('/storecategory', [CategoryController::class, 'store'])->name('store.category');
+    // Route để hiển thị form chỉnh sửa
+    Route::get('/updatecategory/{category_id}',[CategoryController::class, 'edit'])->name('updatecategory');
+    Route::put('/updatecategory/{category_id}', [CategoryController::class, 'update'])->name('category.update');
+    //status cate
+    Route::post('/update-category-status', [CategoryController::class, 'updateStatus'])->name('category.updateStatus');
+
 
 
     //end category
@@ -130,11 +148,7 @@ Route::prefix('/admin')->middleware(['auth:admin', AdminMiddleware::class])->gro
     
     //end products
 
-    //Category--------------------------------------------------------------------------------
-
-    Route::get('/listcategory', [CategoryController::class, 'listCategory'])->name('listcategory');
-
-    //end category
+    
 
 
     //Slider-----------------------------------------------------------------------------------

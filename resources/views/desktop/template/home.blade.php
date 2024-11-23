@@ -9,21 +9,44 @@
 @endsection
 
 @section('content')
+
+@if (session('alert'))
+<script>
+    const alert = @json(session('alert'));
+
+    // Kiểm tra loại thông báo và hiển thị bằng SweetAlert2
+    Swal.fire({
+        icon: alert.type,  // success, error, warning, info, ...
+        title: alert.title, // Tiêu đề thông báo
+        text: alert.message, // Nội dung thông báo
+        timer: 5000, // Tự động đóng sau 5 giây
+        showConfirmButton: false // Ẩn nút xác nhận
+    });
+    console.log(Swal); 
+
+</script>
+@endif
     <!-- DANH MUC SAN PHAM -->
     <div class="container-main bg-cmain6 rounded-[15px] ">
         <!-- swiper note -->
         <h3 class="pl-6 pt-6 font-semibold font-el text-2xl">Danh Mục Sản Phẩm</h3>
         <div class="danhmuc px-10 lg:px-20 flex flex-wrap pb-[45px] pt-[33px] gap-8 justify-center lg:justify-between">
             <!-- nd -->
-            @for ($i = 0; $i < 8; $i++)
-                <div class="dm1 flex flex-col justify-center items-center gap-3">
-                    <div class="rounded-full bg-white /w-[12.5%] flex  justify-center">
-                        <img src="../img/dm1.png" alt="" class="w-full px-5 py-5">
-                    </div>
-                    <p>Tô</p>
-                </div>
-            @endfor
+            
             <!-- end nd -->
+            @foreach ($categories as $sp)
+                    <div class="dm1 swipers-slide flex flex-col justify-center items-center gap-3">
+                        <a href="{{ route('listcate', ['name' => $sp->name]) }}" class="cursor-pointer rounded-full  bg-white /w-[12.5%] flex  justify-center">
+                            <img src="{{ asset('img/images/' . $sp->images) }}" alt=""
+                                class="w-[100px] px-[19px] py-3">
+                        </a>
+                        <p>{{ $sp->name }}</p>
+                    </div>
+                @endforeach
+  </div>
+</div>
+
+
         </div>
     </div>
     <!-- END DANH MUC SAN PHAM -->
@@ -62,7 +85,7 @@
                 <!-- Show 4 sản phẩm bằng view2 trong provider -->
                 <div class="flex flex-wrap justify-between gap-y-[26px] gap-x-5">
                     @foreach ($products as $pro)
-                        <div class="box1 w-[45%] flex flex-col items-center">
+                        <div class="box1 swipers-slide w-[45%] flex flex-col items-center">
                             <a href="{{ route('product_detail', ['product_id' => $pro->product_id]) }}"><img
                                     src="{{ asset('img/images/' . $pro->img) }}"
                                     class="h-48 w-auto lg:object-cover object-contain" alt=""></a>
@@ -84,10 +107,10 @@
                                             <p class="text-cmain group-hover:text-white">Thêm vào giỏ hàng</p>
                                         </button>
                                     </form>
-                                    {{-- <span class="flex w-1 h-1 bg-cmain rounded-full "></span> --}}
-                                    <a href=""
-                                        class="group border-cmain hover:border-cmain7 hover:bg-cmain7 flex py-3 px-5 rounded-[39px] /w-full mt-3 items-center justify-center transition duration-300 ease-in-out">
-                                        <svg class="transition-colors duration-300 group-hover:text-white" width="32"
+                                    <form action="{{ route('wishlist.store') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="product_id" value="{{ $pro->product_id }}">
+                                        <button class="group border-cmain hover:border-cmain7 hover:bg-cmain7 flex py-3 px-5 rounded-[39px] /w-full mt-3 items-center justify-center transition duration-300 ease-in-out" type="submit"><svg class="transition-colors duration-300 group-hover:text-white" width="32"
                                             height="31" viewBox="0 0 32 31" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <rect width="32" height="31" rx="15.5" fill="#194569"
@@ -96,8 +119,8 @@
                                                 d="M16.434 21.9343C16.196 22.0219 15.804 22.0219 15.566 21.9343C13.536 21.2112 9 18.1949 9 13.0826C9 10.8258 10.743 9 12.892 9C14.166 9 15.293 9.6427 16 10.636C16.707 9.6427 17.841 9 19.108 9C21.257 9 23 10.8258 23 13.0826C23 18.1949 18.464 21.2112 16.434 21.9343Z"
                                                 stroke="#194569" stroke-width="1.2" stroke-linecap="round"
                                                 stroke-linejoin="round" />
-                                        </svg>
-                                    </a>
+                                        </svg></button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -142,11 +165,11 @@
                     <div class="flex flex-wrap gap-y-10 md:gap-y-20 justify-between /absolute top-0 gap-x-6 800:gap-x-2">
                         <!-- Show 4 sản phẩm bằng view3 trong provider -->
                         @foreach ($collection as $bst)
-                            <div class="box1 w-[40%] md:w-[30%] 800:w-[23%] flex flex-col items-center h-75">
+                            <div class="box1 swipers-slide  w-[40%] md:w-[30%] 800:w-[23%] flex flex-col items-center h-75">
                                 <a href="{{ route('product_detail', ['product_id' => $bst->product_id]) }}"><img
                                         src="{{ asset('img/images/' . $bst->img) }}" alt=""
                                         class="h-48 w-auto lg:object-cover object-contain"></a>
-                                <div class="ttl_1 flex flex-col items-center">
+                                <div class=" ttl_1 flex flex-col items-center">
                                     <a href="{{ route('product_detail', ['product_id' => $bst->product_id]) }}"
                                         class="font-el font-extrabold text-base text-center">{{ $bst->name }}</a>
                                     <p
@@ -166,19 +189,20 @@
                                             </button>
                                         </form>
                                         {{-- <span class="flex w-1 h-1 bg-cmain rounded-full "></span> --}}
-                                        <a href=""
-                                            class="group border-cmain hover:border-cmain7 hover:bg-cmain7 flex py-3 px-5 rounded-[39px] /w-full mt-3 items-center justify-center transition duration-300 ease-in-out">
-                                            <svg class="transition-colors duration-300 group-hover:text-white"
-                                                width="32" height="31" viewBox="0 0 32 31" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <rect width="32" height="31" rx="15.5" fill="#194569"
-                                                    fill-opacity="0.1" />
-                                                <path
-                                                    d="M16.434 21.9343C16.196 22.0219 15.804 22.0219 15.566 21.9343C13.536 21.2112 9 18.1949 9 13.0826C9 10.8258 10.743 9 12.892 9C14.166 9 15.293 9.6427 16 10.636C16.707 9.6427 17.841 9 19.108 9C21.257 9 23 10.8258 23 13.0826C23 18.1949 18.464 21.2112 16.434 21.9343Z"
-                                                    stroke="#194569" stroke-width="1.2" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                            </svg>
-                                        </a>
+                                        <form action="{{ route('wishlist.store') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="product_id" value="{{ $bst->product_id }}">
+                                        <button class="group border-cmain hover:border-cmain7 hover:bg-cmain7 flex py-3 px-5 rounded-[39px] /w-full mt-3 items-center justify-center transition duration-300 ease-in-out" type="submit"><svg class="transition-colors duration-300 group-hover:text-white" width="32"
+                                            height="31" viewBox="0 0 32 31" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <rect width="32" height="31" rx="15.5" fill="#194569"
+                                                fill-opacity="0.1" />
+                                            <path
+                                                d="M16.434 21.9343C16.196 22.0219 15.804 22.0219 15.566 21.9343C13.536 21.2112 9 18.1949 9 13.0826C9 10.8258 10.743 9 12.892 9C14.166 9 15.293 9.6427 16 10.636C16.707 9.6427 17.841 9 19.108 9C21.257 9 23 10.8258 23 13.0826C23 18.1949 18.464 21.2112 16.434 21.9343Z"
+                                                stroke="#194569" stroke-width="1.2" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg></button>
+                                    </form>
                                     </div>
                                 </div>
                             </div>
@@ -389,6 +413,22 @@
 @push('styles')
     <!-- Link Swiper's CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <style>
+
+
+.swipers-slide a {
+  transition: transform 0.3s ease-in-out;
+}
+
+.swipers-slide a:hover {
+  transform: scale(1.2); /* Tăng kích thước khi hover */
+}
+
+.swipers-wrapper {
+  align-items: center; /* Đảm bảo các danh mục căn giữa */
+}
+    </style>
 @endpush
 
 
@@ -426,5 +466,34 @@
                 clickable: true,
             },
         });
+
+
+
+        //cate
+        // var swiper = new Swiper(".cateSwiper", {
+        //     breakpoints: {
+		// 	0: {
+		// 		slidesPerView: 1,
+		// 		spaceBetween: 10,
+		// 	},
+		// 	425: {
+		// 		slidesPerView: 2,
+		// 		spaceBetween: 20,
+		// 	},
+		// 	650: {
+		// 		slidesPerView: 2,
+		// 		spaceBetween: 30,
+		// 	},			
+		// 	800: {
+		// 		slidesPerView: 4,
+		// 		spaceBetween: 25,
+		// 	},
+		// },
+        //     loop: true,
+        //     pagination: {
+        //         el: ".swiper-pagination",
+        //         clickable: true,
+        //     },
+        // });
     </script>
 @endpush

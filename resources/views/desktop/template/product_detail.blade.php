@@ -37,25 +37,25 @@
                     <img id="main-image" class="w-[70%] rounded-lg " src="{{ asset('img/images/' . $sp->img) }}"
                         alt="Hình ảnh sản phẩm chính">
                     <!-- Nút điều hướng trái -->
-                    <button class="absolute top-1/2 left-0 p-2 bg-gray-200 rounded-full -translate-y-1/2 hover:bg-gray-300">
+                    <!-- <button class="absolute top-1/2 left-0 p-2 bg-gray-200 rounded-full -translate-y-1/2 hover:bg-gray-300">
                         &lt;
-                    </button>
+                    </button> -->
                     <!-- Nút điều hướng phải -->
-                    <button
+                    <!-- <button
                         class="absolute top-1/2 right-0 p-2 bg-gray-200 rounded-full -translate-y-1/2 hover:bg-gray-300">
                         &gt;
-                    </button>
+                    </button> -->
                 </div>
 
                 <!-- Hình ảnh nhỏ -->
-                <div class="flex space-x-4">
+                <!-- <div class="flex space-x-4">
                     @for ($i = 0; $i < 4; $i++)
                         <div class="w-16 h-16 overflow-hidden rounded-lg">
                             <img class="w-16 h-16 object-cover rounded-lg border cursor-pointer" src="../img/chen1.png"
                                 onclick="changeMainImage('../img/chen1.png')" alt="Thumbnail 1">
                         </div>
                     @endfor
-                </div>
+                </div> -->
             </div>
 
             <!-- Phần Bên Phải: Thông Tin Sản Phẩm -->

@@ -52,7 +52,7 @@
                             @enderror
                         </div>
 
-                        <button type="submit" class="w-full bg-blue-600 text-white rounded-lg py-3 font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600">Đăng nhập</button>
+                        <button type="submit" class="w-full mt-4 bg-blue-600 text-white rounded-lg py-3 font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600">Đăng nhập</button>
                     </form>
                 </div>
             </div>

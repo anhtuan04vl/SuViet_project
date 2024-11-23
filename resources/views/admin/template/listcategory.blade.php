@@ -2,6 +2,7 @@
 
 @section('title', 'Dashboard')
 
+
 @section('content')
 <div class="container my-4">
     <h1>List Category</h1>
@@ -10,20 +11,24 @@
     <div class="d-flex gap-2 mb-3 justify-content-end">
         <a href="{{ route('addcategory') }}" class="btn btn-success btn-sm d-flex align-items-center"><i
                 class="bi bi-plus-lg me-2"></i>Add new</a>
-        <button class="btn btn-danger btn-sm d-flex align-items-center"><i class="bi bi-trash me-2"></i>Delete
-            all</button>
     </div>
-    {{-- Hiển thị thông báo thành công --}}
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
+    @if (session('alert'))
+    <script>
+        const alert = @json(session('alert'));
+
+        // Kiểm tra loại thông báo và hiển thị bằng SweetAlert2
+        Swal.fire({
+            icon: alert.type,  // success, error, warning, info, ...
+            title: alert.title, // Tiêu đề thông báo
+            text: alert.message, // Nội dung thông báo
+            timer: 5000, // Tự động đóng sau 3 giây
+            showConfirmButton: false // Ẩn nút xác nhận
+        });
+        console.log(Swal); 
+
+    </script>
     @endif
-    @if (session('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
-    </div>
-@endif
+
     <div class="table-responsive">
         <table class="table table-bordered text-center table-hover table-borderless align-middle">
             <thead class="table-light">
@@ -44,18 +49,19 @@
                     <td><strong>{{ $v->category_id }}</strong></td>
                     <td>
                         <img src="{{ asset('img/images/' . $v->images) }}" alt="Hình sản phẩm"
-                            class="product-image d-block mx-auto" style="width: 20%;">
+                            class="product-image d-block mx-auto" style="width: 30%;">
                     </td>
                     <td>{{ $v->name }}</td>
                     <td>{{ $v->products_count }}</td>
                     <td>
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" checked>
+                            <input class="form-check-input toggle-status" type="checkbox"
+                                data-id="{{ $v->category_id }}" {{ $v->is_active ? 'checked' : '' }}>
                         </div>
                     </td>
                     <td>
-                        <button class="btn btn-link p-0 text-decoration-none"><i class="bi bi-pencil"></i></button>
-                        <button class="btn btn-link p-0 text-decoration-none"><i class="bi bi-trash"></i></button>
+                        <a href="{{ route('updatecategory', $v->category_id) }}" class="btn btn-link p-0 text-decoration-none"><i class="bi bi-pencil"></i></a>
+                        <!-- <button class="btn btn-link p-0 text-decoration-none"><i class="bi bi-trash"></i></button> -->
                     </td>
                 </tr>
                 @endforeach
@@ -66,3 +72,5 @@
 </div>
 
 @endsection
+
+

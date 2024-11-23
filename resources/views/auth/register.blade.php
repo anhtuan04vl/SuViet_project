@@ -18,7 +18,7 @@
                 <!-- Right Section -->
                 <div class="w-1/2 p-8">
                     <h2 class="text-3xl font-bold text-gray-800 mb-6">Đăng Ký</h2>
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register') }} " class="flex flex-col gap-3">
                         @csrf
 
                         <div>

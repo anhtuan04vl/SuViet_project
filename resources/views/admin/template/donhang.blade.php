@@ -44,6 +44,8 @@
                             <span class="badge bg-lam">{{ $v->status->name }}</span>
                         @elseif ($v->status->name == 'Đã hủy')
                             <span class="badge bg-danger">{{ $v->status->name }}</span>
+                        @elseif ($v->status->name == 'Đã giao hàng')
+                            <span class="badge bg-danger">{{ $v->status->name }}</span>
                         @endif
                     </td>
                     <td>
@@ -86,40 +88,37 @@
  </style>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    function updateStatus(orderId, selectElement) {
+    const newStatus = selectElement.value;
 
-    <!-- <script>
-        function updateStatus(orderId, selectElement) {
-            const status = selectElement.value;  // Lấy giá trị chọn từ dropdown
-            
-            // Gửi yêu cầu AJAX đến server
-            $.ajax({
-            url: '/admin/donhang/update-status/' + orderId,  // Đảm bảo thêm 'admin' vào URL
-            method: 'POST',
-            data: {
-            status: status,
-            _token: $('meta[name="csrf-token"]').attr('content')  // Thêm CSRF token
+    // Gửi yêu cầu AJAX
+    fetch(`/admin/orders/update-status`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
         },
-        success: function(response) {
-            if (response.success) {
-                alert(response.message);
-            } else {
-                alert(response.message);
-                selectElement.value = selectElement.dataset.previousValue;
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error("XHR:", xhr);
-            console.error("Status:", status);
-            console.error("Error:", error);
-            alert('Đã xảy ra lỗi khi cập nhật trạng thái.');
-            selectElement.value = selectElement.dataset.previousValue;
+        body: JSON.stringify({
+            order_id: orderId,
+            order_status_id: newStatus,
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Cập nhật trạng thái thành công!');
+        } else {
+            alert('Cập nhật thất bại. Vui lòng thử lại!');
         }
-        });
+    })
+    .catch(error => {
+        console.error('Lỗi:', error);
+        alert('Đã xảy ra lỗi khi cập nhật trạng thái.');
+    });
+}
 
-            
-            // Lưu lại trạng thái trước đó để có thể phục hồi nếu có lỗi
-            selectElement.dataset.previousValue = selectElement.value;
-        }
-    </script> -->
+    </script>
+    
 
 

@@ -75,9 +75,9 @@
                     </p>
                 </div>
                 <div class="col-md-6 text-end">
-                    <p><strong>Chi phí vận chuyển:</strong>None</p>
+                    <p><strong>Chi phí vận chuyển: </strong>{{ number_format($showorderdetail->price_ship) }} VNĐ</p>
                     <p><strong>Giảm giá:</strong>None</p>
-                    <p class="fs-5 text-danger"><strong>Tổng số tiền:</strong> {{ number_format($showorderdetail->total_price) }} VNĐ</p>
+                    <p class="fs-5 text-danger"><strong>Tổng số tiền:</strong> {{ number_format($showorderdetail->total) }} VNĐ</p>
                 </div>
             </div>
         </div>

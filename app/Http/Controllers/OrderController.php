@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-
+use Alert;  // Thêm dòng này vào đầu controller
 class OrderController extends Controller
 {
     public function showOrder($users_id)
@@ -24,7 +24,11 @@ class OrderController extends Controller
 
         // Kiểm tra nếu giỏ hàng không tồn tại
         if (!$cart) {
-            return redirect()->back()->with('error', 'Giỏ hàng của bạn trống');
+            session()->flash('alert', [
+                'type' => 'warning',
+                'title' => 'Cảnh báo!',
+                'message' => 'Giỏ hàng của bản trống!'
+            ]);
         }
 
         // Lấy thông tin chi tiết của giỏ hàng
@@ -113,16 +117,25 @@ class OrderController extends Controller
             ]);
         }
 
-        // Xóa giỏ hàng sau khi đặt hàng thành công (nếu cần)
-        CartDetail::where('cart_id', Cart::where('users_id', $userId)->value('cart_id'))->delete();
+        // Xóa giỏ hàng sau khi đặt hàng thành công
+        Cart::where('users_id', $userId)
+        ->where('total_price', '>', 0) // Thay điều kiện nếu cần (vd: == 0 hoặc >= 100000)
+        ->delete();
 
         DB::commit();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Order placed successfully',
-            'order_id' => $order->order_id,
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => 'Order placed successfully',
+        //     'order_id' => $order->order_id,
+        // ]);
+        session()->flash('alert', [
+           'type' => 'success',
+            'title' => 'Đơn hàng đã đặt thành công!',
+            'message' => 'Cám ơn bạn đã đặt hàng!'
+            
         ]);
+        return redirect()->route('home');
     } catch (\Exception $e) {
         DB::rollBack();
 

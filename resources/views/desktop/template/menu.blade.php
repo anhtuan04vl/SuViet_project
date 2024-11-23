@@ -65,8 +65,8 @@
 
             <!-- logo -->
             <div class="logo">
-                <a href="{{ route('home') }}" class="flex justify-center"> <img src="../img/Logo (1).png"
-                        alt="" class="/w-[70%] sm:w-full"></a>
+                <a href="{{ route('home') }}" class="flex justify-center"> <img src="../img/Logo (1).png" alt=""
+                        class="/w-[70%] sm:w-full"></a>
             </div>
             <!-- menu -->
             <div class="menu_des hidden lg:flex gap-8 items-center ">
@@ -100,6 +100,9 @@
                         <li><a href="{{ route('blog') }}"
                                 class="text-black font-el font-semibold text-[13px] 2xl:text-base hover:text-cmain flex items-center gap-1">Tin
                                 tức</a></li>
+                        <li><a href="{{ route('wishlist.index') }}"
+                                class="text-black font-el font-semibold text-[13px] 2xl:text-base hover:text-cmain flex items-center gap-1">
+                                Yêu thích</a></li>
                         <li><a href="{{ route('contact') }}"
                                 class="text-white font-el font-semibold text-[13px] 2xl:text-base px-5 py-3 rounded-[10px] bg-[#194569] flex items-center gap-1">Liên
                                 hệ ngay</a></li>
@@ -128,6 +131,13 @@
                                         </clipPath>
                                     </defs>
                                 </svg>
+                                <!-- Hiển thị số lượng sản phẩm -->
+                                @if ($cartCount > 0)
+                                    <span
+                                        class="absolute -top-2 -right-2 bg-cmain text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                                        {{ $cartCount }}
+                                    </span>
+                                @endif
                             </a>
                         @else
                             <a href="{{ route('loginUsers') }}"><svg width="25" height="24"

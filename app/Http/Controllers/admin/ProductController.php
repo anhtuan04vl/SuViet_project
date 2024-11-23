@@ -33,7 +33,7 @@ class ProductController extends Controller
         }
 
        // Lấy danh sách sản phẩm đã được áp dụng sắp xếp và giới hạn
-        $listproduct = $query->latest()->take(12)->get();
+        $listproduct = $query->latest()->paginate(12);
 
         // Kiểm tra xem có phải là request AJAX không
         if ($request->ajax()) {

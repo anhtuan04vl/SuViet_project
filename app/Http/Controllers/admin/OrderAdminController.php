@@ -40,19 +40,25 @@ class OrderAdminController extends Controller
     }
 
     // Cập nhật trạng thái đơn ha
-    public function updateStatus(Request $request, $orderId)
-    {
-        $order = Order::find($orderId);
-        if (!$order) {
-            return response()->json(['success' => false, 'message' => 'Không tìm thấy đơn hàng.']);
-        }
+    public function updateStatus(Request $request)
+{
+    $request->validate([
+        'order_id' => 'required|exists:orders,id',
+        'order_status_id' => 'required|string|max:255',
+    ]);
 
-        // Cập nhật trạng thái đơn hàng
-        $order->status = $request->input('status'); // Cập nhật trạng thái
+    try {
+        // Tìm đơn hàng và cập nhật trạng thái
+        $order = Order::find($request->order_id);
+        $order->order_status_id = $request->order_status_id;
         $order->save();
 
-        return response()->json(['success' => true, 'message' => 'Trạng thái đã được cập nhật.', 'status' => $order->status]);
+        return response()->json(['success' => true, 'message' => 'Trạng thái đã được cập nhật']);
+    } catch (\Exception $e) {
+        return response()->json(['success' => false, 'message' => 'Cập nhật thất bại', 'error' => $e->getMessage()]);
     }
+}
+
 
     
 }

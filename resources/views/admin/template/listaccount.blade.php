@@ -10,7 +10,6 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#">Bảng điều khiển</a></li>
-            <li class="breadcrumb-item"><a href="#">Tài Khoản</a></li>
             <li class="breadcrumb-item active" aria-current="page">Danh sách tài khoản</li>
         </ol>
     </nav>
@@ -20,6 +19,22 @@
             <!-- Nút thêm mới tài khoản -->
             <a class="btn btn-success" href=""><i class="fas fa-plus"></i> Thêm mới</a>
         </div>
+        @if (session('alert'))
+        <script>
+            const alert = @json(session('alert'));
+
+            // Kiểm tra loại thông báo và hiển thị bằng SweetAlert2
+            Swal.fire({
+                icon: alert.type,  // success, error, warning, info, ...
+                title: alert.title, // Tiêu đề thông báo
+                text: alert.message, // Nội dung thông báo
+                timer: 3000, // Tự động đóng sau 3 giây
+                showConfirmButton: false // Ẩn nút xác nhận
+            });
+            console.log(Swal); 
+
+        </script>
+        @endif
         <div class="table-responsive">
             <table class="table text-start align-middle table-bordered table-hover mb-0">
                 <thead>
@@ -43,8 +58,10 @@
                         <td>{{ $v->updated_at->format('d/m/Y') }}</td>
                         <td>{{ $v->email }}</td>
                         <td>{{ $v->fullname}}</td>
-                        <td>{{ $v->role }}</td>
-                        <td><a class="btn btn-sm w-100 btn-primary" href="update_form.html">Cập Nhật</a></td>
+                        <td><span class="{{ $v->role == 1 ? 'text-blue-600 fw-bold' : 'text-secondary' }}">
+                            {{ $v->role == 1 ? 'Quản trị viên' : 'Người dùng' }}
+                        </span></td>
+                        <td><a class="btn btn-sm w-100 btn-primary" href="{{ route('updateaccount', $v->users_id) }}">Cập Nhật</a></td>
                     </tr>
                     @endforeach
                 </tbody>

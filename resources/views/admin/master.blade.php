@@ -11,6 +11,7 @@
     <meta content="" name="description">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+
     <!-- Favicon -->
     <!-- <link href="img/Logo.png" rel="icon"> -->
 
@@ -26,6 +27,11 @@
     <!-- Gọi file admin.js chứa Bootstrap -->
     @vite('resources/js/admin.js') 
     @vite('resources/css/admin.css')
+    @vite('resources/js/category.js')
+    @vite('resources/js/app.js')
+
+<!-- Thêm SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
 <body class="/bg-gray-100 font-sans leading-normal tracking-normal">
@@ -51,7 +57,10 @@
 
     <!-- JavaScript Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+
+    
+
 
 
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script> -->

@@ -124,7 +124,10 @@
             </tbody>
         </table>
     </div>
-
+    <!-- Thêm phân trang dưới bảng -->
+    <div class="pagination d-flex justify-content-end">
+        {{ $listproduct->links('pagination::bootstrap-4') }}
+    </div>
 
 </div>
 @endsection

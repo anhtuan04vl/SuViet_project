@@ -17,5 +17,8 @@ class CategoryModel extends Model
     {
         return $this->hasMany(ProductModel::class, 'category_id');
     }
-    
+    public function getProductsCountAttribute()
+    {
+        return $this->products()->count();
+    }
 }

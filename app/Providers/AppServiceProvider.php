@@ -7,7 +7,9 @@ use App\Models\Product;
 use App\Http\Controllers\admin\SliderController;
 use App\Models\Slider;
 use App\Models\Cart;
+use App\Models\CartDetail;
 use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -26,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        view()->share('products', Product::all());
         view()->composer('*', function($view){
             $categoriess=Category::all();
             $view->with(compact('categoriess'));
@@ -56,6 +59,23 @@ class AppServiceProvider extends ServiceProvider
             $collection=Product::all()->take(8);
             $view->with(compact('collection'));
         });
+
+
+        //show số lượng sp trong cart
+        view()->composer('*', function ($view) {
+            $userId = Auth::id();
+            $cartCount = 0;
+
+            if ($userId) {
+                $cart = Cart::where('users_id', $userId)->first();
+                if ($cart) {
+                    $cartCount = CartDetail::where('cart_id', $cart->cart_id)->sum('quantity');
+                }
+            }
+
+            $view->with('cartCount', $cartCount);
+        });
+
         //cart
         // view()->composer('*', function($view){
         //     $cart=Cart::all();

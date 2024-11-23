@@ -83,7 +83,7 @@
                         <!-- Hình ảnh sản phẩm -->
                         <div class="mb-3">
                             <label for="img" class="form-label">Hình ảnh sản phẩm</label>
-                            <input type="file" class="form-control" id="img" name="img">
+                            <input type="file" class="form-control" id="img" name="img" value="{{ old('img', $updateproduct->img) }}">
                             @if($updateproduct->img)
                                 <img src="{{ asset('img/images/' . $updateproduct->img) }}" width="100" alt="Product Image">
                             @endif
