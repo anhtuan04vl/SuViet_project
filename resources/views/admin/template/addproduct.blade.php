@@ -14,7 +14,7 @@
     </nav>
     <div class="row justify-content-center">
         <!-- Form Cập nhật tài khoản -->
-        <div class="col-lg-7 col-md-12 col-sm-12">
+        <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="card shadow-sm mb-4">
                 <div class="card-header bg-primary text-white">
                     <h4 class="mb-0">Thêm sản phẩm</h4>
@@ -51,13 +51,28 @@
                             <label for="gia" class="form-label">Nhập giá sản phẩm</label>
                             <input type="text" class="form-control" id="price" name="price" placeholder="Nhập giá sản phẩm" required>
                         </div>
+                        <!-- Giá cũ -->
                         <div class="mb-3">
                             <label for="gia_cu" class="form-label">Nhập giá cũ</label>
                             <input type="text" class="form-control" id="gia_cu" name="gia_cu" placeholder="Nhập giá cũ sản phẩm">
                         </div>
+                        <!-- Số lượng -->
+                        <div class="mb-3">
+                            <label for="quantity" class="form-label">Nhập số lượng sản phẩm</label>
+                            <input type="text" class="form-control" id="quantity" name="quantity" placeholder="Nhập số lượng sản phẩm">
+                        </div>
+                        <!-- Danh mục sản phẩm -->
                         <div class="mb-3">
                             <label for="category_id" class="form-label">Danh mục sản phẩm</label>
-                            <input type="text" class="form-control" id="category_id" name="category_id" placeholder="Nhập danh mục sản phẩm" required>
+                            <select class="form-control" id="category_id" name="category_id" required>
+                                <option value="">Chọn danh mục</option>  <!-- Tuỳ chọn mặc định -->
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->category_id }}" 
+                                            {{ old('category_id') == $category->category_id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="img" class="form-label">Hình ảnh sản phẩm</label>
@@ -65,10 +80,10 @@
                         </div>
                         <!-- Trạng thái -->
                         <div class="mb-3">
-                            <label for="status" class="form-label">Trạng thái</label>
-                            <select class="form-select" id="status" name="status" required>
-                                <option value="active">Hiện</option>
-                                <option value="inactive">Ẩn</option>
+                            <label for="is_show" class="form-label">Trạng thái</label>
+                            <select class="form-select" id="is_show" name="is_show" required>
+                                <option value="1" {{ old('is_show') == 1 ? 'selected' : '' }}>Hiện</option>
+                                <option value="0" {{ old('is_show') == 0 ? 'selected' : '' }}>Ẩn</option>
                             </select>
                         </div>
                         <!-- Nút Lưu và Quay lại -->
@@ -81,49 +96,7 @@
             </div>
         </div>
 
-        <!-- Form Cập nhật hình ảnh -->
-        <div class="col-lg-5 col-md-12 col-sm-12 ">
-            <!-- Hinh anh chinh -->
-            <div class="card shadow-sm">
-                <div class="card-header bg-secondary text-white">
-                    <h4 class="mb-0">Cập nhật hình ảnh</h4>
-                </div>
-                <div class="card-body text-center">
-                    <!-- Hình ảnh hiện tại -->
-                    <img src="https://via.placeholder.com/150" alt="Hình ảnh tài khoản" class="img-fluid rounded mb-3" id="current-image">
-                    
-                    <!-- Form chọn ảnh mới -->
-                    <form action="#" method="POST" enctype="multipart/form-data">
-                        <div class="mb-3">
-                            <label for="profileImage" class="form-label">Chọn hình ảnh mới</label>
-                            <input class="form-control" type="file" id="profileImage" name="profileImage" accept="image/*" required>
-                        </div>
-                        <!-- Nút cập nhật hình ảnh -->
-                        <button type="submit" class="btn btn-success"><i class="fas fa-upload"></i> Cập nhật hình ảnh</button>
-                    </form>
-                </div>
-            </div>
-            <!-- Hinh anh phu -->
-            <div class="card shadow-sm mt-5">
-                <div class="card-header bg-secondary text-white">
-                    <h4 class="mb-0">Cập nhật hình ảnh</h4>
-                </div>
-                <div class="card-body text-center">
-                    <!-- Hình ảnh hiện tại -->
-                    <img src="https://via.placeholder.com/150" alt="Hình ảnh tài khoản" class="img-fluid rounded mb-3" id="current-image">
-                    
-                    <!-- Form chọn ảnh mới -->
-                    <form action="#" method="POST" enctype="multipart/form-data">
-                        <div class="mb-3">
-                            <label for="profileImage" class="form-label">Chọn hình ảnh mới</label>
-                            <input class="form-control" type="file" id="profileImage" name="profileImage" accept="image/*" required>
-                        </div>
-                        <!-- Nút cập nhật hình ảnh -->
-                        <button type="submit" class="btn btn-success"><i class="fas fa-upload"></i> Cập nhật hình ảnh</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+       
     </div>
 </div>
 @endsection

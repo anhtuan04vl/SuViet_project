@@ -13,13 +13,13 @@
                 <span class="flex w-1 h-1 bg-cmain rounded-full "></span>
             </li>
             <li>
-                <a href="#" class="text-gray-700 hover:text-gray-900">Tài khoản</a>
+                <a href="{{ route('show_cart', ['users_id' => Auth::id()]) }}" class="text-gray-700 hover:text-gray-900">Giỏ hàng</a>
             </li>
             <li>
                 <span class="flex w-1 h-1 bg-cmain rounded-full "></span>
             </li>
             <li>
-                <a href="#" class="text-gray-700 hover:text-gray-900">Đơn mua</a>
+                <a href="#" class="text-gray-700 hover:text-gray-900">Thanh toán</a>
             </li>
         </ol>
     </nav>
