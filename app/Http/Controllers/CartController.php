@@ -29,29 +29,13 @@ class CartController extends Controller
         return CartDetail::where('cart_id', $cart->cart_id)->sum('quantity');
     }
 
+
     // Show cart for a specific user by their user ID
     public function showCart($users_id)
     {
-        $currentUserId = auth()->id();
-
-        // Fetch the cart for the authenticated user
-        $cart = Cart::with('details.product')->where('users_id', $currentUserId)->first();
-
-        if (!$cart) {
-            return view('desktop.template.cart', [
-                'cart' => null,
-                'message' => 'Giỏ hàng của bạn hiện đang trống.'
-            ]);
-        }
-
-        return view('desktop.template.cart', [
-            'cart' => $cart,
-            'message' => null
-        ]);
         // Fetch the cart for the user with the given ID
-        $cart = Cart::with('details')->where('users_id', $users_id)->first();
+        $cart = Cart::with('details.product')->where('users_id', $users_id)->first();
 
-        // Check if the cart exists
         if (!$cart) {
             // If the cart is empty, return the view with a message
             return view('desktop.template.cart', [
@@ -60,16 +44,11 @@ class CartController extends Controller
             ]);
         }
 
-        // If the cart has products, return the view with the cart data
         return view('desktop.template.cart', [
-            'cart' => $cart, // Assign the cart to $cart
-            'message' => null // No message to display
+            'cart' => $cart,
+            'message' => null
         ]);
-        foreach ($cart->details as $detail) {
-            $totalPrice += $detail->price * $detail->quantity;
-        }
     }
-
 
 
     public function addToCart(Request $request)

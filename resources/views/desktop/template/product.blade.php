@@ -85,10 +85,10 @@
                     </a>
                     <div class="ttl_1 swipers-slide flex flex-col items-center">
                         <a href="{{ route('product_detail', ['product_id' => $aP->product_id]) }}"
-                            class="font-el font-extrabold text-base text-center truncate">{{ $aP->name }}</a>
-                        <p class="text-cmain3 text-sm font-el py-2 line-clamp-2 h-12 overflow-hidden text-center ">
+                            class="font-el font-extrabold text-base text-center truncate h-6 overflow-hidden">{{ $aP->name }}</a>
+                        <!-- <p class="text-cmain3 text-sm font-el py-2 line-clamp-2 h-12 overflow-hidden text-center ">
                             {{ $aP->description }}
-                        </p>
+                        </p> -->
                         <p class="font-el font-extrabold text-base text-cmain">{{ number_format($aP->price) }} VNĐ</p>
                         <div class="flex items-center justify-center gap-4">
                             <form action="{{ route('add_to_cart') }}" method="POST">

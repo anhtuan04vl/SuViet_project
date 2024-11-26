@@ -12,7 +12,8 @@ class WishlistController extends Controller
     // Hiển thị trang wishlist
     public function index()
     {
-        $userId = Auth::id();
+        // Lỗi người dùng
+        $userId = auth('users')->id();
 
         // Kiểm tra nếu người dùng đã đăng nhập
         if (!$userId) {

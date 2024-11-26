@@ -19,7 +19,7 @@
         icon: alert.type,  // success, error, warning, info, ...
         title: alert.title, // Tiêu đề thông báo
         text: alert.message, // Nội dung thông báo
-        timer: 5000, // Tự động đóng sau 5 giây
+        timer: 3000, // Tự động đóng sau 5 giây
         showConfirmButton: false // Ẩn nút xác nhận
     });
     console.log(Swal); 
@@ -162,7 +162,7 @@
                 </div>
                 <!--  -->
                 <div class="/container-main relative z-10 mt-5">
-                    <div class="flex flex-wrap gap-y-10 md:gap-y-20 justify-between /absolute top-0 gap-x-6 800:gap-x-2">
+                    <div class="flex flex-wrap gap-y-10 md:gap-y-10 justify-between  /absolute top-0 gap-x-6 800:gap-x-2">
                         <!-- Show 4 sản phẩm bằng view3 trong provider -->
                         @foreach ($collection as $bst)
                             <div class="box1 swipers-slide  w-[40%] md:w-[30%] 800:w-[23%] flex flex-col items-center h-75">
@@ -171,12 +171,16 @@
                                         class="h-48 w-auto lg:object-cover object-contain"></a>
                                 <div class=" ttl_1 flex flex-col items-center">
                                     <a href="{{ route('product_detail', ['product_id' => $bst->product_id]) }}"
-                                        class="font-el font-extrabold text-base text-center">{{ $bst->name }}</a>
+                                        class="font-el font-extrabold text-base text-center h-6 overflow-hidden">{{ $bst->name }}</a>
                                     <p
                                         class="text-cmain3 text-sm font-el py-2 line-clamp-2 h-12 overflow-hidden text-center ">
                                         {{ $bst->description }}</p>
-                                    <p class="font-el font-extrabold text-base text-cmain">
-                                        {{ number_format($bst->price) }} VNĐ</p>
+                                    <div class="flex flex-row items-center  gap-2">
+                                        <p class="font-el font-extrabold text-[18px] text-cmain mt-2">Giá:
+                                            {{ number_format($bst->price) }} VNĐ</p>
+                                        <p class="font-el line-through font-extrabold text-[10px] text-cmain2 mt-2">Giá cũ:
+                                        {{ number_format($bst->gia_cu) }} VNĐ</p>
+                                    </div>
                                     <div class="flex items-center justify-center gap-4">
                                         <form action="{{ route('add_to_cart') }}" method="POST">
                                             @csrf

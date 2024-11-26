@@ -178,7 +178,7 @@
                         </div>
                     </div>
 
-                     <button type="submit" class="w-full bg-cmain text-white py-2 rounded-lg mt-4">Cập nhật thông tin</button>
+                     <!-- <button type="submit" class="w-full bg-cmain text-white py-2 rounded-lg mt-4">Cập nhật thông tin</button> -->
                 </div>
                 
                 <!-- Order Summary -->
@@ -217,17 +217,20 @@
 
                     <div class="mb-6 flex justify-between">
                         <span class="text-lg font-semibold text-gray-800">Tổng thanh toán:</span>
-                        <!-- <span class="text-lg font-semibold text-gray-800">{{ number_format($totalPrice + 40000, 0, ',', '.') }} VNĐ</span> -->
-                        <span class="text-lg font-semibold text-gray-800" id="discountedTotal"></span>
+                        <span class="text-lg font-semibold text-gray-800">{{ number_format($totalPrice + 40000, 0, ',', '.') }} VNĐ</span>
+                        <!-- <span class="text-lg font-semibold text-gray-800" id="discountedTotal"></span> -->
                     </div>
 
-                    <button type="submit" name="cod" class="w-full bg-cmain text-white py-2 rounded-lg">Thanh Toán</button>
+                    <button type="submit" name="" class="w-full bg-cmain text-white py-2 rounded-lg">Thanh Toán</button>
                     <hr>
-                    <button type="submit" name="vn_pay" class="w-full bg-cmain text-white py-2 rounded-lg">Thanh Toán qua VN Pay</button>
+                   
                 </div>
             </div>
         </form>
-        
+                    <!-- <form action="{{ route('payment', ['users_id' => Auth::id()]) }} " method="POST" >
+                        @csrf
+                        <button type="submit" name="redirect" class="w-full bg-cmain text-white py-2 rounded-lg">Thanh Toán qua VN Pay</button>  
+                    </form> -->
     </div>
     <!-- END THANH TOAN -->
 
@@ -240,6 +243,5 @@
         console.log(discountedTotal);
         document.getElementById('discount').textContent = `${formatNumber(price.discount)} VNĐ`;
         document.getElementById('discountedTotal').textContent = `${formatNumber(discountedTotal+40000)} VNĐ`;
-
     </script>
 @endsection

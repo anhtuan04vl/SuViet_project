@@ -16,7 +16,22 @@
     <div class="row">
       <!-- Left Panel -->
         
+      @if (session('alert'))
+    <script>
+        const alert = @json(session('alert'));
 
+        // Kiểm tra loại thông báo và hiển thị bằng SweetAlert2
+        Swal.fire({
+            icon: alert.type,  // success, error, warning, info, ...
+            title: alert.title, // Tiêu đề thông báo
+            text: alert.message, // Nội dung thông báo
+            timer: 5000, // Tự động đóng sau 3 giây
+            showConfirmButton: false // Ẩn nút xác nhận
+        });
+        console.log(Swal); 
+
+    </script>
+    @endif
       <!-- Right Panel -->
         <div class="col-lg-12">
             <div class="card">  
@@ -45,10 +60,20 @@
                                 <option value="0" {{ $formupdateuser->role == 0 ? 'selected' : '' }}>Người dùng</option>
                             </select>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="password" class="form-label">Mật khẻu</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
-                        </div>
+                        <!-- <div class="col-md-6 mb-3 position-relative">
+                        <label for="role" class="form-label">Mật khẩu hiện tại</label>
+                            <input id="password-field" name="password" value="{{ old('password', $formupdateuser->password)}}" type="password" class="form-control" placeholder="Mật khẩu" required>
+                            <a class="btn position-absolute top-new new-end translate-middle-y" onclick="togglePasswordVisibility()">
+                                <i class="bi bi-eye-slash" id="eye-icon"></i>
+                            </a>
+                        </div>    -->
+                        <div class="col-md-6 mb-3 position-relative">
+                        <label for="role" class="form-labe">Mật khẩu mới</label>
+                            <input id="password-field" name="password" type="password" class="form-control" placeholder="Mật khẩu" >
+                            <a class="btn position-absolute top-new new-end  translate-middle-y" onclick="togglePasswordVisibility()">
+                                <i class="bi bi-eye-slash" id="eye-icon"></i>
+                            </a>
+                        </div>   
                     </div>
 
                     <h5 class="text-primary mt-4 mb-3">Hình ảnh đại diện</h5>
@@ -90,3 +115,31 @@
     </div>
 </div>
 @endsection
+
+<style>
+    .new-end{
+        right: 10 !important;
+    }
+    .top-new{
+        top: 70% !important    
+    }
+</style>
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  function togglePasswordVisibility() {
+    const passwordField = document.getElementById('password-field');
+    const eyeIcon = document.getElementById('eye-icon');
+
+    // Kiểm tra và thay đổi loại của ô mật khẩu
+    if (passwordField.type === "password") {
+      passwordField.type = "text"; // Hiển thị mật khẩu
+      eyeIcon.classList.replace('bi-eye-slash', 'bi-eye'); // Chuyển icon thành bi-eye
+    } else {
+      passwordField.type = "password"; // Ẩn mật khẩu
+      eyeIcon.classList.replace('bi-eye', 'bi-eye-slash'); // Chuyển icon thành bi-eye-slash
+    }
+  }
+</script>
+@endpush

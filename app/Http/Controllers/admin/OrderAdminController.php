@@ -13,8 +13,9 @@ class OrderAdminController extends Controller
 {
     public function showlistorders()
     {
-        $showlistorders = Order::latest()->paginate(10); // Lấy danh sách đơn hàng, phân trang 10 đơn hàng mỗi trang
-        return view('admin.template.donhang', compact('showlistorders'));
+        $showlistorders = Order::with('status')->latest()->paginate(10); // Lấy danh sách đơn hàng kèm trạng thái, phân trang 10 đơn hàng mỗi trang
+        $statuses = OrderStatus::all(); // Lấy tất cả trạng thái từ bảng order_statuses
+        return view('admin.template.donhang', compact('showlistorders', 'statuses'));
     }
 
     // public function showorderdetail($id)
@@ -40,24 +41,25 @@ class OrderAdminController extends Controller
     }
 
     // Cập nhật trạng thái đơn ha
-    public function updateStatus(Request $request)
-{
-    $request->validate([
-        'order_id' => 'required|exists:orders,id',
-        'order_status_id' => 'required|string|max:255',
-    ]);
+    public function updateStatus(Request $request, $orderId)
+    {
+        // Tìm đơn hàng theo ID
+        $order = Order::findOrFail($orderId);
 
-    try {
-        // Tìm đơn hàng và cập nhật trạng thái
-        $order = Order::find($request->order_id);
+        // Kiểm tra trạng thái mới có tồn tại không
+        $status = OrderStatus::find($request->order_status_id);
+        if (!$status) {
+            return response()->json(['message' => 'Trạng thái không hợp lệ!'], 400);
+        }
+
+        // Cập nhật trạng thái
         $order->order_status_id = $request->order_status_id;
+        $order->updated_at = now(); // Cập nhật thời gian
         $order->save();
 
-        return response()->json(['success' => true, 'message' => 'Trạng thái đã được cập nhật']);
-    } catch (\Exception $e) {
-        return response()->json(['success' => false, 'message' => 'Cập nhật thất bại', 'error' => $e->getMessage()]);
+        return response()->json(['message' => 'Cập nhật trạng thái thành công!']);
     }
-}
+
 
 
     

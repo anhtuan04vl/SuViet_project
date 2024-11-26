@@ -18,7 +18,7 @@
                     <span class="flex w-1 h-1 bg-cmain rounded-full "></span>
                 </li>
                 <li>
-                    <a href="/listcate" class="text-gray-700 hover:text-gray-900">{{$category->name}}</a>
+                    <a href="/listcate/{{$category->id}}" class="text-gray-700 hover:text-gray-900">Danh Mục {{$category->name}}</a>
                 </li>
             </ol>
         </nav>

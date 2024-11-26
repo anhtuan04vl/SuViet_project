@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\admin\ProductModel;
 use App\Models\admin\CategoryModel;
+use Illuminate\Http\RedirectResponse;
+
+
+
 
 class ProductController extends Controller
 {
@@ -13,6 +17,7 @@ class ProductController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * 
      */
     public function listProduct(Request $request)
     {
@@ -58,17 +63,19 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
+    // public function create()
+    // {
+    //     //
+    // }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
-     */
+     
+    * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
+    */
     public function store(Request $request)
     {   
 
@@ -109,7 +116,7 @@ class ProductController extends Controller
             return redirect()->route('addproduct')->with('success', 'Sản phẩm đã được thêm thành công!');
         } catch (\Exception $e) {
             // Nếu có lỗi trong quá trình thêm sản phẩm, trả về thông báo lỗi
-            return back()->withErrors(['error' => 'Có lỗi khi thêm sản phẩm. Vui lòng thử lại.'])->withInput();
+            return response()->view('admin.template.addproduct', ['error' => 'Có lỗi khi thêm sản phẩm. Vui lòng thử lại.'])->withInput();
         }
     }
 
@@ -127,14 +134,16 @@ class ProductController extends Controller
         //     return redirect()->route('listproduct')->with('error', 'Sản phẩm không tồn tại.');
         // }
 
-        return view('admin.template.addproduct');
-    }
+        return response()->view('admin.template.addproduct');
+}
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
+
      */
     public function edit($product_id)
     {
@@ -146,7 +155,7 @@ class ProductController extends Controller
         }
     
         // Trả về view với dữ liệu sản phẩm
-        return view('admin.template.updateproduct', compact('updateproduct'));
+        return response()->view('admin.template.updateproduct', compact('updateproduct'));
     }
 
     /**
@@ -155,6 +164,7 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $product_id)
     {
@@ -217,6 +227,7 @@ class ProductController extends Controller
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {

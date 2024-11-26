@@ -34,6 +34,11 @@ Route::prefix('/')->group(function () {
     Route::get('/order/{users_id?}', [OrderController::class, 'showOrder'])->name('order');
     Route::post('/order/add', [OrderController::class, 'store'])->name('order.add');
     Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
+    //oder payment
+    Route::post('/payment', [OrderController::class, 'payment_vnpay'])->name('payment');
+    Route::get('/vnpay-return', [OrderController::class, 'vnpayReturn'])->name('vnpay.return');
+
+
     // Cart routes
     Route::get('/cart', [CartController::class, 'cart'])->name('cart');
     Route::post('/cart/add', [CartController::class, 'addToCart'])->name('add_to_cart');
@@ -97,6 +102,7 @@ Route::post('/forgot-password', [AdminController::class, 'sendResetPassword'])->
 Route::prefix('/admin')->middleware(['auth:admin', AdminMiddleware::class])->group(function () {
     //logout
     Route::post('/logoutAdmin', [AdminController::class, 'logoutAdmin'])->name('admin.logout');
+    
     //dashboard
     Route::get('/', [ProductController::class, 'newProducts'])->name('admin');
     //end dashboard
@@ -104,8 +110,8 @@ Route::prefix('/admin')->middleware(['auth:admin', AdminMiddleware::class])->gro
     //User----------------------------------------------------------------------------------
 
     Route::get('/listaccount', [UserController::class, 'listUsers'])->name('listaccount');
-    Route::get('/addaccount/{users_id}', [UserController::class, 'updateAccount'])->name('updateaccount');
-    Route::put('/addaccount/{users_id}', [UserController::class, 'updateAdminUser'])->name('user.updateAdminUser');
+    Route::get('/updateaccount/{users_id}', [UserController::class, 'updateAccount'])->name('updateaccount');
+    Route::put('/updateaccount/{users_id}', [UserController::class, 'updateAdminUser'])->name('user.updateAdminUser');
 
     //end user
 
@@ -114,7 +120,9 @@ Route::prefix('/admin')->middleware(['auth:admin', AdminMiddleware::class])->gro
     Route::get('/donhang', [OrderAdminController::class, 'showlistorders'])->name('donhang');
     // Route::post('/admin/donhang/update-status/{orderId}', [OrderAdminController::class, 'updateStatus'])->name('order.update-status');
     Route::get('/donhangchitietAdmin/{order_id}', [OrderAdminController::class, 'showorderdetail'])->name('admin.donhangchitiet');
-    Route::post('/orders/update-status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+    Route::post('/update-order-status/{order_id}', [OrderAdminController::class, 'updateStatus'])->name('update.order.status');
+
+
     //end order
 
     //Category--------------------------------------------------------------------------------

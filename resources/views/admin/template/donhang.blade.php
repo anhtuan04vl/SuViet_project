@@ -5,6 +5,23 @@
 @section('content')
 <div class="container mt-5">
         <h2 class="mb-4">Quản lý hóa đơn</h2>
+
+        @if (session('alert'))
+        <script>
+            const alert = @json(session('alert'));
+
+            // Kiểm tra loại thông báo và hiển thị bằng SweetAlert2
+            Swal.fire({
+                icon: alert.type,  // success, error, warning, info, ...
+                title: alert.title, // Tiêu đề thông báo
+                text: alert.message, // Nội dung thông báo
+                timer: 5000, // Tự động đóng sau 3 giây
+                showConfirmButton: false // Ẩn nút xác nhận
+            });
+            console.log(Swal); 
+
+        </script>
+        @endif
         <table class="table table-bordered /table-hover text-center align-middle">
             <thead class="table-light">
                 <tr>
@@ -19,7 +36,7 @@
                 </tr>
             </thead>
             <tbody >
-                <!-- Dòng dữ liệu mẫu -->
+                <!-- Dòng dữ liệu -->
                 @foreach ($showlistorders as $v)
                 <tr class="align-middle">
                     <!-- <td>{{ $v->order_id }}</td> -->
@@ -48,12 +65,16 @@
                             <span class="badge bg-danger">{{ $v->status->name }}</span>
                         @endif
                     </td>
+                    <!-- Dropdown cập nhật trạng thái -->
                     <td>
-                        <select class="form-select form-select-sm" onchange="updateStatus({{ $v->order_id }}, this)">
-                            <option>Xử lý</option>
-                            <option value="Đã giao hàng" {{ $v->status == 'Đã giao hàng' ? 'selected' : '' }}>Đã giao hàng</option>
-                            <option value="Hủy bỏ" {{ $v->status == 'Hủy bỏ' ? 'selected' : '' }}>Hủy bỏ</option>
-                            <option value="Chưa giải quyết" {{ $v->status == 'Chưa giải quyết' ? 'selected' : '' }}>Chưa giải quyết</option>
+                        <select class="form-select form-select-sm" onchange="updateStatus({{ $v->order_id }}, this.value)">
+                            <option value="">Chọn trạng thái</option>
+                            @foreach ($statuses as $status)
+                                <option value="{{ $status->order_status_id }}" 
+                                        {{ $v->order_status_id == $status->order_status_id ? 'selected' : '' }}>
+                                    {{ $status->name }}
+                                </option>
+                            @endforeach
                         </select>
                     </td>
 
@@ -88,33 +109,37 @@
  </style>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-    function updateStatus(orderId, selectElement) {
-    const newStatus = selectElement.value;
+   
 
-    // Gửi yêu cầu AJAX
-    fetch(`/admin/orders/update-status`, {
-        method: 'POST',
+    <script>
+       function updateStatus(orderId, statusId) {
+    if (!statusId) return;
+
+    // Log ra URL để kiểm tra
+    console.log(`/update-order-status/${orderId}`);
+
+    fetch(`/admin/update-order-status/${orderId}`, {
+        method: "POST",
         headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
         },
-        body: JSON.stringify({
-            order_id: orderId,
-            order_status_id: newStatus,
-        }),
+        body: JSON.stringify({ order_status_id: statusId }),
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert('Cập nhật trạng thái thành công!');
-        } else {
-            alert('Cập nhật thất bại. Vui lòng thử lại!');
-        }
+    .then((response) => {
+        if (!response.ok) throw new Error("Cập nhật thất bại");
+        return response.json();
     })
-    .catch(error => {
-        console.error('Lỗi:', error);
-        alert('Đã xảy ra lỗi khi cập nhật trạng thái.');
+    .then((data) => {
+        session()->flash('alert', [
+        'type' => 'success',
+        'title' => 'Thành công!',
+        'message' => 'Cập nhật trạng thái thành công!'
+    ]);
+    })
+    .catch((error) => {
+        console.error(error);
+        alert("Có lỗi xảy ra khi cập nhật trạng thái.");
     });
 }
 
