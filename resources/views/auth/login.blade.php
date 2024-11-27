@@ -51,7 +51,9 @@
                                 <div class="text-red-600 text-sm mt-2">{{ $message }}</div>
                             @enderror
                         </div>
-
+                        <div>
+                            <a href="{{route('password.request')}}">Quên mật khẩu?</a>
+                        </div>
                         <button type="submit" class="w-full bg-blue-600 text-white rounded-lg py-3 font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600">Đăng nhập</button>
                     </form>
                 </div>
