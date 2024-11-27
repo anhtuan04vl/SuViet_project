@@ -96,43 +96,56 @@ class UsersController extends Controller
 
     public function showOrderDetail(Request $request)
     {
-        $statuses = OrderStatus::all(); // Lấy danh sách trạng thái
-        $statusId = $request->get('order_status_id', null);
+        $userId = Auth::id();
+        $statuses = OrderStatus::all(); // Get list of statuses
+        $order_status_id = $request->get('order_status_id', null);
 
-        // Truy vấn các đơn hàng theo trạng thái
-        $orders = Order::query()
-            ->where('users_id', auth()->id())
-            ->when($statusId, function ($query) use ($statusId) {
-                return $query->where('order_status_id', $statusId);
-            })
-            ->with(['user', 'status', 'orderItems.product'])
-            ->get();
+        // Fix column name (assuming it's 'user_id', not 'users_id')
+        $query = Order::where('users_id', $userId); // Adjust column name if necessary
 
-        return view('desktop.template.account.orderupdate', compact('statuses', 'statusId', 'orders'));
+        if ($order_status_id !== null) {
+            $query->where('order_status_id', $order_status_id); // Only filter by status if it's not null
+        }
+
+        // Eager load relationships
+        $orders = $query->with(['user', 'status', 'orderItems.product'])->get();
+
+       /*  return response()->json([
+            'statuses' => $statuses,
+            'order_status_id' => $order_status_id,
+            'orders' => $orders
+        ]); */
+        return view('desktop.template.account.orderupdate', compact('statuses', 'order_status_id', 'orders'));
     }
 
 
-    public function filterByStatus($statusId)
+
+    public function filterOrders(Request $request)
     {
-        $userId = auth()->id();
 
-        // Kiểm tra xem user đã đăng nhập chưa
-        if (!$userId) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+        $userId = Auth::id();
+        $statuses = OrderStatus::all();
+        $order_status_id = $request->get('order_status_id', null);
+        $query = Order::where('users_id', $userId);
+
+        // If an order status ID is provided, filter by status
+        if ($order_status_id !== null) {
+            $query->where('order_status_id', $order_status_id);
         }
 
-        // Lọc đơn hàng theo userId và statusId
-        $orders = Order::where('users_id', $userId)
-                    ->where('order_status_id', $statusId)
-                    ->with(['user', 'status', 'orderItems.product'])
-                    ->get();
+        // Eager load relationships to avoid N+1 queries
+        $orders = $query->with(['user', 'status', 'orderItems.product'])->get();
 
-        if ($orders->isEmpty()) {
-            return response()->json(['message' => 'Không có đơn hàng nào cho trạng thái này.'], 200);
-        }
-
-        return response()->json(['orders' => $orders], 200);
+        return response()->json([
+            'statuses' => $statuses,
+            'order_status_id' => $order_status_id,
+            'orders' => $orders
+        ]);
     }
+
+
+
+
 
 
 }

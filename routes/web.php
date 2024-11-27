@@ -61,7 +61,8 @@ Route::prefix('/')->group(function () {
     Route::get('/userupdate/{users_id}', [UsersController::class, 'showUser'])->name('update.showUser');
     Route::put('/user/update/{users_id}', [UsersController::class, 'updateUser'])->name('update.updateUser');
     Route::get('/orders', [UsersController::class, 'showOrderDetail'])->name('update.showoderdetail');
-    Route::get('orders/filter/{statusId}', [UsersController::class, 'filterByStatus'])->name('orders.filter');
+    Route::get('orders/filter', [UsersController::class, 'filterOrders'])->name('filter.orders');
+
 
 
 });

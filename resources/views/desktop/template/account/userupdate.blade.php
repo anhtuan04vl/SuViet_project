@@ -37,12 +37,12 @@
                 </div>
             </div>
             <ul class="flex flex-col gap-5">
-{{--                 <li><a href="#" class="flex items-center text-gray-700 hover:text-blue-500"><span class="mr-2">🔥</span>Ưu Đãi Dành Riêng Cho Bạn</a></li>
+                <li><a href="#" class="flex items-center text-gray-700 hover:text-blue-500"><span class="mr-2">🔥</span>Ưu Đãi Dành Riêng Cho Bạn</a></li>
                 <li><a href="#" class="flex items-center text-gray-700 hover:text-blue-500"><span class="mr-2">🎉</span>11.11 Sale Khủng Nhất Năm</a></li>
-                <li><a href="#" class="flex items-center text-gray-700 hover:text-blue-500"><span class="mr-2">👤</span>Tài Khoản Của Tôi</a></li> --}}
+                <li><a href="#" class="flex items-center text-gray-700 hover:text-blue-500"><span class="mr-2">👤</span>Tài Khoản Của Tôi</a></li>
                 <li><a href="{{ route('update.showoderdetail') }}" class="flex items-center text-red-500 font-semibold"><span class="mr-2">📦</span>Đơn Mua</a></li>
-{{--                 <li><a href="#" class="flex items-center text-gray-700 hover:text-blue-500"><span class="mr-2">🔔</span>Thông Báo</a></li>
-                <li><a href="#" class="flex items-center text-gray-700 hover:text-blue-500"><span class="mr-2">🎟️</span>Kho Voucher</a></li> --}}
+                <li><a href="#" class="flex items-center text-gray-700 hover:text-blue-500"><span class="mr-2">🔔</span>Thông Báo</a></li>
+                <li><a href="#" class="flex items-center text-gray-700 hover:text-blue-500"><span class="mr-2">🎟️</span>Kho Voucher</a></li>
             </ul>
         </div>
 
