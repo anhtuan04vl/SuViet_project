@@ -7,7 +7,12 @@
 @section('content')
 
 <div class="container mt-4">
-    <h4>Products</h4>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Bảng điều khiển</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Quản lý sản phẩm</li>
+        </ol>
+    </nav>
     <div class="d-flex justify-content-between align-items-center mb-3">
         <div>
             <button class="btn btn-outline-secondary btn-sm me-2">Xuất Excel</button>
@@ -193,37 +198,5 @@
        }
    });
 
-   // Hàm để gắn sự kiện cho các phần tử
-//    function attachEventListeners() {
-//        const checkboxes = document.querySelectorAll('.form-check-input');
-//        checkboxes.forEach(checkbox => {
-//            checkbox.addEventListener('change', function() {
-//                const productId = this.dataset.product_id;
-//                const isShow = this.checked ? 1 : 0;
-//                // Gửi AJAX request để cập nhật trạng thái is_show
-//                fetch(`/admin/update-show-status`, {
-//                    method: 'POST',
-//                    headers: {
-//                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-//                        'Content-Type': 'application/json',
-//                    },
-//                    body: JSON.stringify({
-//                        product_id: productId,
-//                        is_show: isShow,
-//                    })
-//                })
-//                .then(response => response.json())
-//                .then(data => {
-//                    if (data.success) {
-//                        console.log('Cập nhật trạng thái thành công!');
-//                    } else {
-//                        console.log('Cập nhật trạng thái thất bại.');
-//                    }
-//                })
-//                .catch(error => {
-//                    console.error('Error:', error);
-//                });
-//            });
-//        });
-//    }
+   
 </script>

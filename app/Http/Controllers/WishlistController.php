@@ -13,7 +13,7 @@ class WishlistController extends Controller
     public function index()
     {
         // Lỗi người dùng
-        $userId = auth('users')->id();
+        $userId = auth()->id();
 
         // Kiểm tra nếu người dùng đã đăng nhập
         if (!$userId) {

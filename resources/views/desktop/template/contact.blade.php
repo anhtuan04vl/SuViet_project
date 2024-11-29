@@ -61,6 +61,12 @@
                             <option>Investment Plan 3</option>
                         </select>
                     </div>
+
+                    <!-- Message -->
+                    <div class="mb-6">
+                        <label for="message" class="block text-lg font-medium mb-2">Nội dung</label>
+                        <textarea id="message" placeholder="Your Message" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"></textarea>
+                    </div>
                     
                     <!-- Submit button -->
                     <button type="submit" class="w-full py-3 mt-4 bg-gradient-to-r from-cmain to-pink-500 text-white font-semibold rounded-lg hover:from-pink-500 hover:to-orange-400 focus:outline-none focus:ring-2 focus:ring-pink-300">Send Message</button>

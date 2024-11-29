@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\admin\ProductModel;
 use App\Models\User;
+use App\Models\admin\Notification;
+
 
 use Illuminate\Support\Facades\Auth;
 
@@ -98,6 +100,6 @@ class AdminController extends Controller
     }
 
 
-
+        
 
 }

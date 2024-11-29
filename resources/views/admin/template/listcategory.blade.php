@@ -4,13 +4,21 @@
 
 
 @section('content')
+
+
 <div class="container my-4">
-    <h1>List Category</h1>
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Bảng điều khiển</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Quản lý danh mục</li>
+        </ol>
+    </nav>
 
     <!-- Add New and Delete All buttons -->
     <div class="d-flex gap-2 mb-3 justify-content-end">
         <a href="{{ route('addcategory') }}" class="btn btn-success btn-sm d-flex align-items-center"><i
-                class="bi bi-plus-lg me-2"></i>Add new</a>
+                class="bi bi-plus-lg me-2"></i>Thêm mới danh mục</a>
     </div>
     @if (session('alert'))
     <script>
@@ -68,6 +76,10 @@
                 <!-- Thêm các dòng khác tương tự -->
             </tbody>
         </table>
+    </div>
+    <!-- Thêm phân trang dưới bảng -->
+    <div class="pagination d-flex justify-content-end">
+        {{ $catelist->links('pagination::bootstrap-4') }}
     </div>
 </div>
 

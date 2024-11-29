@@ -5,12 +5,14 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Slider;
+use App\Models\Logo;
 
 class SliderController extends Controller
 {
+
     public function showSlider()
     {
-        $listslider = Slider::all();
+        $listslider = Slider::paginate(4);
         
         return view('admin.template.listslider', ['listslider' => $listslider]);
        
@@ -53,7 +55,6 @@ class SliderController extends Controller
         }
     }
 
-    
     // Hiển thị form chỉnh sửa slider
     public function edit($id)
     {

@@ -11,6 +11,10 @@ use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\SliderController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\OrderAdminController;
+use App\Http\Controllers\admin\NotificationController;
+use App\Http\Controllers\admin\DashboardController;
+use App\Http\Controllers\admin\LogoController;
+use App\Http\Controllers\admin\BlogController;
 
 // Web routes
 use App\Http\Controllers\HomeController;
@@ -22,7 +26,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\WishlistController;
 
 // Client Routes
-Route::prefix('/')->group(function () {
+Route::group(['name'=>'desktop'],function () {
 
     Route::get('/', [HomeController::class,'index'])->name('home');
     Route::get('/product', [SanphamController::class,'product'])->name('product');
@@ -104,8 +108,20 @@ Route::prefix('/admin')->middleware(['auth:admin', AdminMiddleware::class])->gro
     Route::post('/logoutAdmin', [AdminController::class, 'logoutAdmin'])->name('admin.logout');
     
     //dashboard
-    Route::get('/', [ProductController::class, 'newProducts'])->name('admin');
+        // Route::get('/', [DashboardController::class, 'newProducts'])->name('dashboard');
+        //thong bao
+        // Hiển thị thông báo chưa đọc
+        Route::get('/notifications', [NotificationController::class, 'showNotifications'])->name('admin.navbar');
+        Route::get('/notifications/{notificationId}/mark-as-read', [NotificationController::class, 'markNotificationAsRead'])->name('notifications.markAsRead');
+        //end thong bao
+        Route::get('/', [DashboardController::class, 'showthongke',])->name('admin');
+
+
     //end dashboard
+
+    //logo
+        Route::get('/listlogo', [LogoController::class, 'showlistlogo'])->name('listlogo');
+    //end logo
 
     //User----------------------------------------------------------------------------------
 
@@ -122,6 +138,7 @@ Route::prefix('/admin')->middleware(['auth:admin', AdminMiddleware::class])->gro
     Route::get('/donhangchitietAdmin/{order_id}', [OrderAdminController::class, 'showorderdetail'])->name('admin.donhangchitiet');
     Route::post('/update-order-status/{order_id}', [OrderAdminController::class, 'updateStatus'])->name('update.order.status');
 
+    // Route::get('/order-statistics', [OrderAdminController::class, 'statistics'])->name('order.statistics');
 
     //end order
 
@@ -156,8 +173,6 @@ Route::prefix('/admin')->middleware(['auth:admin', AdminMiddleware::class])->gro
     
     //end products
 
-    
-
 
     //Slider-----------------------------------------------------------------------------------
     Route::get('/listslider',[SliderController::class, 'showSlider'])->name('listsliders');
@@ -172,5 +187,18 @@ Route::prefix('/admin')->middleware(['auth:admin', AdminMiddleware::class])->gro
 
     Route::delete('/slider/{id}', [SliderController::class, 'destroy'])->name('slider.destroy');
     //end slider---------------------------------------------------------------------------------
+
+    //Blogs-------------------------------------------------------------------------------------
+    Route::get('/listblog', [BlogController::class, 'showlistblog'])->name('listblog');
+
+    Route::get('/addblog', function () {
+        return view('admin.template.addblogs');
+    })->name('addblogs');
+    // Route::post('/storeblog', [BlogController::class, 'storeblog'])->name('store.blog');
+    // Route để hiển thị form chỉnh sửa
+    // Route::get('/updateblog/{id}',[BlogController::class, 'edit'])->name('updateblog');
+    // Route::put('/updateblog/{id}', [BlogController::class, 'update'])->name('blog.update');
+    //end blog
+    
 });
 require __DIR__.'/auth.php';

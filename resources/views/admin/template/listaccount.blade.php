@@ -72,5 +72,10 @@
             <button class="btn btn-danger" id="delete-selected"><i class="fas fa-trash-alt"></i> Xóa tài khoản đã chọn</button>
         </div>
     </div>
+   <!-- Thêm phân trang dưới bảng -->
+   <div class="pagination d-flex justify-content-end mt-2">
+        {{ $users->links('pagination::bootstrap-4') }}
     </div>
+    </div>
+     
 @endsection

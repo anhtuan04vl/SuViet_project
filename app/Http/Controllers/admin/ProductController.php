@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\admin\ProductModel;
 use App\Models\admin\CategoryModel;
+use App\Models\Contact;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
 
 
 
@@ -17,7 +19,7 @@ class ProductController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
-     * 
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function listProduct(Request $request)
     {
@@ -50,25 +52,7 @@ class ProductController extends Controller
         return view('admin.template.listproduct', ['listproduct' => $listproduct]);
     }
     
-    public function newProducts()
-    {
-        // Lấy sản phẩm mới nhất (theo thứ tự created_at giảm dần)
-        $newproducts = ProductModel::with('category')->latest()->take(10)->get(); // Lấy 10 sản phẩm mới nhất
-
-        return view('admin.template.dashboard', ['newproducts' => $newproducts]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    // public function create()
-    // {
-    //     //
-    // }
-
-    /**
+    /**Thêm sản phẩm
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -78,9 +62,6 @@ class ProductController extends Controller
     */
     public function store(Request $request)
     {   
-
-        // dd($request->all());
-        // Xác thực dữ liệu đầu vào
         $request->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|numeric',
@@ -247,6 +228,18 @@ class ProductController extends Controller
     }
     
     //xoa tat ca
+
+
+    // public function showNotifications()
+    // {
+    //     $notifications = Notification::where('user_id', 1)  // ID admin
+    //         ->where('status', 'Unread')
+    //         ->get();
+
+    //     return view('admin.notifications', compact('notifications'));
+    // }
+
+    
     
 }
 

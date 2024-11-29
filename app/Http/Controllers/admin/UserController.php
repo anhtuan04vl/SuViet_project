@@ -13,7 +13,7 @@ class UserController extends Controller
 {
     public function listUsers()
     {
-        $users = User::all();
+        $users = User::paginate(8);
 
         return view('admin.template.listaccount', compact('users'));
     }
@@ -43,9 +43,6 @@ class UserController extends Controller
             'images' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'role' => 'nullable|boolean',
         ]);
-
-
-
         // Tìm người dùng hiện tại
         $usercurrent = User::where('users_id', $users_id)->first();
 

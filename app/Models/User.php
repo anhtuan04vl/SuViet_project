@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+use App\Models\admin\Notification;
 
 class User extends Authenticatable
 {
@@ -51,5 +52,20 @@ class User extends Authenticatable
     public function contacts()
     {
         return $this->hasMany(Contact::class, 'users_id');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'users_id');
+    }
+
+    public function wishlists()
+    {
+        return $this->hasMany(Wishlist::class, 'user_id');
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class, 'user_id_noti');
     }
 }

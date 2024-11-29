@@ -4,28 +4,16 @@
 
 @section('content')
 <div class="container mt-5">
-        <h2 class="mb-4">Quản lý hóa đơn</h2>
-
-        @if (session('alert'))
-        <script>
-            const alert = @json(session('alert'));
-
-            // Kiểm tra loại thông báo và hiển thị bằng SweetAlert2
-            Swal.fire({
-                icon: alert.type,  // success, error, warning, info, ...
-                title: alert.title, // Tiêu đề thông báo
-                text: alert.message, // Nội dung thông báo
-                timer: 5000, // Tự động đóng sau 3 giây
-                showConfirmButton: false // Ẩn nút xác nhận
-            });
-            console.log(Swal); 
-
-        </script>
-        @endif
+<nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Bảng điều khiển</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Quản lý Hóa đơn</li>
+        </ol>
+    </nav>
         <table class="table table-bordered /table-hover text-center align-middle">
             <thead class="table-light">
                 <tr>
-                    <!-- <th>Số hóa đơn</th> -->
+                    <th>Số hóa đơn</th>
                     <th>Thời gian đặt hàng</th>
                     <th>Tên khách hàng</th>
                     <th>Phương Thức Thanh Toán</th>
@@ -39,7 +27,7 @@
                 <!-- Dòng dữ liệu -->
                 @foreach ($showlistorders as $v)
                 <tr class="align-middle">
-                    <!-- <td>{{ $v->order_id }}</td> -->
+                    <td>{{ $v->order_id }}</td>
                     <td>{{ $v->order_date }}</td>
                     <td>@if ($v->user){{ $v->user->fullname }}@endif</td>
                     <td>
@@ -60,7 +48,7 @@
                         @elseif ($v->status->name == 'Đang giao hàng')
                             <span class="badge bg-lam">{{ $v->status->name }}</span>
                         @elseif ($v->status->name == 'Đã hủy')
-                            <span class="badge bg-danger">{{ $v->status->name }}</span>
+                            <span class="badge bg-black">{{ $v->status->name }}</span>
                         @elseif ($v->status->name == 'Đã giao hàng')
                             <span class="badge bg-danger">{{ $v->status->name }}</span>
                         @endif
@@ -89,15 +77,9 @@
         </table>
 
         <!-- Phân trang -->
-        <!-- <nav>
-            <ul class="pagination justify-content-end">
-                <li class="page-item disabled"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">...</a></li>
-                <li class="page-item"><a class="page-link" href="#">21</a></li>
-            </ul>
-        </nav> -->
+        <div class="pagination d-flex justify-content-end">
+        {{ $showlistorders->links('pagination::bootstrap-4') }}
+    </div>
     </div>
 @endsection
 
@@ -108,8 +90,8 @@
     }
  </style>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-   
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    -->
 
     <script>
        function updateStatus(orderId, statusId) {
@@ -131,15 +113,35 @@
         return response.json();
     })
     .then((data) => {
-        session()->flash('alert', [
-        'type' => 'success',
-        'title' => 'Thành công!',
-        'message' => 'Cập nhật trạng thái thành công!'
-    ]);
-    })
+    // Kiểm tra xem có thông báo lỗi từ backend không
+    if (data.status === 'error') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi!',
+                    text: data.message, // Lấy thông báo lỗi từ backend
+                    timer: 5000,
+                    showConfirmButton: false
+                });
+            } else {
+                // Cập nhật trạng thái thành công
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công!',
+                    text: data.message,
+                    timer: 5000,
+                    showConfirmButton: false
+                });
+            }
+        })
     .catch((error) => {
         console.error(error);
-        alert("Có lỗi xảy ra khi cập nhật trạng thái.");
+        Swal.fire({
+            icon: 'error',
+            title: 'Lỗi!',
+            text: 'Không thể cập nhật trạng thái vì đơn hàng đã được giao.',
+            timer: 5000,
+            showConfirmButton: false
+        });
     });
 }
 

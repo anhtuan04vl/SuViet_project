@@ -89,3 +89,97 @@
 
 
     http://127.0.0.1:8000/?vnp_Amount=2000000&vnp_BankCode=NCB&vnp_BankTranNo=VNP14696533&vnp_CardType=ATM&vnp_OrderInfo=Thanh+to%C3%A1n+%C4%91%C6%A1n+h%C3%A0ng&vnp_PayDate=20241125154901&vnp_ResponseCode=00&vnp_TmnCode=9VI6E3TE&vnp_TransactionNo=14696533&vnp_TransactionStatus=00&vnp_TxnRef=32&vnp_SecureHash=58479f07452e9ccc0dff5031d9da20c330997939ddb8307eb5c2fdb2b9b0ef740174110db76a659710027c2c4a0deb0299a0747c2a0c8d75dfb07972664972da
+
+
+
+    <div class="bg-white shadow-md rounded-b-md p-6">
+                <div class="flex items-center space-x-4">
+                    <div class="text-5xl font-bold">5.0</div>
+                    <div class="flex items-center space-x-1">
+                        <!-- Star Ratings -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" viewBox="0 0 24 24"
+                            fill="currentColor">
+                            <path
+                                d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                        </svg>
+                        <!-- Repeat the star icon for 5 stars -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" viewBox="0 0 24 24"
+                            fill="currentColor">
+                            <path
+                                d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" viewBox="0 0 24 24"
+                            fill="currentColor">
+                            <path
+                                d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" viewBox="0 0 24 24"
+                            fill="currentColor">
+                            <path
+                                d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" viewBox="0 0 24 24"
+                            fill="currentColor">
+                            <path
+                                d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                        </svg>
+                        <!-- More stars as needed -->
+                    </div>
+                    <span class="text-gray-500">(1k đánh giá)</span>
+                </div>
+
+                <!-- Star Rating Breakdown -->
+                <div class="mt-4">
+                    <div class="space-y-2">
+                        <!-- Star Rows -->
+                        <div class="flex items-center">
+                            <span class="w-12 text-sm">5 sao</span>
+                            <div class="flex-grow h-3 bg-gray-200 rounded-full ml-2">
+                                <div class="h-3 bg-blue-600 rounded-full w-[99%]"></div>
+                            </div>
+                            <span class="ml-2 text-sm">990</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="w-12 text-sm">4 sao</span>
+                            <div class="flex-grow h-3 bg-gray-200 rounded-full ml-2">
+                                <div class="h-3 bg-gray-400 rounded-full w-[1%]"></div>
+                            </div>
+                            <span class="ml-2 text-sm">8</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="w-12 text-sm">3 sao</span>
+                            <div class="flex-grow h-3 bg-gray-200 rounded-full ml-2">
+                                <div class="h-3 bg-gray-400 rounded-full w-[0.5%]"></div>
+                            </div>
+                            <span class="ml-2 text-sm">2</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="w-12 text-sm">2 sao</span>
+                            <div class="flex-grow h-3 bg-gray-200 rounded-full ml-2">
+                                <div class="h-3 bg-gray-400 rounded-full w-[0%]"></div>
+                            </div>
+                            <span class="ml-2 text-sm">0</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="w-12 text-sm">1 sao</span>
+                            <div class="flex-grow h-3 bg-gray-200 rounded-full ml-2">
+                                <div class="h-3 bg-gray-400 rounded-full w-[0%]"></div>
+                            </div>
+                            <span class="ml-2 text-sm">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sorting Options -->
+                <div class="flex justify-start items-center mt-4">
+                    <span class="text-sm text-gray-600 mr-4">Lọc theo:</span>
+                    <div class="space-x-2">
+                        <button class="border rounded-full px-3 py-1 text-sm bg-blue-600 text-white">Tất cả</button>
+                        <button class="border rounded-full px-3 py-1 text-sm">5 sao (990)</button>
+                        <button class="border rounded-full px-3 py-1 text-sm">4 sao (8)</button>
+                        <button class="border rounded-full px-3 py-1 text-sm">3 sao (2)</button>
+                        <button class="border rounded-full px-3 py-1 text-sm">2 sao (0)</button>
+                        <button class="border rounded-full px-3 py-1 text-sm">1 sao (0)</button>
+                    </div>
+                </div>
+            </div>

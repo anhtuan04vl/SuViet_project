@@ -215,103 +215,13 @@
         <div class="bg-gray-50 p-6">
             <!-- Header Section -->
             <div class="flex justify-center items-center space-x-6 bg-white shadow-md rounded-t-md p-6">
-                <button class="text-lg font-semibold text-blue-700 border-b-4 border-blue-700 pb-2">Đánh giá từ khách
-                    hàng</button>
-                <button class="text-lg font-semibold text-gray-500">Hỏi đáp về sản phẩm</button>
+                <!-- <button class="text-lg font-semibold text-blue-700 border-b-4 border-blue-700 pb-2">Đánh giá từ khách
+                    hàng</button> -->
+                <button class="text-lg font-semibold text-gray-500">Bình Luận về sản phẩm</button>
             </div>
 
             <!-- Overall Rating Section -->
-            <div class="bg-white shadow-md rounded-b-md p-6">
-                <div class="flex items-center space-x-4">
-                    <div class="text-5xl font-bold">5.0</div>
-                    <div class="flex items-center space-x-1">
-                        <!-- Star Ratings -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" viewBox="0 0 24 24"
-                            fill="currentColor">
-                            <path
-                                d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                        </svg>
-                        <!-- Repeat the star icon for 5 stars -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" viewBox="0 0 24 24"
-                            fill="currentColor">
-                            <path
-                                d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" viewBox="0 0 24 24"
-                            fill="currentColor">
-                            <path
-                                d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" viewBox="0 0 24 24"
-                            fill="currentColor">
-                            <path
-                                d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" viewBox="0 0 24 24"
-                            fill="currentColor">
-                            <path
-                                d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                        </svg>
-                        <!-- More stars as needed -->
-                    </div>
-                    <span class="text-gray-500">(1k đánh giá)</span>
-                </div>
 
-                <!-- Star Rating Breakdown -->
-                <div class="mt-4">
-                    <div class="space-y-2">
-                        <!-- Star Rows -->
-                        <div class="flex items-center">
-                            <span class="w-12 text-sm">5 sao</span>
-                            <div class="flex-grow h-3 bg-gray-200 rounded-full ml-2">
-                                <div class="h-3 bg-blue-600 rounded-full w-[99%]"></div>
-                            </div>
-                            <span class="ml-2 text-sm">990</span>
-                        </div>
-                        <div class="flex items-center">
-                            <span class="w-12 text-sm">4 sao</span>
-                            <div class="flex-grow h-3 bg-gray-200 rounded-full ml-2">
-                                <div class="h-3 bg-gray-400 rounded-full w-[1%]"></div>
-                            </div>
-                            <span class="ml-2 text-sm">8</span>
-                        </div>
-                        <div class="flex items-center">
-                            <span class="w-12 text-sm">3 sao</span>
-                            <div class="flex-grow h-3 bg-gray-200 rounded-full ml-2">
-                                <div class="h-3 bg-gray-400 rounded-full w-[0.5%]"></div>
-                            </div>
-                            <span class="ml-2 text-sm">2</span>
-                        </div>
-                        <div class="flex items-center">
-                            <span class="w-12 text-sm">2 sao</span>
-                            <div class="flex-grow h-3 bg-gray-200 rounded-full ml-2">
-                                <div class="h-3 bg-gray-400 rounded-full w-[0%]"></div>
-                            </div>
-                            <span class="ml-2 text-sm">0</span>
-                        </div>
-                        <div class="flex items-center">
-                            <span class="w-12 text-sm">1 sao</span>
-                            <div class="flex-grow h-3 bg-gray-200 rounded-full ml-2">
-                                <div class="h-3 bg-gray-400 rounded-full w-[0%]"></div>
-                            </div>
-                            <span class="ml-2 text-sm">0</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Sorting Options -->
-                <div class="flex justify-start items-center mt-4">
-                    <span class="text-sm text-gray-600 mr-4">Lọc theo:</span>
-                    <div class="space-x-2">
-                        <button class="border rounded-full px-3 py-1 text-sm bg-blue-600 text-white">Tất cả</button>
-                        <button class="border rounded-full px-3 py-1 text-sm">5 sao (990)</button>
-                        <button class="border rounded-full px-3 py-1 text-sm">4 sao (8)</button>
-                        <button class="border rounded-full px-3 py-1 text-sm">3 sao (2)</button>
-                        <button class="border rounded-full px-3 py-1 text-sm">2 sao (0)</button>
-                        <button class="border rounded-full px-3 py-1 text-sm">1 sao (0)</button>
-                    </div>
-                </div>
-            </div>
 
             <!-- Review Cards -->
             <div class="bg-white shadow-md rounded-md p-6 mt-4">
@@ -334,16 +244,16 @@
                                 <!-- Add more stars -->
                             </div>
                         </div>
-                        <p class="mt-2 text-gray-700">Bức tranh tuyệt đẹp mùa Trung Thu bắt đầu từ sự an nhiên trong tâm
-                            hồn.</p>
+                       
                         <div class="mt-2 flex space-x-2">
                             <img src="../img/cmt.png" alt="product image 1" class="h-20 w-20 object-cover">
                             <img src="../img/cmt2.png" alt="product image 2" class="h-20 w-20 object-cover">
                         </div>
-                        <div class="mt-2 text-sm text-gray-500 flex items-center">
+                        <input type="text" class="mt-2 p-2 border border-gray-600 rounded-lg w-full">
+                        <!-- <div class="mt-2 text-sm text-gray-500 flex items-center">
                             <img src="../img/user.png" alt="user avatar" class="h-8 w-8 rounded-full">
                             Chào bạn, cảm ơn bạn đã tin tưởng và sử dụng sản phẩm của Sứ Việt
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

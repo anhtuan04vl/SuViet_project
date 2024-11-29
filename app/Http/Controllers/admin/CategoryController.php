@@ -13,10 +13,9 @@ class CategoryController extends Controller
     public function listCategory()
     {
        // Lấy danh sách tất cả danh mục kèm theo số lượng sản phẩm trong mỗi danh mục
-        $catelist = CategoryModel::withCount('products')->get();
+        $catelist = CategoryModel::withCount('products')->paginate(6);
         return view('admin.template.listcategory', compact('catelist'));
     }
-
     // ẩn đi danh mục
     public function updateStatus(Request $request)
 {

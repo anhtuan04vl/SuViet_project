@@ -13,6 +13,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Models\Notification;  // Model Notification (nếu bạn có tạo bảng lưu thông báo)
+
+
 use Alert;  // Thêm dòng này vào đầu controller
 class OrderController extends Controller
 {
@@ -124,6 +127,8 @@ class OrderController extends Controller
                 ->where('total_price', '>', 0) // Thay điều kiện nếu cần
                 ->delete();
                 DB::commit();
+
+                
 
             //kiem tra pt thanh toan
             $this->orderResult = $order;
@@ -274,8 +279,21 @@ class OrderController extends Controller
     }
         
 
+    //thong ke
+    public function statistics()
+    {
+        $totalOrders = Order::count(); // Tổng số đơn hàng
+        $totalRevenue = Order::sum('total'); // Tổng doanh thu
+        $ordersByStatus = Order::select('status', DB::raw('count(*) as count'))
+                                ->groupBy('status')
+                                ->get(); // Đơn hàng theo trạng thái
+        $ordersByMonth = Order::select(DB::raw('MONTH(created_at) as month'), DB::raw('count(*) as count'))
+                                ->groupBy('month')
+                                ->get(); // Đơn hàng theo tháng
     
-
+        return view('admin.template.dashboard', compact('totalOrders', 'totalRevenue', 'ordersByStatus', 'ordersByMonth'));
+    }
+    
 
   
 

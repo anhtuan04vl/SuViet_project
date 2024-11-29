@@ -12,6 +12,7 @@ use App\Models\CartDetail;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\User;
+use App\Models\admin\ProductModel;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -68,7 +69,17 @@ class AppServiceProvider extends ServiceProvider
             $collection=Product::all()->take(8);
             $view->with(compact('collection'));
         });
+        //------------------------XU LY DASHBOARD--------------------------------------------
+        view()->composer('*', function($view){
+            $sanphamnew = ProductModel::latest()->paginate(5);
+            $view->with(compact('sanphamnew'));
+        });
+        view()->composer('*', function($view){
+            $donhangnew = Order::latest()->paginate(6);
+            $view->with(compact('donhangnew'));
+        });
 
+        //------------------------END XU LY DASHBOARD--------------------------------------------
 
         //show số lượng sp trong cart
         view()->composer('*', function ($view) {

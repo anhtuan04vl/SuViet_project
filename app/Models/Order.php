@@ -5,6 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\User;
+use App\Models\Contact;
+use App\Models\PaymentMethod;
+use App\Models\Coupon;
+use App\Models\OrderStatus;
+use App\Models\OrderItem;
+use App\Models\admin\Notification;
+
 class Order extends Model
 {
     use HasFactory;
@@ -52,5 +60,10 @@ class Order extends Model
     public function orderItems()
     {
         return $this->hasMany(OrderItem::class, 'order_id');
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class, 'order_id_noti');
     }
 }
