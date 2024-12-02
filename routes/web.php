@@ -20,6 +20,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\LoginGoogleController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 // Client Routes
@@ -61,9 +62,13 @@ Route::prefix('/')->group(function () {
     Route::get('/userupdate/{users_id}', [UsersController::class, 'showUser'])->name('update.showUser');
     Route::put('/user/update/{users_id}', [UsersController::class, 'updateUser'])->name('update.updateUser');
     Route::get('/orders', [UsersController::class, 'showOrderDetail'])->name('update.showoderdetail');
-    Route::get('orders/filter', [UsersController::class, 'filterOrders'])->name('filter.orders');
+    Route::get('/orders/filter', [UsersController::class, 'filterOrders'])->name('filter.orders');
 
-
+    //Login Google
+    Route::controller(LoginGoogleController::class)->group(function () {
+        Route::get('/login/google', 'Googlelogin')->name('login.google');
+        Route::get('/login/google-callback', 'GoogleAuth')->name('google.callback');
+    });
 
 });
 

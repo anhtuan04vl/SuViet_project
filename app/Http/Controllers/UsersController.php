@@ -108,7 +108,7 @@ class UsersController extends Controller
         }
 
         // Eager load relationships
-        $orders = $query->with(['user', 'status', 'orderItems.product'])->get();
+        $orders = $query->with(['user', 'status', 'orderItems.product'])->paginate(4);
 
        /*  return response()->json([
             'statuses' => $statuses,

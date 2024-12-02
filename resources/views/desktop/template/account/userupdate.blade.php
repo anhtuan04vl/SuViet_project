@@ -30,7 +30,9 @@
         <!-- Thanh bên trái -->
         <div class="w-1/4 bg-white p-4 shadow-md rounded-lg">
             <div class="flex items-center mb-6">
-                <img src="../img/user.png" alt="">
+                <img src="{{ Auth::user()->images ? asset(Auth::user()->images) : '../img/user.png' }}" alt="User profile picture"
+                class="w-20 h-20 rounded-full mb-4 shadow-md"
+                id="profile-image">
                 <div class="ml-4">
                     <h2 class="text-lg font-semibold">{{ auth()->user()->fullname }}</h2>
                     <a href="{{ route('update.showUser', ['users_id' => Auth::user()->users_id]) }}" class="text-blue-500 text-sm hover:underline">Sửa Hồ Sơ</a>

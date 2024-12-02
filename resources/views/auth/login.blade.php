@@ -51,10 +51,17 @@
                                 <div class="text-red-600 text-sm mt-2">{{ $message }}</div>
                             @enderror
                         </div>
+
                         <div>
                             <a href="{{route('password.request')}}">Quên mật khẩu?</a>
                         </div>
                         <button type="submit" class="w-full bg-blue-600 text-white rounded-lg py-3 font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600">Đăng nhập</button>
+                        <div class="flex items-center justify-center">
+                            <a href="{{route('login.google')}}" class="w-full bg-gray-100 text-gray-700 rounded-lg py-3 font-semibold flex items-center justify-center hover:bg-gray-200">
+                                <img src="https://via.placeholder.com/20" alt="Google" class="mr-2">
+                                Đăng nhập bằng Google
+                            </a>
+                        </div>
                     </form>
                 </div>
             </div>
