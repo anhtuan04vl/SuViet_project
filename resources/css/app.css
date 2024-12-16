@@ -5,7 +5,7 @@
 @layer components {
 
     .container-main{
-        @apply max-w-[1328px] mx-auto;
+        @apply max-w-[1200px] mx-auto;
     }
 
     .input_cart{

@@ -10,6 +10,15 @@ class Blog extends Model
     use HasFactory;
 
     protected $table = 'blogs';
+    // Cho phép mass assignment cho các trường này
+    protected $fillable = [
+        'title', 
+        'description', 
+        'category_id', 
+        'users_id', 
+        'images', 
+        'is_active'
+    ];
 
     // Định nghĩa quan hệ với bảng Categories
     public function category()

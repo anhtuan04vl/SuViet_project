@@ -20,7 +20,7 @@
 <!-- Thêm SweetAlert2 CDN -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-<body>
+<body ng-app="tcApp" ng-controller="tcCtrl">
     
     <!-- menu -->
     @include('desktop.template.menu')
@@ -28,11 +28,25 @@
     @yield('slider')
     @yield('coupon')
     <!-- content -->
-    @yield('content')
+    <div ng-controller="viewCtrl">
+        @yield('content')
+    </div>
     <!-- Footer -->
     @include('desktop.template.footer')
 
 @stack('scripts')
 </body>
-
+    <script src="{{asset('/')}}angular.min.js"></script>
+    <script>
+        var app = angular.module('tcApp', []);
+        app.controller('tcCtrl', function($scope){
+            
+        });
+        var viewFunction =function($scope){}
+    </script>
+        @yield('viewFunction')
+    <script>
+        app.controller('viewCtrl', viewFunction);
+    </script>
+</script>
 </html>

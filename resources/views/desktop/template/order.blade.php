@@ -200,6 +200,8 @@
                     </div>
                     <div class="mb-2 flex justify-between">
                         <span class="text-sm text-gray-600">Đã giảm giá</span>
+                        <input type="hidden" name="coupon_id" id="coupon_id">
+                        <input type="hidden" name="pricediscount" id="pricediscount">
                         <span class="text-sm text-green-600" id="discount"></span>
                     </div>
 
@@ -217,13 +219,10 @@
 
                     <div class="mb-6 flex justify-between">
                         <span class="text-lg font-semibold text-gray-800">Tổng thanh toán:</span>
-                        <span class="text-lg font-semibold text-gray-800">{{ number_format($totalPrice + 40000, 0, ',', '.') }} VNĐ</span>
-                        <!-- <span class="text-lg font-semibold text-gray-800" id="discountedTotal"></span> -->
+                        <span class="text-lg font-semibold text-gray-800" id="lateTotal"></span>
                     </div>
 
-                    <button type="submit" name="" class="w-full bg-cmain text-white py-2 rounded-lg">Thanh Toán</button>
-                    <hr>
-                   
+                    <button type="submit" name="cod" id="cod" class="w-full bg-cmain text-white py-2 rounded-lg">Thanh Toán</button>
                 </div>
             </div>
         </form>
@@ -238,10 +237,59 @@
         function formatNumber(number) {
             return new Intl.NumberFormat('en-US', { style: 'decimal', minimumFractionDigits: 0 }).format(number);
         }
+
         let price = JSON.parse(localStorage.getItem('DISCOUNT'));
         let discountedTotal = Math.floor(JSON.parse(localStorage.getItem('DISCOUNT')).discountedTotal);
-        console.log(discountedTotal);
-        document.getElementById('discount').textContent = `${formatNumber(price.discount)} VNĐ`;
-        document.getElementById('discountedTotal').textContent = `${formatNumber(discountedTotal+40000)} VNĐ`;
+        
+
+        // Cập nhật giá trị vào phần tử HTML
+        document.getElementById('discount').textContent = `- ${formatNumber(price.discount)} VNĐ`;
+        document.getElementById('pricediscount').value = `${Number(price.discount)}`;
+        document.getElementById('lateTotal').textContent = `${formatNumber(discountedTotal + 40000)} VNĐ`;
+        document.getElementById('coupon_id').value = `${price.coupon_id}`
+
+
+        //Lưu lại giá cuối 
+
+        let late = {
+            lateprice : document.getElementById('lateTotal').textContent
+        }
+        lateprice = lateprice.replace(/\D/g, '');
+        // console.log(lateprice);
+        localStorage.setItem("LATE", JSON.stringify(lateprice));
+      
+        
+    </script>
+    <script>
+        function formatNumber(number) {
+            return new Intl.NumberFormat('en-US', { style: 'decimal', minimumFractionDigits: 0 }).format(number);
+        }
+
+        let lateprice = JSON.parse(localStorage.getItem('LATE'));
+        document.getElementById('lateprice').value = lateprice;
+        // console.log(lateprice);
+        
+
+
+
+        document.getElementById('cod').addEventListener('click', function() {
+            let latePrice = document.getElementById('lateprice').value;
+            // Gửi latePrice lên server bằng AJAX hoặc submit form
+            fetch("/order/add", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ lateprice: lateprice })
+            })
+            .then(response => {
+                // Xử lý response từ server
+            })
+            .catch(error => {
+                // Xử lý lỗi
+            });
+            // console.log(latePrice);
+        });
+        
     </script>
 @endsection

@@ -5,7 +5,7 @@
             <div class="swiper-wrapper">
                 @for ($i = 0; $i < 8; $i++)
                 <div class="swiper-slide">
-                    <div class="py-12 /cursor-pointer">
+                    <div class="py-12 /cursor-pointer w-[100%] sm:w-[100%] 800:w-full">
                         <a href="#coupon"> <img src="../img/coupon.png" alt="" class="/w-full"></a>
                     </div>
                 </div>
@@ -35,16 +35,20 @@
 		loop:true,
 		breakpoints: {
 			0: {
-				slidesPerView: 1,
-				spaceBetween: 10,
+				slidesPerView: 2,
+				spaceBetween: 20,
 			},
 			425: {
 				slidesPerView: 2,
 				spaceBetween: 20,
 			},
 			650: {
-				slidesPerView: 2,
+				slidesPerView: 3,
 				spaceBetween: 30,
+			},
+            700: {
+				slidesPerView: 4,
+				spaceBetween: 40,
 			},			
 			800: {
 				slidesPerView: 4,

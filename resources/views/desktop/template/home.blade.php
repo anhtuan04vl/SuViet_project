@@ -10,43 +10,46 @@
 
 @section('content')
 
-@if (session('alert'))
-<script>
-    const alert = @json(session('alert'));
+    @if (session('alert'))
+    <script>
+        const alert = @json(session('alert'));
 
-    // Kiểm tra loại thông báo và hiển thị bằng SweetAlert2
-    Swal.fire({
-        icon: alert.type,  // success, error, warning, info, ...
-        title: alert.title, // Tiêu đề thông báo
-        text: alert.message, // Nội dung thông báo
-        timer: 3000, // Tự động đóng sau 5 giây
-        showConfirmButton: false // Ẩn nút xác nhận
-    });
-    console.log(Swal); 
+        // Kiểm tra loại thông báo và hiển thị bằng SweetAlert2
+        Swal.fire({
+            icon: alert.type,  // success, error, warning, info, ...
+            title: alert.title, // Tiêu đề thông báo
+            text: alert.message, // Nội dung thông báo
+            timer: 3000, // Tự động đóng sau 5 giây
+            showConfirmButton: false // Ẩn nút xác nhận
+        });
+        console.log(Swal); 
 
-</script>
-@endif
+    </script>
+    @endif
+
     <!-- DANH MUC SAN PHAM -->
     <div class="container-main bg-cmain6 rounded-[15px] ">
         <!-- swiper note -->
         <h3 class="pl-6 pt-6 font-semibold font-el text-2xl">Danh Mục Sản Phẩm</h3>
-        <div class="danhmuc px-10 lg:px-20 flex flex-wrap pb-[45px] pt-[33px] gap-8 justify-center lg:justify-between">
-            <!-- nd -->
-            
-            <!-- end nd -->
-            @foreach ($categories as $sp)
-                    <div class="dm1 swipers-slide flex flex-col justify-center items-center gap-3">
-                        <a href="{{ route('listcate', ['name' => $sp->name]) }}" class="cursor-pointer rounded-full  bg-white /w-[12.5%] flex  justify-center">
-                            <img src="{{ asset('img/images/' . $sp->images) }}" alt=""
-                                class="w-[100px] px-[19px] py-3">
-                        </a>
-                        <p>{{ $sp->name }}</p>
+        <div class="danhmuc px-10 lg:px-20  pb-[45px] pt-[33px] gap-8 ">
+            <div class="swiper CateSwiper">
+                <div class="swiper-wrapper">
+                    @foreach ($categories as $sp)
+                    <div class="swiper-slide">
+                        <div class="dm1 swipers-slide flex flex-col justify-center items-center gap-3">
+                            <a href="{{ route('listcate', ['name' => $sp->name]) }}" class="cursor-pointer rounded-full  bg-white /w-[12.5%] flex  justify-center">
+                                <img src="{{ asset('img/images/' . $sp->images) }}" alt=""
+                                    class="w-[100px] px-[19px] py-3">
+                            </a>
+                            <p>{{ $sp->name }}</p>
+                        </div>
                     </div>
-                @endforeach
-  </div>
-</div>
-
-
+                    @endforeach
+                </div>
+                <div class="pt-7">
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
         </div>
     </div>
     <!-- END DANH MUC SAN PHAM -->
@@ -76,11 +79,12 @@
                 </div>
             </div>
             <!-- end left -->
+
             <!-- right -->
             <div class="right_s w-full 800:w-[50%] ">
-                <div class="cnt_tablet flex flex-col  lg:hidden">
+                <div class="cnt_tablet flex flex-col lg:hidden">
                     <p class="font-el text-[48px] text-cmain">FASH SALE</p>
-                    <p>Bắt đầu sau: <strong class="text-red-700">2:14:57</strong> </p>
+                    <p>Bắt đầu sau: <strong class="text-red-700">24/11/2024 đến 12/12/2024</strong> </p>
                 </div>
                 <!-- Show 4 sản phẩm bằng view2 trong provider -->
                 <div class="flex flex-wrap justify-between gap-y-[26px] gap-x-5">
@@ -91,7 +95,7 @@
                                     class="h-48 w-auto lg:object-cover object-contain" alt=""></a>
                             <div class="ttl_1 flex flex-col items-center">
                                 <a href="{{ route('product_detail', ['product_id' => $pro->product_id]) }}"
-                                    class="font-el font-extrabold text-base text-center">{{ $pro->name }}</a>
+                                    class="font-el font-extrabold text-base text-center h-6 overflow-hidden">{{ $pro->name }}</a>
                                 <p class="text-cmain3 text-sm font-el py-2 line-clamp-2 h-12 overflow-hidden text-center ">
                                     {{ $pro->description }}</p>
                                 <p class="font-el font-extrabold text-base text-cmain">{{ number_format($pro->price) }} VNĐ
@@ -103,14 +107,21 @@
                                         <input type="hidden" name="price" value="{{ $pro->price }}">
                                         <input type="hidden" name="quantity" value="1">
                                         <button type="submit"
-                                            class="border group border-cmain hover:border-cmain7 hover:bg-cmain7 flex py-3 px-5 rounded-[39px] /w-full mt-3 items-center justify-center transition duration-300 ease-in-out">
+                                            class="border group border-cmain hover:border-cmain7 hover:bg-cmain7 hidden sm:flex py-3 px-5 rounded-[39px] /w-full mt-3 items-center justify-center transition duration-300 ease-in-out">
                                             <p class="text-cmain group-hover:text-white">Thêm vào giỏ hàng</p>
+                                        </button>
+                                        <button class="border group border-cmain hover:border-cmain7 hover:bg-cmain7 flex sm:hidden py-2 px-6 rounded-[15px] mt-3 items-center justify-center transition duration-300 ease-in-out">
+                                            <p class="text-cmain group-hover:text-white">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                                                </svg>
+                                            </p>
                                         </button>
                                     </form>
                                     <form action="{{ route('wishlist.store') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="product_id" value="{{ $pro->product_id }}">
-                                        <button class="group border-cmain hover:border-cmain7 hover:bg-cmain7 flex py-3 px-5 rounded-[39px] /w-full mt-3 items-center justify-center transition duration-300 ease-in-out" type="submit"><svg class="transition-colors duration-300 group-hover:text-white" width="32"
+                                        <button class="border-none sm:border group border-cmain hover:border-cmain7 hover:bg-cmain7 flex py-1 px-5 rounded-[15px] /w-full mt-3 items-center justify-center transition duration-300 ease-in-out" type="submit"><svg class="transition-colors duration-300 group-hover:text-white" width="32"
                                             height="31" viewBox="0 0 32 31" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <rect width="32" height="31" rx="15.5" fill="#194569"
@@ -151,35 +162,42 @@
         <div class="relative z-10 ">
             <div class="container-main px-[5%] lg:px-0">
                 <!-- <img src="img/bst_bn.png" alt=""> -->
-                <div class="tltl relative z-10  flex flex-col  gap-4 py-5">
+                <div class="tltl relative z-10  flex flex-col  gap-4 py-5  md:block">
                     <p class="font-el font-extrabold text-base text-cmain">Trải nghiệm mua hàng</p>
                     <h4 class="text-[36px] font-el font-semibold text-cmain ">Bộ sưu tập tập Sứ Việt</h4>
-                    <p class="text-base line-clamp-2 lg:line-clamp-none">Vẻ đẹp của nước men sáng, màu sứ trắng tinh khôi
+                    <p class="text-base font-el line-clamp-2 lg:line-clamp-none pt-4 hidden lg:block">
+                        Vẻ đẹp của nước men sáng, màu sứ trắng tinh khôi
                         và điểm xuyết những họa tiết hoa lá cách điệu sinh động, đã tạo nên sản phẩm có kiểu dáng đơn giản,
                         không cầu kỳ nhưng vẫn tôn lên sự đẳng cấp, tiện nghi của không gian trưng bày. Sự kết hợp hài hòa
                         giữa màu vàng đất mới lạ cùng màu xanh dương thân thuộc, mang đến cho mỗi sản phẩm sự trẻ trung,
-                        hiện đại nhưng không kém phần sang trọng, thanh lịch.</p>
+                        hiện đại nhưng không kém phần sang trọng, thanh lịch.
+                    </p>
                 </div>
                 <!--  -->
-                <div class="/container-main relative z-10 mt-5">
-                    <div class="flex flex-wrap gap-y-10 md:gap-y-10 justify-between  /absolute top-0 gap-x-6 800:gap-x-2">
+                <div class="/container-main relative z-10 -mt-8 lg:mt-3">
+                    <div class="flex flex-wrap gap-y-4 400:gap-y-10 md:gap-y-10 justify-center 400:justify-start lg:justify-between  top-0 gap-x-0 400:gap-x-[4.5rem] sm:gap-x-6 800:gap-x-4">
+
                         <!-- Show 4 sản phẩm bằng view3 trong provider -->
                         @foreach ($collection as $bst)
-                            <div class="box1 swipers-slide  w-[40%] md:w-[30%] 800:w-[23%] flex flex-col items-center h-75">
-                                <a href="{{ route('product_detail', ['product_id' => $bst->product_id]) }}"><img
-                                        src="{{ asset('img/images/' . $bst->img) }}" alt=""
-                                        class="h-48 w-auto lg:object-cover object-contain"></a>
+                            <div class="box1 swipers-slide w-[100%] sm:w-[40%] md:w-[30%] 800:w-[23%] flex flex-col items-center h-75">
+                                <a href="{{ route('product_detail', ['product_id' => $bst->product_id]) }}">
+                                    <img src="{{ asset('img/images/' . $bst->img) }}" alt=""
+                                    class="h-48 w-auto lg:object-cover object-contain">
+                                </a>
                                 <div class=" ttl_1 flex flex-col items-center">
                                     <a href="{{ route('product_detail', ['product_id' => $bst->product_id]) }}"
-                                        class="font-el font-extrabold text-base text-center h-6 overflow-hidden">{{ $bst->name }}</a>
-                                    <p
-                                        class="text-cmain3 text-sm font-el py-2 line-clamp-2 h-12 overflow-hidden text-center ">
-                                        {{ $bst->description }}</p>
+                                        class="font-el font-extrabold text-base text-center h-6 overflow-hidden">{{ $bst->name }}
+                                    </a>
+                                    <p class="text-cmain3 text-sm font-el py-2 line-clamp-2 h-12 overflow-hidden text-center ">
+                                        {{ $bst->description }}
+                                    </p>
                                     <div class="flex flex-row items-center  gap-2">
-                                        <p class="font-el font-extrabold text-[18px] text-cmain mt-2">Giá:
-                                            {{ number_format($bst->price) }} VNĐ</p>
-                                        <p class="font-el line-through font-extrabold text-[10px] text-cmain2 mt-2">Giá cũ:
-                                        {{ number_format($bst->gia_cu) }} VNĐ</p>
+                                        <p class="font-el font-extrabold text-[18px] text-cmain mt-2">
+                                            Giá:{{ number_format($bst->price) }} VNĐ
+                                        </p>
+                                        <p class="font-el hidden lg:block line-through font-extrabold text-[10px] text-cmain2 mt-2">
+                                            Giá cũ:{{ number_format($bst->gia_cu) }} VNĐ
+                                        </p>
                                     </div>
                                     <div class="flex items-center justify-center gap-4">
                                         <form action="{{ route('add_to_cart') }}" method="POST">
@@ -187,26 +205,34 @@
                                             <input type="hidden" name="product_id" value="{{ $bst->product_id }}">
                                             <input type="hidden" name="price" value="{{ $bst->price }}">
                                             <input type="hidden" name="quantity" value="1">
-                                            <button type="submit"
-                                                class="border group border-cmain hover:border-cmain7 hover:bg-cmain7 flex py-3 px-5 rounded-[39px] /w-full mt-3 items-center justify-center transition duration-300 ease-in-out">
+                                            <button type="submit" class="border group border-cmain hover:border-cmain7 hover:bg-cmain7 hidden 800:flex py-3 px-5 rounded-[39px] /w-full mt-3 items-center justify-center transition duration-300 ease-in-out">
                                                 <p class="text-cmain group-hover:text-white">Thêm vào giỏ hàng</p>
                                             </button>
+                                            <button class="border group border-cmain hover:border-cmain7 hover:bg-cmain7 flex 800:hidden py-2 px-6 rounded-[15px] mt-3 items-center justify-center transition duration-300 ease-in-out">
+                                            <p class="text-cmain group-hover:text-white">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                                                </svg>
+                                            </p>
+                                        </button>
                                         </form>
                                         {{-- <span class="flex w-1 h-1 bg-cmain rounded-full "></span> --}}
                                         <form action="{{ route('wishlist.store') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="product_id" value="{{ $bst->product_id }}">
-                                        <button class="group border-cmain hover:border-cmain7 hover:bg-cmain7 flex py-3 px-5 rounded-[39px] /w-full mt-3 items-center justify-center transition duration-300 ease-in-out" type="submit"><svg class="transition-colors duration-300 group-hover:text-white" width="32"
-                                            height="31" viewBox="0 0 32 31" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <rect width="32" height="31" rx="15.5" fill="#194569"
-                                                fill-opacity="0.1" />
-                                            <path
-                                                d="M16.434 21.9343C16.196 22.0219 15.804 22.0219 15.566 21.9343C13.536 21.2112 9 18.1949 9 13.0826C9 10.8258 10.743 9 12.892 9C14.166 9 15.293 9.6427 16 10.636C16.707 9.6427 17.841 9 19.108 9C21.257 9 23 10.8258 23 13.0826C23 18.1949 18.464 21.2112 16.434 21.9343Z"
-                                                stroke="#194569" stroke-width="1.2" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg></button>
-                                    </form>
+                                            @csrf
+                                            <input type="hidden" name="product_id" value="{{ $bst->product_id }}">
+                                            <button class="group border-cmain hover:border-cmain7 hover:bg-cmain7 flex py-3 px-5 rounded-[39px] /w-full mt-3 items-center justify-center transition duration-300 ease-in-out" type="submit">
+                                                <svg class="transition-colors duration-300 group-hover:text-white" width="32"
+                                                height="31" viewBox="0 0 32 31" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <rect width="32" height="31" rx="15.5" fill="#194569"
+                                                    fill-opacity="0.1" />
+                                                <path
+                                                    d="M16.434 21.9343C16.196 22.0219 15.804 22.0219 15.566 21.9343C13.536 21.2112 9 18.1949 9 13.0826C9 10.8258 10.743 9 12.892 9C14.166 9 15.293 9.6427 16 10.636C16.707 9.6427 17.841 9 19.108 9C21.257 9 23 10.8258 23 13.0826C23 18.1949 18.464 21.2112 16.434 21.9343Z"
+                                                    stroke="#194569" stroke-width="1.2" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                </svg>
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -229,8 +255,8 @@
                     </a>
                 </div>
             </div>
-            <div class="img_bst absolute top-0 left-0 hidden md:block">
-                <img src="../img/bst_bn.png" alt="">
+            <div class="img_bst absolute top-0 left-0  w-full h-[200px] lg:h-[350px]">
+                <img src="../img/bst_bn.png" alt="" class="w-full h-full">
             </div>
         </div>
     </div>
@@ -367,50 +393,7 @@
 
     <!-- cCONTACT -->
     <!--Cứ đổ bth nữa t xử lý spiwer sau -->
-    <div class="container-main px-[5%] lg:px-0 bg-cmain6 rounded-[15px] mb-10">
-        <div class="flex justify-between items-center p-8 text-center gap-5">
-            <!-- Contact us -->
-            <div class="w-1/4 relative group cursor-pointer">
-                <span
-                    class="absolute bg-cmain h-1 w-0 left-0 -top-2 group-hover:w-full transition-all duration-300"></span>
-                <h3 class="text-xl font-semibold mb-2">Liên hệ với chúng tôi</h3>
-                <p class="text-gray-500">
-                    Liên hệ trực tiếp với chúng tôi qua email hoặc bạn có thể ghé thăm văn phòng của chúng tôi.
-                </p>
-            </div>
-
-            <!-- Leave a message -->
-            <div class="w-1/4 relative group cursor-pointer">
-                <span
-                    class="absolute bg-cmain h-1 w-0 left-0 -top-2 group-hover:w-full transition-all duration-300"></span>
-                <h3 class="text-xl font-semibold mb-2">Để lại lời nhắn của bạn</h3>
-                <p class="text-gray-500">
-                    Nếu bạn có bất kỳ câu hỏi nào hay cần đội ngũ sale của chúng tôi hỗ trợ hãy cho chúng tôi biết.
-                </p>
-            </div>
-
-            <!-- Sign up for updates -->
-            <div class="w-1/4 relative group cursor-pointer">
-                <span
-                    class="absolute bg-cmain h-1 w-0 left-0 -top-2 group-hover:w-full transition-all duration-300"></span>
-                <h3 class="text-xl font-semibold mb-2">Đăng ký nhận thông tin</h3>
-                <p class="text-gray-500">
-                    Đừng bỏ lỡ các chương trình ưu đãi và các sản phẩm và nhiều ưu đãi mới nhất từ chúng tôi bạn nhé.
-                </p>
-            </div>
-
-            <!-- Member benefits -->
-            <div class="w-1/4 relative group cursor-pointer">
-                <span
-                    class="absolute bg-cmain h-1 w-0 left-0 -top-2 group-hover:w-full transition-all duration-300"></span>
-                <h3 class="text-xl font-semibold mb-2">Quyền lợi thành viên</h3>
-                <p class="text-gray-500">
-                    Chương trình khách hàng thân thiết Minh Long_VIP tại cửa hàng với nhiều quyền lợi và ưu đãi đặc
-                    quyền.
-                </p>
-            </div>
-        </div>
-    </div>
+    
     <!-- END CONTACT -->
 @endsection
 
@@ -469,35 +452,48 @@
                 el: ".swiper-pagination",
                 clickable: true,
             },
+            autoplay: {
+            delay: 5000, // Tự động chuyển slide sau mỗi 5 giây
+            disableOnInteraction: false,
+        },
         });
+    </script>
 
+    <script>
+        var swiper = new Swiper(".CateSwiper", {
 
-
-        //cate
-        // var swiper = new Swiper(".cateSwiper", {
-        //     breakpoints: {
-		// 	0: {
-		// 		slidesPerView: 1,
-		// 		spaceBetween: 10,
-		// 	},
-		// 	425: {
-		// 		slidesPerView: 2,
-		// 		spaceBetween: 20,
-		// 	},
-		// 	650: {
-		// 		slidesPerView: 2,
-		// 		spaceBetween: 30,
-		// 	},			
-		// 	800: {
-		// 		slidesPerView: 4,
-		// 		spaceBetween: 25,
-		// 	},
-		// },
-        //     loop: true,
-        //     pagination: {
-        //         el: ".swiper-pagination",
-        //         clickable: true,
-        //     },
-        // });
+        loop:true,
+        breakpoints: {
+            0: {
+                slidesPerView: 2,
+                spaceBetween: 20,
+            },
+            425: {
+                slidesPerView: 4,
+                spaceBetween: 20,
+            },
+            650: {
+                slidesPerView: 5,
+                spaceBetween: 25,
+            },			
+            800: {
+                slidesPerView: 5,
+                spaceBetween: 20,
+            },
+            1023: {
+                slidesPerView: 7,
+                spaceBetween: 20,
+            },
+        },
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true, // Đảm bảo pagination có thể nhấn được
+            dynamicBullets: true,
+        },
+        autoplay: {
+            delay: 8000, // Tự động chuyển slide sau mỗi 3 giây
+            disableOnInteraction: false,
+        },
+        });
     </script>
 @endpush

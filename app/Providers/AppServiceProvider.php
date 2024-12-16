@@ -113,6 +113,8 @@ class AppServiceProvider extends ServiceProvider
         // $view->with(compact('cart', 'totalPrice'));
         // });
         // end cart
+
+        //
         view()->composer('*', function($view){
             $sortOption = request()->input('sort', 'default');
             $searchQuery = request()->input('query', ''); // Lấy từ khóa tìm kiếm
@@ -143,7 +145,7 @@ class AppServiceProvider extends ServiceProvider
                     break;
             }
 
-            $allProduct = $allProductQuery->paginate(12)->appends([
+            $allProduct = $allProductQuery->paginate(8)->appends([
                 'sort' => $sortOption,
                 'query' => $searchQuery
             ]);

@@ -107,6 +107,7 @@
                     </svg>
                     <p class="text-base text-cmain3 hover:text-cmain font-el font-semibold">Tiếp tục mua hàng</p>
                 </a>
+                <!-- coupon -->
                 <div class="form_cp_info mt-5 flex flex-col md:flex-row gap-5 800:gap-20 justify-between">
                     <!-- insert coupon -->
                     <form action="/apply-coupon" method="POST"
@@ -129,6 +130,9 @@
                                 @else
                                 0 @endif
                                 ">
+                        <input type="hidden" name="coupon_id" id="coupon_id" value="
+                            {{session('coupon_id') ? session('coupon_id') : ''}}
+                        ">
                         <input type="text" name="coupon_code" placeholder="Nhập mã giảm giá"
                             class="rounded-[10px] border px-2 py-2" />
                         @if (session('error'))
@@ -220,23 +224,25 @@
                         <!-- <p class="text-sm text-gray-600 mt-4">Nhấn "Đặt hàng" đồng nghĩa với việc bạn đồng ý tuân theo <a href="#" class="text-blue-600">Điều khoản Sứ Việt.</a></p> -->
                     </div>
                 </div>
+                <!-- end coupon -->
             </div>
         </div>
     </div>
+
+
     <script>
         let price = {
             discount: document.getElementById('discount').value,
-            discountedTotal: document.getElementById('discountedTotal').value
+            discountedTotal: document.getElementById('discountedTotal').value,
+            coupon_id :document.getElementById('coupon_id').value
         };
-        console.log(price);
+        // console.log(price);
         localStorage.setItem('DISCOUNT', JSON.stringify(price));
     </script>
     <script>
         const routes = {
             clearCart: "{{ route('cart.clear') }}"
         };
-
-
         function updateQuantity(productId, delta) {
             $.ajax({
                 url: '/cart/update-quantity',

@@ -12,6 +12,7 @@ export default defineConfig({
                 'resources/js/admin.js',      // JS cho admin (Bootstrap)
                 'resources/js/main.js',            // File JS phụ
                 'resources/js/category.js',        // JS cho tính năng toggle danh mục
+                // 'resources/js/angular.min.js',           // JS cho admin (Bootstrap)
             ],
             refresh: true,
         }),

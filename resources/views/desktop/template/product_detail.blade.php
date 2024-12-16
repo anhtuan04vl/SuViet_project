@@ -1,6 +1,8 @@
 @extends('desktop.master')
 
 @section('content')
+
+
     <!-- breadcrumb -->
     <div class="container-main py-5 px-[5%] lg:px-0">
         <nav class="flex" aria-label="Breadcrumb">
@@ -211,6 +213,7 @@
     <!-- end thong tin sanpham -->
 
     <!-- Binh luan -->
+    <!-- Binh luan -->
     <div class="container-main px-[5%] lg:px-0">
         <div class="bg-gray-50 p-6">
             <!-- Header Section -->
@@ -226,39 +229,36 @@
             <!-- Review Cards -->
             <div class="bg-white shadow-md rounded-md p-6 mt-4">
                 <!-- Single Review -->
-                <div class="flex items-start space-x-4">
+                <div ng-repeat="bl in dsBL" class="flex items-start space-x-4">
                     <img src="../img/user.png" alt="user avatar" class="h-12 w-12 rounded-full">
                     <div class="flex-grow">
                         <div class="flex justify-between items-center">
                             <div>
-                                <div class="font-semibold">Anh Tuấn dzai</div>
-                                <div class="text-sm text-gray-500">2024-10-19 23:57</div>
+                                <div class="font-semibold">@{{bl.fullname}}</div>
+                                <div class="text-sm text-gray-500">@{{bl.created_at | date:'dd/MM/yyyy HH:mm:ss'}}</div>
                             </div>
                             <div class="flex items-center space-x-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" viewBox="0 0 24 24"
-                                    fill="currentColor">
-                                    <path
-                                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                                </svg>
-
-                                <!-- Add more stars -->
+                                <!-- Rating -->
                             </div>
                         </div>
                        
                         <div class="mt-2 flex space-x-2">
-                            <img src="../img/cmt.png" alt="product image 1" class="h-20 w-20 object-cover">
-                            <img src="../img/cmt2.png" alt="product image 2" class="h-20 w-20 object-cover">
+                            <p>@{{bl.content}}</p>
                         </div>
-                        <input type="text" class="mt-2 p-2 border border-gray-600 rounded-lg w-full">
-                        <!-- <div class="mt-2 text-sm text-gray-500 flex items-center">
-                            <img src="../img/user.png" alt="user avatar" class="h-8 w-8 rounded-full">
-                            Chào bạn, cảm ơn bạn đã tin tưởng và sử dụng sản phẩm của Sứ Việt
-                        </div> -->
                     </div>
                 </div>
+                
+   
+            <div class="relative mt-5">
+                <input type="text" ng-model="content" class="block w-full p-4 ps-10 text-sm text-dark border border-gray-300 rounded-lg" placeholder="Nhập bình luận..." required />
+                <button type="button" ng-click="sendComment()" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Đánh giá</button>
+            </div>
+
+
             </div>
         </div>
     </div>
+    <!-- end binh luan -->
     <!-- end binh luan -->
 
     <!-- Bai viet lien quan -->
@@ -297,6 +297,72 @@
 @endsection
 
 <!-- them js cho trang -->
+
+@section('viewFunction')
+ <script>
+    viewFunction = function($scope, $http){
+        $scope.dsBL = [];
+        $scope.getComment = function(){
+            $http.get('/api/comments/product/{{$sp->product_id}}').then(
+            function(res){
+                $scope.dsBL = res.data.data;
+                // console.log($scope.dsBL);
+                
+            }
+        );
+        }
+        $scope.getComment();
+        $scope.isLoggedIn = false; // Biến kiểm tra trạng thái đăng nhập
+        
+        // Kiểm tra trạng thái đăng nhập khi tải trang
+        $scope.checkLoginStatus = function() {
+            $http.get('/api/check-login')
+                .then(function(response) {
+                    $scope.isLoggedIn = response.data.isLoggedIn;
+                    if ($scope.isLoggedIn) {
+                        console.log('User đã đăng nhập:', response.data.user);
+                    } else {
+                        console.log('User chưa đăng nhập');
+                    }
+                });
+        };
+        $scope.checkLoginStatus();
+        
+        $scope.sendComment =function(){
+            if (!$scope.isLoggedIn) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Vui lòng đăng nhập!',
+                    text: 'Bạn cần đăng nhập để đánh giá sản phẩm.',
+                    confirmButtonText: 'Đóng'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Chuyển hướng tới trang đăng nhập
+                        window.location.href = '/login'; // Thay '/login' bằng đường dẫn tới trang đăng nhập của bạn
+                    }
+                });
+                return;
+            }
+            $http.post('/api/comments', {
+                'products_id': {{$sp->product_id}},
+                'content': $scope.content,
+            }).then(
+                function(res){
+                    $scope.content='';
+                    $scope.getComment();
+                    Swal.fire({
+                    icon: 'success',
+                    // title: 'Vui lòng đăng nhập!',
+                    text: 'Đã đánh giá sản phẩm.',
+                    confirmButtonText: 'Đóng'
+                });
+                }
+            )
+        }
+
+    }
+ </script>
+@endsection
 
 
 <script>

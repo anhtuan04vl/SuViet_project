@@ -12,7 +12,7 @@
                 <span class="flex w-1 h-1 bg-cmain rounded-full "></span>
             </li>
             <li>
-                <a href="/product" class="text-gray-700 hover:text-gray-900">Sản phẩm</a>
+                <a href="/product" class="text-gray-700 hover:text-gray-300">Sản phẩm</a>
             </li>
         </ol>
     </nav>
@@ -44,30 +44,12 @@
     <!-- filter -->
     <div class="filter_pdt py-5 flex gap-10">
         <div class="swap flex flex-col justify-start gap-1 items-start cursor-pointer">
-            <select id="select"
-                class="w-full p-3 border border-cmain3 rounded-[8px] bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <option value="">Sắp xếp</option>
-                <option value="1">Option 1</option>
-                <option value="2">Option 2</option>
-                <option value="3">Option 3</option>
-            </select>
-        </div>
-        <div class="swap flex flex-col justify-start gap-1 items-start cursor-pointer">
-            <select id="select"
-                class="w-full p-3 border border-cmain3 rounded-[8px] bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <option value="">Tăng theo giá</option>
-                <option value="1">Option 1</option>
-                <option value="2">Option 2</option>
-                <option value="3">Option 3</option>
-            </select>
-        </div>
-        <div class="swap flex flex-col justify-start gap-1 items-start cursor-pointer">
-            <select id="select"
-                class="w-full p-3 border border-cmain3 rounded-[8px] bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <option value="">Sản phẩm mới nhất</option>
-                <option value="1">Option 1</option>
-                <option value="2">Option 2</option>
-                <option value="3">Option 3</option>
+            <select id="sortOption" onchange="location = this.value;" class="w-full p-3 border border-cmain3 rounded-[8px] bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="{{ route('product', ['sort' => 'default']) }}" {{ $sortOption == 'default' ? 'selected' : '' }}>Sắp xếp</option>
+                <option value="{{ route('product', ['sort' => 'price_asc']) }}" {{ $sortOption == 'price_asc' ? 'selected' : '' }}>Giá tăng dần</option>
+                <option value="{{ route('product', ['sort' => 'price_desc']) }}" {{ $sortOption == 'price_desc' ? 'selected' : '' }}>Giá giảm dần</option>
+                <option value="{{ route('product', ['sort' => 'sold']) }}" {{ $sortOption == 'sold' ? 'selected' : '' }}>Sản phẩm bán chạy</option>
+                <option value="{{ route('product', ['sort' => 'votes']) }}" {{ $sortOption == 'votes' ? 'selected' : '' }}>Được vote nhiều nhất</option>
             </select>
         </div>
     </div>
@@ -77,6 +59,7 @@
     <div class="relative z-10 mt-5">
         <div
             class="flex flex-wrap gap-y-10 md:gap-y-20 justify-between /absolute top-0 gap-x-6 800:gap-x-2 cursor-pointer">
+           
             @foreach ($allProduct as $aP)
                 <div class="box1 swipers-slide w-[40%] md:w-[30%] 800:w-[23%]  flex flex-col items-center">
                     <a href="{{ route('product_detail', ['product_id' => $aP->product_id]) }}">
@@ -172,13 +155,45 @@
 
 <!-- js trang -->
 
-<script>
-    var swiper = new Swiper(".mySwiper", {
+ <script>
+        var swiper = new Swiper(".Cate2Swiper", {
+
+        loop:true,
+        breakpoints: {
+            0: {
+                slidesPerView: 2,
+                spaceBetween: 20,
+            },
+            425: {
+                slidesPerView: 4,
+                spaceBetween: 20,
+            },
+            650: {
+                slidesPerView: 5,
+                spaceBetween: 25,
+            },			
+            800: {
+                slidesPerView: 5,
+                spaceBetween: 20,
+            },
+            1023: {
+                slidesPerView: 7,
+                spaceBetween: 20,
+            },
+        },
         pagination: {
             el: ".swiper-pagination",
+            clickable: true, // Đảm bảo pagination có thể nhấn được
+            dynamicBullets: true,
         },
-    });
-</script>
+        autoplay: {
+            delay: 8000, // Tự động chuyển slide sau mỗi 3 giây
+            disableOnInteraction: false,
+        },
+        });
+    </script>
+
+
 @push('styles')
     <!-- Link Swiper's CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />

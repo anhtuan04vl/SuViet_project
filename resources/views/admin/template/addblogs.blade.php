@@ -28,7 +28,7 @@
     <!-- Card containing form -->
     <div class="card">
         <div class="card-body">
-            <form action="" method="POST" enctype="multipart/form-data">
+            <form action="{{route('store.blog')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <!-- Title Field -->
                 <div class="mb-3">
@@ -37,15 +37,25 @@
                 </div>
 
                 <!-- Description Field -->
+                <!-- Description Field -->
                 <div class="mb-3">
                     <label for="description" class="form-label">Mô tả</label>
-                    <textarea class="form-control" id="description" name="description"></textarea>
-                </div>
+                    <textarea name="description" id="summernote"></textarea>
+                    
+                <script>
+                    $('#summernote').summernote({
+                        placeholder: 'mota',
+                        tabsize: 2,
+                        height: 100
+                    });
+                </script>
+                </div>  
+
 
                 <!-- Image Field -->
                 <div class="mb-3">
                     <label for="image" class="form-label">Hình ảnh</label>
-                    <input type="file" class="form-control" id="image" name="image">
+                    <input type="file" class="form-control" id="images" name="images">
                     <!-- <div class="mt-2">
                         <img src="" alt="Preview" class="img-thumbnail">
                     </div> -->
@@ -65,11 +75,12 @@
                 </div>
                 <!-- thong tin san pham -->
               
-                <!-- Link Field -->
+               <!-- Thông tin người đăng -->
                 <div class="mb-3">
-                    <label for="link" class="form-label">Link</label>
-                    <input type="url" class="form-control" id="link" name="link" >
+                    <label for="id_user" class="form-label">Người đăng</label>
+                    <input type="text" class="form-control"  value="{{ Auth::user()->username ?? '' }}" readonly>
                 </div>
+
 
                 <!-- Display Checkbox -->
                 <div class=" mb-3">

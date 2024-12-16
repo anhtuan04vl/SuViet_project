@@ -24,6 +24,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\CommentController;
 
 // Client Routes
 Route::group(['name'=>'desktop'],function () {
@@ -78,8 +79,22 @@ Route::group(['name'=>'desktop'],function () {
     Route::put('/user/{id}', [UserController::class, 'update']);
 });
 
-//withlist
+//binhluan
+//Comment
+Route::prefix('api')->group(function () {
+    Route::get('/comments/product/{product_id}', [CommentController::class, 'product']);
+    Route::resource('comments', CommentController::class);
+});
 
+// Check user for Comment
+Route::get('/api/check-login', function () {
+    if (Auth::check()) {
+        return response()->json(['isLoggedIn' => true, 'user' => Auth::user()]);
+    }
+    return response()->json(['isLoggedIn' => false]);
+});
+
+//withlist
 Route::middleware('auth')->group(function () {
     Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
     Route::post('/wishlist', [WishlistController::class, 'store'])->name('wishlist.store');
@@ -194,7 +209,7 @@ Route::prefix('/admin')->middleware(['auth:admin', AdminMiddleware::class])->gro
     Route::get('/addblog', function () {
         return view('admin.template.addblogs');
     })->name('addblogs');
-    // Route::post('/storeblog', [BlogController::class, 'storeblog'])->name('store.blog');
+    Route::post('/addblogs', [BlogController::class, 'addBlog'])->name('store.blog');
     // Route để hiển thị form chỉnh sửa
     // Route::get('/updateblog/{id}',[BlogController::class, 'edit'])->name('updateblog');
     // Route::put('/updateblog/{id}', [BlogController::class, 'update'])->name('blog.update');

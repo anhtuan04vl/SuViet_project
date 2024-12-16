@@ -49,6 +49,7 @@ class OrderController extends Controller
         // Tạo dữ liệu để hiển thị ở view
         return view('desktop.template.order', compact('cart', 'cartDetails', 'totalPrice'));
     }
+
     public function store(Request $request)
     {
         try {
@@ -71,8 +72,9 @@ class OrderController extends Controller
             $orderDate = now();
     
             // Tính tổng tiền và phí vận chuyển
-            $total = $request->input('total') ?? Cart::where('users_id', $userId)->first()->total_price ?? 0;
+            $total = Cart::where('users_id', $userId)->first()->total_price ?? 0;
             $priceShip = 40000;
+            $discount = $request->input('pricediscount');
     
             // Nếu không có contact_id, tạo mới contact
             if (is_null($contactId)) {
@@ -95,7 +97,7 @@ class OrderController extends Controller
                 'contact_id' => $contactId,
                 'payment_method_id' => $paymentMethodId,
                 'coupon_id' => $couponId,
-                'total' => $total + $priceShip, // Tính tổng bao gồm cả phí ship
+                'total' => $total + $priceShip - $discount, // Tính tổng bao gồm cả phí ship
                 'is_payment_status' => false,
                 'price_ship' => $priceShip,
                 'order_date' => $orderDate,

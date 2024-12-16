@@ -183,3 +183,129 @@
                     </div>
                 </div>
             </div>
+
+
+
+
+
+
+
+
+
+
+
+            <div class="swiper CateSwiper">
+                <div class="swiper-wrapper">
+                    @foreach ($categories as $sp)
+                    <div class="swiper-slide">
+                        <div class="dm1 swipers-slide flex flex-col justify-center items-center gap-3">
+                            <a href="{{ route('listcate', ['name' => $sp->name]) }}" class="cursor-pointer rounded-full  bg-white /w-[12.5%] flex  justify-center">
+                                <img src="{{ asset('img/images/' . $sp->images) }}" alt=""
+                                    class="w-[100px] px-[19px] py-3">
+                            </a>
+                            <p>{{ $sp->name }}</p>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+                <div class="swiper-scrollbar"></div>
+            </div>
+
+
+
+            <div class="container-main px-[5%] lg:px-0 bg-cmain6 rounded-[15px] mb-10">
+        <div class="flex justify-between items-center p-8 text-center gap-5">
+            <!-- Contact us -->
+            <div class="w-1/4 relative group cursor-pointer">
+                <span
+                    class="absolute bg-cmain h-1 w-0 left-0 -top-2 group-hover:w-full transition-all duration-300"></span>
+                <h3 class="text-xl font-semibold mb-2">Liên hệ với chúng tôi</h3>
+                <p class="text-gray-500">
+                    Liên hệ trực tiếp với chúng tôi qua email hoặc bạn có thể ghé thăm văn phòng của chúng tôi.
+                </p>
+            </div>
+
+            <!-- Leave a message -->
+            <div class="w-1/4 relative group cursor-pointer">
+                <span
+                    class="absolute bg-cmain h-1 w-0 left-0 -top-2 group-hover:w-full transition-all duration-300"></span>
+                <h3 class="text-xl font-semibold mb-2">Để lại lời nhắn của bạn</h3>
+                <p class="text-gray-500">
+                    Nếu bạn có bất kỳ câu hỏi nào hay cần đội ngũ sale của chúng tôi hỗ trợ hãy cho chúng tôi biết.
+                </p>
+            </div>
+
+            <!-- Sign up for updates -->
+            <div class="w-1/4 relative group cursor-pointer">
+                <span
+                    class="absolute bg-cmain h-1 w-0 left-0 -top-2 group-hover:w-full transition-all duration-300"></span>
+                <h3 class="text-xl font-semibold mb-2">Đăng ký nhận thông tin</h3>
+                <p class="text-gray-500">
+                    Đừng bỏ lỡ các chương trình ưu đãi và các sản phẩm và nhiều ưu đãi mới nhất từ chúng tôi bạn nhé.
+                </p>
+            </div>
+
+            <!-- Member benefits -->
+            <div class="w-1/4 relative group cursor-pointer">
+                <span
+                    class="absolute bg-cmain h-1 w-0 left-0 -top-2 group-hover:w-full transition-all duration-300"></span>
+                <h3 class="text-xl font-semibold mb-2">Quyền lợi thành viên</h3>
+                <p class="text-gray-500">
+                    Chương trình khách hàng thân thiết Minh Long_VIP tại cửa hàng với nhiều quyền lợi và ưu đãi đặc
+                    quyền.
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <!-- product page demo -->
+
+    @foreach ($allProduct as $aP)
+                <div class="box1 swipers-slide w-[40%] md:w-[30%] 800:w-[23%]  flex flex-col items-center">
+                    <a href="{{ route('product_detail', ['product_id' => $aP->product_id]) }}">
+                        <img src="{{ asset('img/images/' . $aP->img) }}" alt=""
+                            class="h-48 w-auto lg:object-cover object-contain">
+                    </a>
+                    <div class="ttl_1 swipers-slide flex flex-col items-center">
+                        <a href="{{ route('product_detail', ['product_id' => $aP->product_id]) }}"
+                            class="font-el font-extrabold text-base text-center truncate h-6 overflow-hidden">{{ $aP->name }}</a>
+                        <!-- <p class="text-cmain3 text-sm font-el py-2 line-clamp-2 h-12 overflow-hidden text-center ">
+                            {{ $aP->description }}
+                        </p> -->
+                        <p class="font-el font-extrabold text-base text-cmain">{{ number_format($aP->price) }} VNĐ</p>
+                        <div class="flex items-center justify-center gap-4">
+                            <form action="{{ route('add_to_cart') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{ $aP->product_id }}">
+                                <input type="hidden" name="price" value="{{ $aP->price }}">
+                                <input type="hidden" name="quantity" value="1">
+                                <button type="submit"
+                                    class="border group border-cmain hover:border-cmain7 hover:bg-cmain7 flex py-3 px-5 rounded-[39px] /w-full mt-3 items-center justify-center transition duration-300 ease-in-out">
+                                    <p class="text-cmain group-hover:text-white">Thêm vào giỏ hàng</p>
+                                </button>
+                            </form>
+                            {{-- <span class="flex w-1 h-1 bg-cmain rounded-full "></span> --}}
+                            <form action="{{ route('wishlist.store') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{ $aP->product_id }}">
+                                <button
+                                    class="group border-cmain hover:border-cmain7 hover:bg-cmain7 flex py-3 px-5 rounded-[39px] /w-full mt-3 items-center justify-center transition duration-300 ease-in-out"
+                                    type="submit"><svg class="transition-colors duration-300 group-hover:text-white"
+                                        width="32" height="31" viewBox="0 0 32 31" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="32" height="31" rx="15.5" fill="#194569" fill-opacity="0.1" />
+                                        <path
+                                            d="M16.434 21.9343C16.196 22.0219 15.804 22.0219 15.566 21.9343C13.536 21.2112 9 18.1949 9 13.0826C9 10.8258 10.743 9 12.892 9C14.166 9 15.293 9.6427 16 10.636C16.707 9.6427 17.841 9 19.108 9C21.257 9 23 10.8258 23 13.0826C23 18.1949 18.464 21.2112 16.434 21.9343Z"
+                                            stroke="#194569" stroke-width="1.2" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                    </svg></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            @endforeach

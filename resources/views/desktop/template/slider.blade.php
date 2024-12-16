@@ -49,7 +49,7 @@
             dynamicBullets: true,
         },
         autoplay: {
-            delay: 2000,
+            delay: 5000,
         },
         centeredSlides: true,
         speed: 1000,

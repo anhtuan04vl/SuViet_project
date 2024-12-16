@@ -192,10 +192,16 @@ class CartController extends Controller
 
         return response()->json(['status' => 'success']);
     }
+
+
+
+
+    //xuly coupon
     public function applyCoupon(Request $request)
     {
         $total = $request->input('total');
         $coupon = Coupon::where('code', $request->input('coupon_code'))->first();
+        $coupon_id = Coupon::where('coupon_id', $request->input('coupon_id'))->first();
         // Lấy giỏ hàng từ session hoặc tạo mới nếu chưa có
 
         if (!$coupon) {
@@ -219,14 +225,16 @@ class CartController extends Controller
             'total' => $total,
             'discount' => $discount,
             'discountedTotal' => $discountedTotal,
-            'couponCode' => $coupon->code
+            'couponCode' => $coupon->code,
+            'coupon_id' => $coupon->coupon_id
         ]);
 
         return redirect()->back()->with([
             'total' => $total,
             'discount' => $discount,
             'discountedTotal' => $discountedTotal,
-            'couponCode' => $coupon->code
+            'couponCode' => $coupon->code,
+            'coupon_id' => $coupon->coupon_id
         ]);
     }
 }
